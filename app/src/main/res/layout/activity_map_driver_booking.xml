@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@color/colorFacebook"
-    tools:context=".ui.MapDriverBookingActivity">
+    tools:context=".ui.delivery.MapDriverBookingActivity">
 
     <fragment
         android:id="@+id/mapDriver"

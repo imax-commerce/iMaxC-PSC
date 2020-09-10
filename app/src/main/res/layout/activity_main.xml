@@ -6,7 +6,7 @@
     xmlns:map="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     android:layout_height="match_parent"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.delivery.MainActivity">
 
     <include layout="@layout/action_bar_toolbar" />
 
@@ -22,7 +22,7 @@
             android:layout_height="0dp"
             map:cameraZoom="12"
             android:name="com.google.android.gms.maps.SupportMapFragment"
-            tools:context="com.imaxcorp.imaxc.ui.MainActivity" />
+            tools:context="com.imaxcorp.imaxc.ui.delivery.MainActivity" />
 
         <Button
             android:id="@+id/btmMapAction"

@@ -11,7 +11,7 @@ import com.imaxcorp.imaxc.providers.AuthProvider
 import com.imaxcorp.imaxc.providers.ClientBookingProvider
 import com.imaxcorp.imaxc.providers.GeoFireProvider
 import com.imaxcorp.imaxc.toastLong
-import com.imaxcorp.imaxc.ui.MapDriverBookingActivity
+import com.imaxcorp.imaxc.ui.delivery.MapDriverBookingActivity
 
 class AcceptReceiver : BroadcastReceiver() {
 

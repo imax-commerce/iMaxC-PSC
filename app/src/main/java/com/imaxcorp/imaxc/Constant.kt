@@ -18,8 +18,6 @@ interface Constant {
 
 enum class UserType {
     DRIVER,
-    MOTORIZED,
-    HELPER,
     ADMIN,
-    CLIENT
+    COLLECTOR
 }

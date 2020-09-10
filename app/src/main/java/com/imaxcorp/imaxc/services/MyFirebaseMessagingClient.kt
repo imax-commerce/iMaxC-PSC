@@ -19,7 +19,7 @@ import com.imaxcorp.imaxc.channel.NotificationHelper
 import com.imaxcorp.imaxc.receivers.AcceptReceiver
 import com.imaxcorp.imaxc.receivers.CancelReceiver
 import com.imaxcorp.imaxc.toastLong
-import com.imaxcorp.imaxc.ui.NotificationViewActivity
+import com.imaxcorp.imaxc.ui.delivery.NotificationViewActivity
 
 class MyFirebaseMessagingClient : FirebaseMessagingService() {
 

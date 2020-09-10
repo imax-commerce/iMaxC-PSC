@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/item_envios"
+    android:background="@drawable/cardview_background"
+    android:layout_margin="@dimen/_1sdp"
+    app:cardBackgroundColor="#FFF"
+    app:cardElevation="@dimen/_2sdp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:id="@+id/txt_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:paddingStart="@dimen/_14sdp"
+            android:background="@drawable/background_circle"
+            android:gravity="center_vertical"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            tools:text="F" />
+
+        <TextView
+            android:id="@+id/txt_agencia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/txt_icon"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@id/txt_icon"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp"
+            android:layout_toStartOf="@id/txt_ccomer"
+            tools:text="Expreso Trujillo" />
+
+        <TextView
+            android:id="@+id/txt_destino"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_agencia"
+            android:layout_alignStart="@id/txt_agencia"
+            android:layout_toStartOf="@id/txt_paquetes"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            tools:text="Arequipa " />
+
+        <TextView
+            android:id="@+id/txt_paquetes"
+            android:layout_width="wrap_content"
+            android:maxWidth="@dimen/_120sdp"
+            android:minWidth="@dimen/_100sdp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:layout_below="@id/txt_agencia"
+            android:layout_alignParentEnd="true"
+            tools:text="1 Paquete"/>
+
+
+        <TextView
+            android:id="@+id/txt_guia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_destino"
+            android:layout_alignStart="@id/txt_agencia"
+            android:layout_toStartOf="@id/txt_paquetes"
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            android:layout_marginEnd="24dp"
+            tools:text="Envio C/G" />
+
+        <TextView
+            android:id="@+id/txt_flete"
+            android:layout_width="wrap_content"
+            android:maxWidth="@dimen/_100sdp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/txt_paquetes"
+            android:layout_alignStart="@id/txt_paquetes"
+            tools:text="Contraentrega"/>
+
+        <TextView
+            android:id="@+id/txt_ccomer"
+            android:textColor="@color/colorBlack"
+            android:singleLine="true"
+            android:maxWidth="@dimen/_100sdp"
+            android:ellipsize="marquee"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            tools:text="MT-H45"/>
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>

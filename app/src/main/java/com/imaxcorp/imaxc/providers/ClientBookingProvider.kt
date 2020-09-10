@@ -3,6 +3,7 @@ package com.imaxcorp.imaxc.providers
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.Query
 import com.imaxcorp.imaxc.data.ClientBooking
 
 class ClientBookingProvider {
@@ -40,6 +41,10 @@ class ClientBookingProvider {
 
     fun delete(idOrderClient: String): Task<Void>  {
         return mDatabase.child(idOrderClient).removeValue();
+    }
+
+    fun getBookingFree(): Query {
+        return mDatabase.orderByChild("status").equalTo("create")
     }
 
 }

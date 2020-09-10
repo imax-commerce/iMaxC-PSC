@@ -3,8 +3,10 @@ package com.imaxcorp.imaxc
 import android.app.Dialog
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.view.View
 import android.widget.Toast
 import com.google.gson.Gson
@@ -62,4 +64,10 @@ fun Context.getPreference(file: String,key: String) : String? {
 fun Context.deletePreference(file: String) {
     val preference = this.applicationContext.getSharedPreferences(file, MODE_PRIVATE).edit()
     preference.clear().apply()
+}
+
+fun Context.openWeb(url: String) {
+    val uri = Uri.parse(url)
+    val intent = Intent(Intent.ACTION_VIEW, uri)
+    startActivity(intent)
 }

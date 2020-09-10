@@ -16,14 +16,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.AcceptActivity"></activity>
-        <activity android:name=".ui.FinishDeliveryActivity" />
-        <activity android:name=".ui.MapDriverBookingActivity" />
-        <activity android:name=".ui.NotificationViewActivity" />
-        <activity android:name=".ui.LoginActivity" />
-        <activity android:name=".ui.MainActivity" />
-        <activity android:name=".ui.RegisterActivity" />
-        <activity android:name=".ui.LaunchActivity">
+        <activity android:name=".ui.admin.AdminActivity"></activity>
+        <activity android:name=".ui.MessageActivity" />
+        <activity android:name=".ui.courier.CourierActivity"
+            android:theme="@style/TableTheme"/>
+        <activity android:name=".ui.delivery.AcceptActivity" />
+        <activity android:name=".ui.delivery.FinishDeliveryActivity" />
+        <activity android:name=".ui.delivery.MapDriverBookingActivity" />
+        <activity android:name=".ui.delivery.NotificationViewActivity" />
+        <activity android:name=".ui.start.LoginActivity" />
+        <activity android:name=".ui.delivery.MainActivity" />
+        <activity android:name=".ui.start.RegisterActivity" />
+        <activity android:name=".ui.start.LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

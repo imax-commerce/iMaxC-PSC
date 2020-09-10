@@ -18,5 +18,12 @@ class DriverProvider {
         return driver.id?.let { db?.child(it)?.setValue(driver) } ?: run { null }
     }
 
+    fun getDriver(id: String): DatabaseReference? {
+        return db?.child(id)
+    }
+
+    fun updateClient(data: Map<String,Any>, id: String): Task<Void>? {
+        return db?.child(id)?.updateChildren(data)
+    }
 
 }
