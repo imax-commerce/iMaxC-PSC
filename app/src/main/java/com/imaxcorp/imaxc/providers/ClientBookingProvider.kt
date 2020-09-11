@@ -44,7 +44,7 @@ class ClientBookingProvider {
     }
 
     fun getBookingFree(): Query {
-        return mDatabase.orderByChild("status").equalTo("create")
+        return mDatabase.orderByChild("indexType/Agencia").equalTo("create")
     }
 
 }

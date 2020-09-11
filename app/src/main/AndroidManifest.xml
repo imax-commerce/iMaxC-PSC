@@ -16,10 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.admin.AdminActivity"></activity>
+        <activity android:name=".ui.courier.register.RegisterOrderActivity"></activity>
+        <activity android:name=".ui.admin.AdminActivity" />
         <activity android:name=".ui.MessageActivity" />
-        <activity android:name=".ui.courier.CourierActivity"
-            android:theme="@style/TableTheme"/>
+        <activity
+            android:name=".ui.courier.order.CourierActivity"
+            android:theme="@style/TableTheme" />
         <activity android:name=".ui.delivery.AcceptActivity" />
         <activity android:name=".ui.delivery.FinishDeliveryActivity" />
         <activity android:name=".ui.delivery.MapDriverBookingActivity" />

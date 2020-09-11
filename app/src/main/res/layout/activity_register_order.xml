@@ -4,12 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.courier.order.OrderFragment">
+    tools:context=".ui.courier.register.RegisterOrderActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <include layout="@layout/action_bar_toolbar" />
+
+    <FrameLayout
+        android:id="@+id/fl_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        android:background="@color/colorFacebook"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/contentOrder"
-        tools:listitem="@layout/item_order" />
+        android:layout_height="match_parent" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

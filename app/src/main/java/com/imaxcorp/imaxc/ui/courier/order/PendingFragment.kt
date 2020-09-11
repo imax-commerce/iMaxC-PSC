@@ -1,4 +1,4 @@
-package com.imaxcorp.imaxc.ui.courier
+package com.imaxcorp.imaxc.ui.courier.order
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

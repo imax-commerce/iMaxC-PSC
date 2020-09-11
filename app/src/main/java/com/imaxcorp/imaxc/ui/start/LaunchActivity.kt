@@ -4,13 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.os.Message
 import com.airbnb.lottie.LottieAnimationView
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.encoders.ValueEncoderContext
 import com.imaxcorp.imaxc.Constant.Companion.AUTH
 import com.imaxcorp.imaxc.R
 import com.imaxcorp.imaxc.UserType
@@ -19,8 +17,7 @@ import com.imaxcorp.imaxc.providers.AuthProvider
 import com.imaxcorp.imaxc.providers.DriverProvider
 import com.imaxcorp.imaxc.ui.MessageActivity
 import com.imaxcorp.imaxc.ui.admin.AdminActivity
-import com.imaxcorp.imaxc.ui.courier.CourierActivity
-import com.imaxcorp.imaxc.ui.delivery.FinishDeliveryActivity
+import com.imaxcorp.imaxc.ui.courier.order.CourierActivity
 import com.imaxcorp.imaxc.ui.delivery.MainActivity
 
 class LaunchActivity : AppCompatActivity() {
