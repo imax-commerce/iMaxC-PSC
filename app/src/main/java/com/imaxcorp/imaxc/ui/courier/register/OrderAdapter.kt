@@ -40,7 +40,7 @@ class OrderAdapter(var listOrder: ArrayList<PackBooking>, private val mContext: 
 
         holder.itemView.txt_ccomer.text = if(listOrder[position].domicile) "Domicilio" else "Normal"
         holder.itemView.txt_flete.text = if (listOrder[position].cargo) "Pagar Flete" else "Contraentrega"
-        holder.itemView.txt_paquetes.text = if (listOrder[position].gui) "Con Guia" else "Sin Guia"
+        holder.itemView.txt_paquetes.text = if (listOrder[position].guia) "Con Guia" else "Sin Guia"
         holder.itemView.txt_guia.text = listOrder[position].packages.toString() + " Paquetes"
 
     }

@@ -23,7 +23,7 @@ class PackBooking: Serializable {
     var shippingCost: Double = 0.0
     var domicile: Boolean = false
     var cargo: Boolean = false
-    var gui:Boolean = false
+    var guia:Boolean = false
     var indexController: MutableMap<String?,Any?>? = null
 
     constructor()

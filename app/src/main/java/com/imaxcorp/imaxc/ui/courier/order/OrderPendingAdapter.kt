@@ -56,6 +56,11 @@ class OrderPendingAdapter (private val options: FirebaseRecyclerOptions<ClientBo
                     .putExtra("DOC",idDoc)
                     .putExtra("STORE",model.description)
                     .putExtra("STATUS",model.status)
+                    .putExtra("PRICE",model.detail?.price)
+                    .putExtra("CARGO",model.detail?.cargo)
+                    .putExtra("MOUNT_CARGO",model.detail?.montCargo)
+                    .putExtra("DEBT",model.detail?.debtService)
+                    .putExtra("CLIENT",model.detail?.idClient)
             )
         }
     }

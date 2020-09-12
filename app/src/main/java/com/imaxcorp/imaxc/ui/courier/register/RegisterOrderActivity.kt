@@ -16,9 +16,15 @@ class RegisterOrderActivity : AppCompatActivity() {
     private lateinit var mFormOrderFragment: FormOrderFragment
     private lateinit var mFormPacketFragment: FormPacketFragment
     var dataExists: Boolean = false
+    var paymentCargo: Boolean = false
+    var debtDriver: Boolean = false
     lateinit var idDoc: String
+    lateinit var idClient: String
     lateinit var store: String
     lateinit var status: String
+    var price: Double = 0.0
+    var cargoMount = 0.0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,8 +33,13 @@ class RegisterOrderActivity : AppCompatActivity() {
         dataExists = intent.getBooleanExtra("EXISTS",false)
         if (dataExists) {
             idDoc = intent.getStringExtra("DOC")
+            idClient = intent.getStringExtra("CLIENT")
             store = intent.getStringExtra("STORE")
             status = intent.getStringExtra("STATUS")
+            price = intent.getDoubleExtra("PRICE",10.00)
+            paymentCargo = intent.getBooleanExtra("CARGO",false)
+            debtDriver = intent.getBooleanExtra("DEBT",false)
+            cargoMount = intent.getDoubleExtra("MOUNT_CARGO",0.0)
         }
 
         mFormOrderFragment = FormOrderFragment()

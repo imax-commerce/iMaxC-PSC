@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import com.imaxcorp.imaxc.R
 import com.imaxcorp.imaxc.data.PackBooking
-import com.imaxcorp.imaxc.ui.courier.order.CourierActivity
 import kotlinx.android.synthetic.main.fragment_form_packet.view.*
 
 class FormPacketFragment : Fragment() {
@@ -53,7 +52,7 @@ class FormPacketFragment : Fragment() {
         mPack.destine = view.et_destine_name.text.toString().trim()
         mPack.packages = view.et_number_pack.text.toString().toInt()
         mPack.cargo = view.cb_cargo.isChecked
-        mPack.gui = !view.cb_gui.isChecked
+        mPack.guia = !view.cb_gui.isChecked
         mPack.domicile = view.cb_home.isChecked
 
         val fragment = activity!!.supportFragmentManager.findFragmentByTag("FOF") as FormOrderFragment

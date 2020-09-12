@@ -15,6 +15,7 @@ class Driver: Serializable {
     var subsidiary: String? = null
     var available: Boolean = false
     var employee: Boolean = false
+    var phone: String = ""
 
     constructor()
 }

@@ -14,14 +14,21 @@ class ClientBookingProvider {
         return mDatabase.child(clientOrder.detail!!.idClient!!).setValue(clientOrder)
     }
 
+    fun pushOrder(map: Map<String,Any>): Task<Void> {
+        return mDatabase.push().setValue(map)
+    }
+
     fun updateStatus(idOrderClient: String, map: Map<String,Any>): Task<Void> {
         return mDatabase.child(idOrderClient).updateChildren(map)
     }
 
-    fun update(idOrderClient: String, map: Map<String, Any>) : Task<Void> {
+    fun update(idOrderClient: String, map: Map<String, Any?>) : Task<Void> {
         return mDatabase.child(idOrderClient).updateChildren(map)
     }
 
+    fun updateRoot(map: Map<String,Any>): Task<Void> {
+        return mDatabase.updateChildren(map)
+    }
     fun updateDetail(idClientOrder: String, map: Map<String,Any>): Task<Void> {
         return mDatabase.child(idClientOrder).child("detail").updateChildren(map)
     }
@@ -49,6 +56,10 @@ class ClientBookingProvider {
 
     fun getBookingPending(idOrder: String): Query {
         return mDatabase.orderByChild("indexType/$idOrder/status").equalTo(true)
+    }
+
+    fun getPacketBooking(idOrder: String) : DatabaseReference {
+        return mDatabase.child(idOrder).child("shipping-list")
     }
 
 }

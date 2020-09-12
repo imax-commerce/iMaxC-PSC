@@ -14,6 +14,10 @@ class DetailOrder: Serializable {
     var start: Date? = null
     var finish: Date? = null
     var cancel: Date? = null
+    var price: Double? = 0.0
+    var cargo: Boolean = false
+    var montCargo: Double = 0.0
+    var debtService: Boolean = false
 
     constructor()
 }
