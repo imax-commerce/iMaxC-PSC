@@ -10,11 +10,13 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.imaxcorp.imaxc.Constant.Companion.AUTH
+import com.imaxcorp.imaxc.Constant.Companion.DATA_LOGIN
 import com.imaxcorp.imaxc.R
 import com.imaxcorp.imaxc.UserType
 import com.imaxcorp.imaxc.data.Driver
 import com.imaxcorp.imaxc.providers.AuthProvider
 import com.imaxcorp.imaxc.providers.DriverProvider
+import com.imaxcorp.imaxc.savePreferenceObject
 import com.imaxcorp.imaxc.ui.MessageActivity
 import com.imaxcorp.imaxc.ui.admin.AdminActivity
 import com.imaxcorp.imaxc.ui.courier.order.CourierActivity
@@ -48,6 +50,9 @@ class LaunchActivity : AppCompatActivity() {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()){
                             val mDriver = snapshot.getValue(Driver::class.java) as Driver
+
+                            savePreferenceObject(DATA_LOGIN,"USER",mDriver)
+
                             if (mDriver.available && mDriver.employee){
                                 when(mDriver.typeUser){
                                     UserType.ADMIN.toString()->{

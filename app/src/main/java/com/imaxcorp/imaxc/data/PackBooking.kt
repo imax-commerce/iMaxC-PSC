@@ -11,7 +11,7 @@ class PackBooking: Serializable {
     var assign: Date? = null
     var shipping: Date? = null
     var packages: Int = 0
-    var status: String = ""
+    var status: String = "create"
     var stand: String = ""
     var comers: String = ""
     var urlPhoto: String = ""
@@ -23,7 +23,8 @@ class PackBooking: Serializable {
     var shippingCost: Double = 0.0
     var domicile: Boolean = false
     var cargo: Boolean = false
-    var indexController: Map<String,Any>? = null
+    var gui:Boolean = false
+    var indexController: MutableMap<String?,Any?>? = null
 
     constructor()
 }

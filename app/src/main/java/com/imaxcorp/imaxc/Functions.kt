@@ -6,9 +6,12 @@ import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.OvalShape
 import android.net.Uri
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.ColorInt
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.load.*
 
@@ -70,4 +73,12 @@ fun Context.openWeb(url: String) {
     val uri = Uri.parse(url)
     val intent = Intent(Intent.ACTION_VIEW, uri)
     startActivity(intent)
+}
+
+fun Context.oval(@ColorInt color: Int): ShapeDrawable {
+    val oval = ShapeDrawable(OvalShape())
+    with(oval) {
+        paint.color = color
+    }
+    return oval
 }

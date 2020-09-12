@@ -13,6 +13,7 @@ interface Constant {
         const val CHANNEL_ID = "com.imaxcorp.imaxc"
         const val CHANNEL_NAME = "iMaxC"
         const val NOTIFICATION_CODE = 100
+        const val DATA_LOGIN = "LOGIN"
     }
 }
 

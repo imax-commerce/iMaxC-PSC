@@ -47,4 +47,8 @@ class ClientBookingProvider {
         return mDatabase.orderByChild("indexType/Agencia").equalTo("create")
     }
 
+    fun getBookingPending(idOrder: String): Query {
+        return mDatabase.orderByChild("indexType/$idOrder/status").equalTo(true)
+    }
+
 }

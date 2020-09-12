@@ -17,22 +17,23 @@ class OrderFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_order, container, false)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //setToolbar()
+
         mRecyclerView = view.findViewById(R.id.contentOrder)
         val ll = LinearLayoutManager(context)
         mRecyclerView.layoutManager = ll
         mOrderFreeAdapter = OrderFreeAdapter(
-            (context as CourierActivity).options,
+            (context as CourierActivity).optionsFree,
             this.requireActivity()
         )
         mRecyclerView.adapter = mOrderFreeAdapter
         mOrderFreeAdapter.startListening()
     }
+
 /*
     private fun setToolbar(){
         setHasOptionsMenu(true)

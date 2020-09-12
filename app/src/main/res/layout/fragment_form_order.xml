@@ -15,10 +15,12 @@
             android:id="@+id/et_col_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="false"
             android:drawableStart="@drawable/ic_person"
+            android:enabled="false"
+            android:textColor="@color/colorTextPrimary"
             android:drawablePadding="@dimen/_4sdp"
             tools:ignore="RtlSymmetry"
+            android:singleLine="true"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_6sdp"
@@ -26,50 +28,67 @@
             android:padding="@dimen/_3sdp"
             android:textSize="@dimen/_12ssp" />
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/et_comers_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@drawable/background_input_white"
+            android:completionThreshold="1"
             android:drawableStart="@drawable/ic_store"
             android:drawablePadding="@dimen/_4sdp"
-            tools:ignore="RtlSymmetry"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_4sdp"
-            android:background="@drawable/background_input_white"
+            android:hint="Centro Comercial"
+            android:textColor="@color/colorBlack"
+            android:imeOptions="actionNext"
+            android:inputType="textCapWords"
             android:padding="@dimen/_3sdp"
-            android:textSize="@dimen/_12ssp" />
+            android:singleLine="true"
+            android:textSize="@dimen/_12ssp"
+            tools:ignore="RtlSymmetry" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <EditText
                 android:id="@+id/et_stand_name"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_weight="1"
+                android:textColor="@color/colorBlack"
+                android:background="@drawable/background_input_white"
                 android:drawableStart="@drawable/ic_storefront"
                 android:drawablePadding="@dimen/_4sdp"
-                tools:ignore="RtlSymmetry"
-                android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginEnd="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:background="@drawable/background_input_white"
+                android:hint="N° stand/puesto"
+                android:imeOptions="actionDone"
+                android:inputType="textCapWords"
                 android:padding="@dimen/_3sdp"
-                android:textSize="@dimen/_12ssp" />
+                android:singleLine="true"
+                android:textSize="@dimen/_12ssp"
+                tools:ignore="RtlSymmetry" />
+
             <EditText
                 android:id="@+id/et_price_name"
-                android:layout_weight="2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_weight="2"
+                android:background="@drawable/background_input_white"
                 android:drawableStart="@drawable/ic_money"
                 android:drawablePadding="@dimen/_4sdp"
-                tools:ignore="RtlSymmetry"
-                android:layout_marginEnd="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:background="@drawable/background_input_white"
+                android:imeOptions="actionDone"
+                android:textColor="@color/colorBlack"
+                android:inputType="numberDecimal"
                 android:padding="@dimen/_3sdp"
-                android:textSize="@dimen/_12ssp" />
+                android:singleLine="true"
+                android:textSize="@dimen/_12ssp"
+                tools:ignore="RtlSymmetry" />
         </LinearLayout>
         <LinearLayout
             android:layout_marginTop="@dimen/_5sdp"

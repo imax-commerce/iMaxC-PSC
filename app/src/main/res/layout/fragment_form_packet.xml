@@ -14,12 +14,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical">
+
         <LinearLayout
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
+                android:layout_gravity="center_vertical"
                 android:fontFamily="@font/googlesans_medium"
                 android:layout_weight="1"
                 android:layout_marginEnd="@dimen/_10sdp"
@@ -30,12 +32,20 @@
                 android:text="Destino:"
                 android:textColor="@android:color/white" />
 
-            <EditText
-                android:layout_weight="3"
+            <AutoCompleteTextView
+                android:id="@+id/et_destine_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="3"
                 android:background="@drawable/background_input_white"
-                android:padding="@dimen/_3sdp"
+                android:completionThreshold="1"
+                android:imeOptions="actionNext"
+                android:inputType="textCapWords"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_4sdp"
+                android:singleLine="true"
                 android:textSize="@dimen/_12ssp" />
         </LinearLayout>
 
@@ -53,24 +63,34 @@
                 android:textSize="@dimen/_14sdp"
                 android:layout_height="wrap_content"
                 android:text="Agencia:"
+                android:layout_gravity="center_vertical"
                 android:textColor="@android:color/white" />
 
-            <EditText
-                android:layout_weight="3"
+            <AutoCompleteTextView
+                android:id="@+id/et_agency_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="3"
                 android:background="@drawable/background_input_white"
-                android:padding="@dimen/_3sdp"
+                android:completionThreshold="1"
+                android:imeOptions="actionNext"
+                android:inputType="textCapWords"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_4sdp"
+                android:singleLine="true"
                 android:textSize="@dimen/_12ssp" />
         </LinearLayout>
 
-        <view
+        <View
+            android:background="#707070"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="@dimen/_8sdp" />
 
         <LinearLayout
-            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_8sdp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -80,23 +100,33 @@
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:layout_width="0dp"
                 android:textSize="@dimen/_14sdp"
+                android:layout_gravity="center_vertical"
                 android:layout_height="wrap_content"
                 android:text="Cantidad de paquetes:"
                 android:textColor="@android:color/white" />
 
             <EditText
-                android:layout_weight="2"
+                android:id="@+id/et_number_pack"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="2"
                 android:background="@drawable/background_input_white"
-                android:padding="@dimen/_3sdp"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_4sdp"
+                android:singleLine="true"
                 android:textSize="@dimen/_12ssp" />
         </LinearLayout>
 
         <CheckBox
+            android:id="@+id/cb_gui"
             android:textColor="@android:color/white"
             android:layout_width="wrap_content"
             android:text="Sin Guia"
+            android:fontFamily="@font/googlesans_medium"
             android:layout_marginTop="@dimen/_5sdp"
             android:checked="false"
             android:textSize="@dimen/_14sdp"
@@ -104,6 +134,7 @@
             android:button="@drawable/circle_checkbox" />
 
         <CheckBox
+            android:id="@+id/cb_cargo"
             android:layout_marginTop="@dimen/_5sdp"
             android:textColor="@android:color/white"
             android:layout_width="wrap_content"
@@ -115,6 +146,7 @@
             android:button="@drawable/circle_checkbox" />
 
         <CheckBox
+            android:id="@+id/cb_home"
             android:layout_marginTop="@dimen/_5sdp"
             android:textColor="@android:color/white"
             android:fontFamily="@font/googlesans_medium"
@@ -127,6 +159,8 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/btnAddPacket"
+        android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_10sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

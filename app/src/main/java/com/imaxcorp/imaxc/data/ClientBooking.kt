@@ -1,7 +1,8 @@
 package com.imaxcorp.imaxc.data
 
+import com.google.firebase.database.IgnoreExtraProperties
 import java.io.Serializable
-
+@IgnoreExtraProperties
 class ClientBooking: Serializable {
     var origin: AddressPoint? = null
     var destination: AddressPoint? = null
@@ -9,6 +10,7 @@ class ClientBooking: Serializable {
     var payment: String? = null
     var status: String? = null
     var description: String? = null
+    var indexType: Map<String,Any>? = null
 
     constructor()
 }

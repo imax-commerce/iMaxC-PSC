@@ -12,9 +12,9 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.imaxcorp.imaxc.R
 import com.imaxcorp.imaxc.data.ClientBooking
 import com.imaxcorp.imaxc.include.MyToolBar
+import com.imaxcorp.imaxc.providers.AuthProvider
 import com.imaxcorp.imaxc.providers.ClientBookingProvider
 import com.imaxcorp.imaxc.ui.courier.register.RegisterOrderActivity
-import com.imaxcorp.imaxc.ui.start.RegisterActivity
 import kotlinx.android.synthetic.main.activity_courier.*
 
 class CourierActivity : AppCompatActivity() {
@@ -22,15 +22,21 @@ class CourierActivity : AppCompatActivity() {
     private val adapter by lazy {
         ViewPagerAdapter(this)
     }
-    lateinit var options: FirebaseRecyclerOptions<ClientBooking>
+    lateinit var optionsFree: FirebaseRecyclerOptions<ClientBooking>
+    lateinit var optionsPending: FirebaseRecyclerOptions<ClientBooking>
     private lateinit var mClientBookingProvider: ClientBookingProvider
+    private lateinit var mAuthProvider: AuthProvider
     private lateinit var badgeFree: BadgeDrawable
     private lateinit var badgePending: BadgeDrawable
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_courier)
         MyToolBar().show(this,"Solicitudes",false)
+
         mClientBookingProvider = ClientBookingProvider()
+        mAuthProvider = AuthProvider()
+
         pager.adapter = adapter
         val tabLayoutMediator = TabLayoutMediator(tab_layout,pager,
             TabLayoutMediator.TabConfigurationStrategy { tab, position ->
@@ -54,7 +60,9 @@ class CourierActivity : AppCompatActivity() {
                 }
             })
         tabLayoutMediator.attach()
-        getBookingFree()
+
+        getBooking()
+
         fabAdd.setOnClickListener {
             Intent(applicationContext, RegisterOrderActivity::class.java).also {
                 startActivity(it)
@@ -62,11 +70,16 @@ class CourierActivity : AppCompatActivity() {
         }
     }
 
-    private fun getBookingFree() {
+    private fun getBooking() {
         val query = mClientBookingProvider.getBookingFree()
-        options = FirebaseRecyclerOptions.Builder<ClientBooking>()
+        optionsFree = FirebaseRecyclerOptions.Builder<ClientBooking>()
             .setQuery(query,ClientBooking::class.java)
             .build()
+        val q = mClientBookingProvider.getBookingPending(mAuthProvider.getId())
+        optionsPending = FirebaseRecyclerOptions.Builder<ClientBooking>()
+            .setQuery(q,ClientBooking::class.java)
+            .build()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -84,12 +97,25 @@ class CourierActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun updateBadge(i: Int){
+    fun updateBadge(i: Int, item: Int){
         if (i==0){
-            badgeFree.isVisible = false
+            when(item){
+                1-> badgeFree.isVisible = false
+                2-> badgePending.isVisible = false
+            }
+
         }else{
-            badgeFree.number = i
-            badgeFree.isVisible = true
+            when(item){
+                1-> {
+                    badgeFree.number = i
+                    badgeFree.isVisible = true
+                }
+                2-> {
+                    badgePending.number = i
+                    badgePending.isVisible = true
+                }
+            }
         }
     }
+
 }

@@ -58,9 +58,9 @@
 
         <TextView
             android:id="@+id/txt_paquetes"
+            android:gravity="end"
             android:layout_width="wrap_content"
             android:maxWidth="@dimen/_120sdp"
-            android:minWidth="@dimen/_100sdp"
             android:layout_height="wrap_content"
             android:textColor="@color/colorBlack"
             android:textSize="16sp"
@@ -88,15 +88,15 @@
         <TextView
             android:id="@+id/txt_flete"
             android:layout_width="wrap_content"
-            android:maxWidth="@dimen/_100sdp"
+            android:maxWidth="@dimen/_120sdp"
             android:layout_height="wrap_content"
             android:textColor="@color/colorBlack"
             android:textSize="16sp"
             android:singleLine="true"
+            android:gravity="end"
             android:ellipsize="marquee"
             android:layout_alignParentEnd="true"
             android:layout_below="@id/txt_paquetes"
-            android:layout_alignStart="@id/txt_paquetes"
             tools:text="Contraentrega"/>
 
         <TextView
