@@ -119,11 +119,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             if (mIsConnect){
                 disconnect()
             }else{
-                if (isConnect=="offline")
-                    startLocation()
-                else{
-
-                }
+                startLocation()
             }
 
         }

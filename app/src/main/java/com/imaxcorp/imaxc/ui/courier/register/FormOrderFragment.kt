@@ -256,7 +256,7 @@ class FormOrderFragment : Fragment() {
         val ll = LinearLayoutManager(activity)
         view.rv_pack.layoutManager = ll
         view.rv_pack.adapter = mPackAdapter
-        if (!dataExists){
+        if (!dataExists || status=="accept"){
 
             val mHelper = androidx.recyclerview.widget.ItemTouchHelper(
                 ItemTouchHelper(0, androidx.recyclerview.widget.ItemTouchHelper.LEFT)

@@ -148,8 +148,8 @@ class MapDriverBookingActivity : AppCompatActivity(), OnMapReadyCallback {
         mClientBookingProvider.updateStatus(idDocument,mapOf("status" to "start"))
         btnStartBooking.text = "Finalizar envio"
         mMap.clear()
-        mMap.addMarker(MarkerOptions().position(destine).title("My Position").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_motoricy)))
-        mMarker = mMap.addMarker(MarkerOptions().position(destine).title("Entregar Aqui").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_destine)))
+        mMap.addMarker(MarkerOptions().position(mCurrentLatLng).title("My Position").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_motoricy)))
+        mMarker = mMap.addMarker(MarkerOptions().position(destine).title("Entregar Aqui").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_destiny)))
         drawRoute(destine)
     }
 
@@ -174,13 +174,13 @@ class MapDriverBookingActivity : AppCompatActivity(), OnMapReadyCallback {
                     origin = LatLng(mOrderClient.origin!!.latLng!!.latitude,mOrderClient.origin!!.latLng!!.longitude)
                     destine = LatLng(mOrderClient.destination!!.latLng!!.latitude,mOrderClient.destination!!.latLng!!.longitude)
                     if (mOrderClient.status == "accept") {
-                        mMarker = mMap.addMarker(MarkerOptions().position(origin).title("Recoger Aqui").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_destine)))
+                        mMarker = mMap.addMarker(MarkerOptions().position(origin).title("Recoger Aqui").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_origin)))
                         textViewClientBooking.text = "Ir a: ${mOrderClient.origin!!.address}"
                         textViewOriginClientBooking.text = "Nuemro del Contacto: ${mOrderClient.origin!!.phone}"
                         drawRoute(origin)
                     }else{
                         if (mOrderClient.status == "start") {
-                            mMarker = mMap.addMarker(MarkerOptions().position(destine).title("Entregar Aqui").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_destine)))
+                            mMarker = mMap.addMarker(MarkerOptions().position(destine).title("Entregar Aqui").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_destiny)))
                             btnStartBooking.text = "Finalizar envio"
                             textViewClientBooking.text =
                                 "Ir a: ${mOrderClient.destination!!.address}"

@@ -21,7 +21,7 @@ class RegisterOrderActivity : AppCompatActivity() {
     lateinit var idDoc: String
     lateinit var idClient: String
     lateinit var store: String
-    lateinit var status: String
+    var status: String = ""
     var price: Double = 0.0
     var cargoMount = 0.0
 
