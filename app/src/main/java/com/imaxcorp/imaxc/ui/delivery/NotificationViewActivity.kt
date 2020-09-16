@@ -7,6 +7,8 @@ import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
+import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
 import com.google.firebase.database.DataSnapshot
@@ -18,6 +20,7 @@ import com.imaxcorp.imaxc.providers.ClientBookingProvider
 import com.imaxcorp.imaxc.providers.GeoFireProvider
 import com.imaxcorp.imaxc.toastLong
 import kotlinx.android.synthetic.main.notification_view.*
+import java.text.DecimalFormat
 
 class NotificationViewActivity : AppCompatActivity() {
 
@@ -61,7 +64,22 @@ class NotificationViewActivity : AppCompatActivity() {
         textViewDestination.text = intent.getStringExtra("destination")
         textViewMin.text = intent.getStringExtra("min")
         textViewDistance.text = intent.getStringExtra("distance")
+        //por mientras
+        val mClientBookingProvider = ClientBookingProvider()
+        mClientBookingProvider.getPrice(idDocument).addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onCancelled(error: DatabaseError) {            }
 
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()){
+                    val price = snapshot.value.toString().toDouble()
+                    et_driver_game.visibility = View.VISIBLE
+                    et_driver_game.text = getString(R.string.ganancia_driver,DecimalFormat("0.0").format(price*0.75)+"0")
+                }else{
+                    toastLong("no hay Price")
+                }
+            }
+
+        } )
         val win = window
         win.addFlags(
             WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or

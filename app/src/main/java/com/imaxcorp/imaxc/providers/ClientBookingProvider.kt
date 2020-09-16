@@ -42,6 +42,10 @@ class ClientBookingProvider {
         return mDatabase.child(idOrderClient).child("status");
     }
 
+    fun getPrice(idOrderClient: String): DatabaseReference {
+        return mDatabase.child(idOrderClient).child("detail/price")
+    }
+
     fun getClientBooking(idOrderClient: String): DatabaseReference {
         return mDatabase.child(idOrderClient);
     }

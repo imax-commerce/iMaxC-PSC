@@ -14,6 +14,7 @@ import com.imaxcorp.imaxc.providers.ClientBookingProvider
 import com.imaxcorp.imaxc.providers.GeoFireProvider
 import com.imaxcorp.imaxc.toastLong
 import kotlinx.android.synthetic.main.notification_view.*
+import java.text.DecimalFormat
 
 class AcceptActivity : AppCompatActivity() {
 
@@ -76,6 +77,8 @@ class AcceptActivity : AppCompatActivity() {
                     textViewMin.text = mOrder.detail?.time
                     textViewDistance.text = mOrder.detail?.km
                     textViewCounter.visibility = View.GONE
+                    et_driver_game.visibility = View.VISIBLE
+                    et_driver_game.text = getString(R.string.ganancia_driver,DecimalFormat("0.0").format(mOrder.detail?.price!!*0.75)+"0")
                 }
             }
 
