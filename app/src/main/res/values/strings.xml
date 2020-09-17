@@ -9,4 +9,5 @@
     <string name="order_fragment_label">Order Fragment</string>
     <string name="pending_fragment_label">Pending Fragment</string>
     <string name="ganancia_driver">Ganancia: S/ %s</string>
+    <string name="priceCobrar">Cobrar S/ %s</string>
 </resources>

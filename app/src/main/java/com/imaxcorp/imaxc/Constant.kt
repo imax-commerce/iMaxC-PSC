@@ -14,6 +14,7 @@ interface Constant {
         const val CHANNEL_NAME = "iMaxC"
         const val NOTIFICATION_CODE = 100
         const val DATA_LOGIN = "LOGIN"
+        const val CALL_REQUEST_CODE = 4
     }
 }
 

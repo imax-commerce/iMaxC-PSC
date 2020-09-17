@@ -39,6 +39,7 @@ import com.imaxcorp.imaxc.include.MyToolBar
 import com.imaxcorp.imaxc.providers.AuthProvider
 import com.imaxcorp.imaxc.providers.GeoFireProvider
 import com.imaxcorp.imaxc.providers.TokenProvider
+import com.imaxcorp.imaxc.ui.start.LoginActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -50,11 +51,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mDialog: Dialog
 
     private var mMarker: Marker? = null
-    private var isConnect: String? = "offline"
+    private var isConnect = "offline"
     private var mIsConnect = false
     private var mListMarker: ArrayList<Marker> = ArrayList()
     private var mCurrentLatLng: LatLng? = null
     private lateinit var mGeoFireProvider: GeoFireProvider
+    private lateinit var mGeoFireProviderWorking: GeoFireProvider
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var mFusedLocation: FusedLocationProviderClient
 
@@ -68,16 +70,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 for (location in it.locations){
                     if (applicationContext != null){
                         mCurrentLatLng = LatLng(location.latitude,location.longitude)
-/*
-                        if(mMarker != null) mMarker?.remove()
-                        mMarker = mMap.addMarker(
-                            MarkerOptions()
-                            .position(LatLng(location.latitude,location.longitude))
-                            .title("My Position")
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_marker))
-                        )
-
- */
                         //Obtener ubicacion de usuario en tiempo real
                         mMap.moveCamera(
                             CameraUpdateFactory.newCameraPosition(
@@ -92,6 +84,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                         }
                         if (isConnect=="free")
                             updateLocation()
+                        if (isConnect=="working")
+                            updateWorking()
                     }
                 }
             }
@@ -102,10 +96,15 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         MyToolBar().show(this,"Conductor",false)
-        isConnect = getPreference("CONNECT","CONNECT")
-        mDialog = loading("iniciando...")
-        statusConnect()
+        getPreference("CONNECT","CONNECT")?.let {
+            isConnect = it
+        }
+        toastLong(isConnect)
+        mDialog = loading("loading...")
         mGeoFireProvider = GeoFireProvider("active_drivers")
+        mGeoFireProviderWorking = GeoFireProvider("drivers_working")
+        mAuthProvider = AuthProvider()
+        mTokenProvider = TokenProvider()
         // con esta propiedad podemos detener o iniciar la ubicacion de forma comveniente
         mFusedLocation = LocationServices.getFusedLocationProviderClient(this)
         mMapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
@@ -115,7 +114,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         mRecyclerView.layoutManager = ll
 
         btmMapAction.setOnClickListener {
-
+            if (isConnect=="working"){
+                toastLong("Tienes solicitudes Pendientes. terminalos antes de continuar")
+                return@setOnClickListener
+            }
             if (mIsConnect){
                 disconnect()
             }else{
@@ -123,17 +125,64 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
         }
-
-        mAuthProvider = AuthProvider()
-        mTokenProvider = TokenProvider()
         generateToken()
 
     }
 
     private fun statusConnect() {
-        if (isConnect == "free")        //esta linbre
-            mDialog.show()
+        if (isConnect=="free" || isConnect=="working"){
+            startLocation()
+        }
 
+    }
+
+    private fun disconnect(){
+
+        savePreferenceString("CONNECT","CONNECT","offline")
+        isConnect = "offline"
+        btmMapAction.text = "Conectarse"
+        mIsConnect = false
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        mMap.isMyLocationEnabled = false
+        mFusedLocation.removeLocationUpdates(mLocationCallback)
+        if (mAuthProvider.existSession())
+            mGeoFireProvider.removeLocation(mAuthProvider.getId())
+    }
+
+    private fun startLocation(){
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                if (gpsActive()){
+                    savePreferenceString("CONNECT","CONNECT","free")
+                    isConnect = "free"
+                    btmMapAction.text = "Desconectarse"
+                    mIsConnect = true
+                    mFusedLocation.requestLocationUpdates(mLocationRequest,mLocationCallback, Looper.myLooper())
+                    mMap.isMyLocationEnabled = true
+                    if (mDialog.isShowing) mDialog.dismiss()
+                }else
+                    showGPS()
+            }else{
+                checkLocationPermission()
+            }
+        }else{
+            if (gpsActive()){
+                mIsConnect = true
+                mFusedLocation.requestLocationUpdates(mLocationRequest,mLocationCallback, Looper.myLooper())
+                mMap.isMyLocationEnabled = true
+                if (mDialog.isShowing) mDialog.dismiss()
+            }else showGPS()
+        }
     }
 
     private fun getActiveDrive(){
@@ -192,6 +241,21 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             })
         }
     }
+
+    private fun updateLocation(){
+        if (mAuthProvider.existSession())
+            mCurrentLatLng?.let {
+                mGeoFireProvider.saveLocation(mAuthProvider.getId(), it)
+            }
+    }
+
+    private fun updateWorking(){
+        if (mAuthProvider.existSession())
+            mCurrentLatLng?.let {
+                mGeoFireProviderWorking.saveLocation(mAuthProvider.getId(), it)
+            }
+    }
+
     override fun onStart() {
         super.onStart()
         val query = FirebaseDatabase.getInstance().reference.child("ClientBooking")
@@ -226,9 +290,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             }
             false
         }
-        if (isConnect=="free"){
-            startLocation()
-        }
+        statusConnect()
     }
 
     override fun onRequestPermissionsResult(
@@ -280,11 +342,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun updateLocation(){
-        if (mAuthProvider.existSession())
-            mCurrentLatLng?.let { mGeoFireProvider.saveLocation(mAuthProvider.getId(), it) }
-    }
-
     private fun showGPS(){
         AlertDialog.Builder(this)
             .setMessage("Por favor tu GPS para continuar")
@@ -302,50 +359,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         return isActive
     }
 
-    private fun disconnect(){
-        savePreferenceString("CONNECT","CONNECT","offline")
-        btmMapAction.text = "Conectarse"
-        mIsConnect = false
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            return
-        }
-        mMap.isMyLocationEnabled = false
-        mFusedLocation.removeLocationUpdates(mLocationCallback)
-        if (mAuthProvider.existSession())
-            mGeoFireProvider.removeLocation(mAuthProvider.getId())
-    }
-
-    private fun startLocation(){
-        savePreferenceString("CONNECT","CONNECT","free")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-                if (gpsActive()){
-                    btmMapAction.text = "Desconectarse"
-                    mIsConnect = true
-                    mFusedLocation.requestLocationUpdates(mLocationRequest,mLocationCallback, Looper.myLooper())
-                    mMap.isMyLocationEnabled = true
-                    if (mDialog.isShowing) mDialog.dismiss()
-                }else
-                    showGPS()
-            }else{
-                checkLocationPermission()
-            }
-        }else{
-            if (gpsActive()){
-                mIsConnect = true
-                mFusedLocation.requestLocationUpdates(mLocationRequest,mLocationCallback, Looper.myLooper())
-                mMap.isMyLocationEnabled = true
-                if (mDialog.isShowing) mDialog.dismiss()
-            }else showGPS()
-        }
-    }
     private fun checkLocationPermission(){
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
@@ -383,7 +396,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         disconnect()
         mAuthProvider.logOut()
         deletePreference(getString(R.string.preference_user))
-        startActivity(Intent(this, MainActivity::class.java))
+        deletePreference("CONNECT")
+        startActivity(Intent(this, LoginActivity::class.java))
         finish()
     }
 
@@ -391,4 +405,5 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         mTokenProvider.create(mAuthProvider.getId())
 
     }
+
 }

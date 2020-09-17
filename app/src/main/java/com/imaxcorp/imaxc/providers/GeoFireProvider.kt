@@ -17,7 +17,7 @@ class GeoFireProvider(reference: String) {
         mGeoFire = GeoFire(dbReference)
     }
 
-    fun saveLocation(idDriver: String, latLng: LatLng){
+    fun saveLocation(idDriver: String, latLng: LatLng) {
         mGeoFire.setLocation(idDriver, GeoLocation(latLng.latitude,latLng.longitude))
     }
 

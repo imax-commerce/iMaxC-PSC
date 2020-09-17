@@ -11,16 +11,18 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.TextView
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.imaxcorp.imaxc.R
+import com.imaxcorp.imaxc.data.HomeQuery
 import com.imaxcorp.imaxc.providers.AuthProvider
 import com.imaxcorp.imaxc.providers.ClientBookingProvider
 import com.imaxcorp.imaxc.providers.GeoFireProvider
+import com.imaxcorp.imaxc.savePreferenceString
 import com.imaxcorp.imaxc.toastLong
+import com.imaxcorp.imaxc.toastShort
 import kotlinx.android.synthetic.main.notification_view.*
 import java.text.DecimalFormat
+import java.util.*
 
 class NotificationViewActivity : AppCompatActivity() {
 
@@ -53,6 +55,8 @@ class NotificationViewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.notification_view)
+
+        mClientBookingProvider = ClientBookingProvider()
         mTextViewCounter = findViewById(R.id.textViewCounter)
         mMediaPlayer = MediaPlayer.create(this,R.raw.ringtone)
         mMediaPlayer?.isLooping = true
@@ -92,7 +96,7 @@ class NotificationViewActivity : AppCompatActivity() {
         initTimer()
 
         checkIfClientCancelBooking()
-        btnAcceptBooking.setOnClickListener { acceptBooking()}
+        btnAcceptBooking.setOnClickListener { acceptBooking(mClientBookingProvider.getClientBooking(idDocument))}
         btnCancelBooking.setOnClickListener { cancelBooking() }
     }
 
@@ -131,26 +135,64 @@ class NotificationViewActivity : AppCompatActivity() {
 
     }
 
-    private fun acceptBooking() {
+    private fun acceptBooking(postRef: DatabaseReference) {
         if (mHandler != null) mHandler?.removeCallbacks(runnable)
+
         mAuthProvider = AuthProvider()
-        mGeoFireProvider = GeoFireProvider("active_drivers")
-        mGeoFireProvider.removeLocation(mAuthProvider.getId())
 
-        mClientBookingProvider = ClientBookingProvider()
-        mClientBookingProvider.updateDetail(idDocument, mapOf("idDriver" to mAuthProvider.getId()))
-        mClientBookingProvider.updateStatus(idDocument, mapOf(
-            "status" to "accept",
-            mAuthProvider.getId() to true
-        ))
+        postRef.runTransaction(object: Transaction.Handler {
+            override fun onComplete(
+                error: DatabaseError?,
+                committed: Boolean,
+                currentData: DataSnapshot?
+            ) {
+                if (error!=null){
+                    toastLong("error "+error.message)
+                }else{
+                    toastShort("Success :)")
+                    val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                    manager.cancel(2)
+                    mGeoFireProvider = GeoFireProvider("active_drivers")
+                    mGeoFireProvider.removeLocation(mAuthProvider.getId())
+                    mGeoFireProvider.removeLocation(mAuthProvider.getId())
 
-        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        manager.cancel(2)
-
-        Intent(this, MapDriverBookingActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            .setAction(Intent.ACTION_RUN).putExtra("ID_DOC",idDocument).also{
-                startActivity(it)
+                    mClientBookingProvider.updateRoot(mapOf(
+                        "/$idDocument/${mAuthProvider.getId()}" to true,
+                        "/$idDocument/indexType/${mAuthProvider.getId()}/Domicilio" to "accept",
+                        "/$idDocument/indexType/${mAuthProvider.getId()}/status" to true
+                    ))
+                    savePreferenceString("CONNECT","CONNECT","working")
+                    Intent(this@NotificationViewActivity, MapDriverBookingActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        .setAction(Intent.ACTION_RUN).putExtra("ID_DOC",idDocument).also{
+                            startActivity(it)
+                        }
+                }
             }
+
+            override fun doTransaction(currentData: MutableData): Transaction.Result {
+                val p = currentData.getValue(HomeQuery::class.java)
+                    ?: return Transaction.success(currentData)
+
+                if (p.status=="create"){
+                    p.detail?.accept = Date()
+                    p.detail?.idDriver = mAuthProvider.getId()
+                    p.indexType = mapOf(
+                        "Domicilio" to "accept",
+                        mAuthProvider.getId() to mapOf(
+                            "Domicilio" to true,
+                            "status" to true
+                        )
+                    )
+                    p.status = "accept"
+                    p.indexType = mapOf(
+                        "Domicilio" to "accept"
+                    )
+                }
+
+                currentData.value = p
+                return Transaction.success(currentData)
+            }
+        })
     }
 
     override fun onPause() {

@@ -12,13 +12,13 @@
         android:id="@+id/mapDriver"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="150dp"
+        android:layout_marginBottom="@dimen/_120sdp"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         />
 
     <com.github.florent37.shapeofview.shapes.BubbleView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_120sdp"
+        android:layout_height="@dimen/_135sdp"
         app:shape_bubble_arrowHeight="15dp"
         app:shape_bubble_arrowWidth="15dp"
         app:shape_bubble_arrowPosition="top"
@@ -33,39 +33,60 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="10dp">
 
             <LinearLayout
+                android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginLeft="7dp"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
                 >
                 <TextView
-                    android:id="@+id/textViewClientBooking"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Contacto"
-                    android:layout_marginLeft="10dp"
-                    android:maxLines="1"
-                    android:textColor="@color/colorIcon"
-                    android:layout_marginTop="5dp"
-                    android:textSize="16sp"/>
-                <TextView
+                    android:layout_weight="3"
                     android:id="@+id/textViewOriginClientBooking"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Dirección"
-                    android:layout_marginLeft="10dp"
-                    android:maxLines="2"
-
-                    android:layout_marginTop="5dp"
+                    android:singleLine="true"
+                    android:layout_gravity="center_vertical"
                     android:textColor="#FFF"
                     android:textSize="16sp"/>
 
+                <TextView
+                    android:id="@+id/btnPayment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cobrar"
+                    android:gravity="center"
+                    android:visibility="visible"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/button_round"
+                    android:backgroundTint="@color/colorLightBlue"
+                    android:paddingEnd="@dimen/_15sdp"
+                    android:paddingTop="@dimen/_2sdp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_2sdp"
+                    android:paddingStart="@dimen/_15sdp" />
+
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewClientBooking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Contacto"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:maxLines="1"
+                android:textColor="@color/colorIcon"
+                android:layout_marginTop="5dp"
+                android:textSize="16sp"/>
 
             <Button
                 android:id="@+id/btnStartBooking"

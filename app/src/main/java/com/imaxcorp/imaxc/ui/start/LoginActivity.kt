@@ -15,7 +15,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        MyToolBar().show(this,"Login de Usuario", true)
+        MyToolBar().show(this,"Login de Usuario", false)
     }
 
     fun sing(view: View){

@@ -4,17 +4,19 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.imaxcorp.imaxc.R
 import com.imaxcorp.imaxc.data.ClientBooking
+import com.imaxcorp.imaxc.data.HomeQuery
 import com.imaxcorp.imaxc.providers.AuthProvider
 import com.imaxcorp.imaxc.providers.ClientBookingProvider
 import com.imaxcorp.imaxc.providers.GeoFireProvider
+import com.imaxcorp.imaxc.savePreferenceString
 import com.imaxcorp.imaxc.toastLong
+import com.imaxcorp.imaxc.toastShort
 import kotlinx.android.synthetic.main.notification_view.*
 import java.text.DecimalFormat
+import java.util.*
 
 class AcceptActivity : AppCompatActivity() {
 
@@ -32,32 +34,63 @@ class AcceptActivity : AppCompatActivity() {
         mClientOrder = ClientBookingProvider()
         mGeoFireProvider = GeoFireProvider("active_drivers")
         getOrder()
-        btnAcceptBooking.setOnClickListener { acceptBooking() }
+        btnAcceptBooking.setOnClickListener { acceptBooking(mClientOrder.getClientBooking(idDocument)) }
         btnCancelBooking.setOnClickListener { cancelBooking() }
     }
 
-    private fun acceptBooking() {
-
+    private fun acceptBooking(postRef: DatabaseReference) {
         mAuthProvider = AuthProvider()
-        mClientOrder.updateDetail(idDocument, mapOf("idDriver" to mAuthProvider.getId()))
-        mClientOrder.updateStatus(idDocument, mapOf(
-            "status" to "accept",
-            mAuthProvider.getId() to true
-        )).addOnCompleteListener {
-            if (it.isComplete && it.isSuccessful){
-                mGeoFireProvider.removeBookingActive(idDocument)
-                mGeoFireProvider.removeLocation(mAuthProvider.getId())
-                Intent(this,
-                    MapDriverBookingActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                    .setAction(Intent.ACTION_RUN).putExtra("ID_DOC",idDocument).also { act->
-                        startActivity(act)
-                    }
-            }else{
-                toastLong("Ocurrio un error, intentelo mas tarde...")
+
+        postRef.runTransaction(object: Transaction.Handler {
+            override fun onComplete(
+                error: DatabaseError?,
+                committed: Boolean,
+                currentData: DataSnapshot?
+            ) {
+                if (error!=null){
+                    toastLong("error "+error.message)
+                }else{
+                    toastShort("Success :)")
+                    mGeoFireProvider.removeBookingActive(idDocument)
+                    mGeoFireProvider.removeLocation(mAuthProvider.getId())
+                    mClientOrder.updateRoot(mapOf(
+                        "/$idDocument/${mAuthProvider.getId()}" to true,
+                        "/$idDocument/indexType/${mAuthProvider.getId()}/Domicilio" to "accept",
+                        "/$idDocument/indexType/${mAuthProvider.getId()}/status" to true
+                    ))
+                    savePreferenceString("CONNECT","CONNECT","working")
+                    Intent(this@AcceptActivity,
+                        MapDriverBookingActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        .setAction(Intent.ACTION_RUN).putExtra("ID_DOC",idDocument).also { act->
+                            startActivity(act)
+                        }
+                }
             }
-        }
 
+            override fun doTransaction(currentData: MutableData): Transaction.Result {
+                val p = currentData.getValue(HomeQuery::class.java)
+                    ?: return Transaction.success(currentData)
 
+                if (p.status=="create"){
+                    p.detail?.accept = Date()
+                    p.detail?.idDriver = mAuthProvider.getId()
+                    p.indexType = mapOf(
+                        "Domicilio" to "accept",
+                        mAuthProvider.getId() to mapOf(
+                            "Domicilio" to true,
+                            "status" to true
+                        )
+                    )
+                    p.status = "accept"
+                    p.indexType = mapOf(
+                        "Domicilio" to "accept"
+                    )
+                }
+
+                currentData.value = p
+                return Transaction.success(currentData)
+            }
+        })
     }
 
     private fun cancelBooking() {

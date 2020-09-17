@@ -2,6 +2,7 @@ package com.imaxcorp.imaxc.ui.delivery
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -14,6 +15,7 @@ import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -26,6 +28,7 @@ import com.google.android.gms.maps.model.*
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.imaxcorp.imaxc.*
 import com.imaxcorp.imaxc.Constant.Companion.LOCATION_REQUEST_CODE
 import com.imaxcorp.imaxc.Constant.Companion.SETTINGS_REQUEST_CODE
 import com.imaxcorp.imaxc.R
@@ -33,10 +36,13 @@ import com.imaxcorp.imaxc.data.ClientBooking
 import com.imaxcorp.imaxc.providers.*
 import com.imaxcorp.imaxc.services.DecodePoints
 import kotlinx.android.synthetic.main.activity_map_driver_booking.*
+import kotlinx.android.synthetic.main.item_payment.*
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.DecimalFormat
+import java.util.*
 
 class MapDriverBookingActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -66,6 +72,8 @@ class MapDriverBookingActivity : AppCompatActivity(), OnMapReadyCallback {
     private var mIsFirstTime = true
     private var mIsCloseToClient = false
     private lateinit var mOrderClient: ClientBooking
+    private lateinit var mDialogLoad: Dialog
+    private var isPayment = false
 
     private var mLocationCallback: LocationCallback? = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult?) {
@@ -82,16 +90,6 @@ class MapDriverBookingActivity : AppCompatActivity(), OnMapReadyCallback {
                                 .title("My Position")
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_motoricy))
                         )
-                        //Obtener ubicacion de usuario en tiempo real
-                        /*
-                        mMap.animateCamera(
-                            CameraUpdateFactory.newCameraPosition(
-                                CameraPosition.builder()
-                                    .target(LatLng(location.latitude,location.longitude))
-                                    .zoom(17f)
-                                    .build()
-                            ))
-                        */
                         updateLocation()
 
                         if (mIsFirstTime) {
@@ -115,7 +113,7 @@ class MapDriverBookingActivity : AppCompatActivity(), OnMapReadyCallback {
         mClientBookingProvider = ClientBookingProvider()
         mNotificationProvider = NotificationProvider()
         mClientProvider = ClientProvider()
-
+        mDialogLoad = loading("loading...")
         mFusedLocation = LocationServices.getFusedLocationProviderClient(this)
         mMapFragment = supportFragmentManager.findFragmentById(R.id.mapDriver) as SupportMapFragment
         mMapFragment.getMapAsync(this)
@@ -132,12 +130,75 @@ class MapDriverBookingActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
             }
         }
-
     }
 
+    private fun payment(){
+        val mDialogPayment = Dialog(this)
+        mDialogPayment.setContentView(R.layout.item_payment)
+        mDialogPayment.setCancelable(false)
+        mDialogPayment.title.text = getString(R.string.priceCobrar,DecimalFormat("0.00").format(mOrderClient.detail?.price))
+        mDialogPayment.btnCloseDialog.setOnClickListener {
+            mDialogPayment.dismiss()
+        }
+        mDialogPayment.btnCashDialog.setOnClickListener {
+            mDialogPayment.dismiss()
+            mDialogLoad.show()
+            val map = mapOf(
+                "/$idDocument/detail/paymentType" to "cash",
+                "/$idDocument/detail/statusPayment" to true,
+                "/$idDocument/detail/paymentDate" to Date(),
+                "/$idDocument/detail/paymentOrigin" to "origin"
+            )
+
+            mClientBookingProvider.updateRoot(map)
+                .addOnCompleteListener {
+                    if (it.isSuccessful && it.isComplete){
+                        toastLong("Completado... :)")
+                        isPayment = true
+                        btnPayment.visibility = View.GONE
+                        mDialogLoad.dismiss()
+                    }else{
+                        mDialogLoad.dismiss()
+                    }
+                }
+                .addOnFailureListener {
+                    toastShort("Error... "+it.message)
+                }
+        }
+        mDialogPayment.btnTransferDialog.setOnClickListener {
+            mDialogPayment.dismiss()
+            mDialogLoad.show()
+            val map = mapOf(
+                "/$idDocument/detail/paymentType" to "transfer",
+                "/$idDocument/detail/statusPayment" to true,
+                "/$idDocument/detail/paymentDate" to Date(),
+                "/$idDocument/detail/paymentOrigin" to "origin"
+            )
+
+            mClientBookingProvider.updateRoot(map)
+                .addOnCompleteListener {
+                    if (it.isSuccessful && it.isComplete){
+                        toastLong("Completado... :)")
+                        isPayment = true
+                        btnPayment.visibility = View.GONE
+                        mDialogLoad.dismiss()
+                    }else{
+                        mDialogLoad.dismiss()
+                    }
+                }
+                .addOnFailureListener {
+                    toastShort("Error... "+it.message)
+                }
+        }
+        mDialogPayment.show()
+    }
     private fun finishBooking() {
 
-        Intent(this, FinishDeliveryActivity::class.java).putExtra("ID_DOC",idDocument).also {
+        Intent(this, FinishDeliveryActivity::class.java)
+            .putExtra("ID_DOC",idDocument)
+            .putExtra("PAYMENT",isPayment)
+            .putExtra("PRICE",mOrderClient.detail?.price)
+            .also {
             startActivity(it)
             finish()
         }
@@ -151,6 +212,12 @@ class MapDriverBookingActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.addMarker(MarkerOptions().position(mCurrentLatLng).title("My Position").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_motoricy)))
         mMarker = mMap.addMarker(MarkerOptions().position(destine).title("Entregar Aqui").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_destiny)))
         drawRoute(destine)
+        btnPayment.visibility = View.GONE
+        textViewClientBooking.text =
+            "Ir a: ${mOrderClient.destination!!.address}"
+        textViewOriginClientBooking.text =
+            "Nuemro del Contacto: ${mOrderClient.destination!!.phone}"
+        textViewOriginClientBooking.setOnClickListener { openCall(mOrderClient.destination?.phone!!) }
     }
 
 
@@ -173,20 +240,29 @@ class MapDriverBookingActivity : AppCompatActivity(), OnMapReadyCallback {
                     mOrderClient = snapshot.getValue(ClientBooking::class.java) as ClientBooking
                     origin = LatLng(mOrderClient.origin!!.latLng!!.latitude,mOrderClient.origin!!.latLng!!.longitude)
                     destine = LatLng(mOrderClient.destination!!.latLng!!.latitude,mOrderClient.destination!!.latLng!!.longitude)
+                    mOrderClient.detail?.statusPayment?.let {
+                        isPayment = it
+                    }
                     if (mOrderClient.status == "accept") {
                         mMarker = mMap.addMarker(MarkerOptions().position(origin).title("Recoger Aqui").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_origin)))
-                        textViewClientBooking.text = "Ir a: ${mOrderClient.origin!!.address}"
-                        textViewOriginClientBooking.text = "Nuemro del Contacto: ${mOrderClient.origin!!.phone}"
+                        textViewClientBooking.text = "Dir: ${mOrderClient.origin!!.address}"
+                        textViewOriginClientBooking.text = "Contacto: ${mOrderClient.origin!!.phone}"
                         drawRoute(origin)
+                        textViewOriginClientBooking.setOnClickListener { openCall(mOrderClient.origin?.phone!!) }
+                        btnPayment.visibility = View.VISIBLE
+                        btnPayment.setOnClickListener {
+                            payment()
+                        }
                     }else{
                         if (mOrderClient.status == "start") {
                             mMarker = mMap.addMarker(MarkerOptions().position(destine).title("Entregar Aqui").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_destiny)))
                             btnStartBooking.text = "Finalizar envio"
                             textViewClientBooking.text =
-                                "Ir a: ${mOrderClient.destination!!.address}"
+                                "Dir: ${mOrderClient.destination!!.address}"
                             textViewOriginClientBooking.text =
-                                "Nuemro del Contacto: ${mOrderClient.destination!!.phone}"
+                                "Contacto: ${mOrderClient.destination!!.phone}"
                             drawRoute(destine)
+                            textViewOriginClientBooking.setOnClickListener { openCall(mOrderClient.destination?.phone!!) }
                         }
                     }
                 }

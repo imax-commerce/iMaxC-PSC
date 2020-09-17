@@ -18,6 +18,8 @@ class DetailOrder: Serializable {
     var cargo: Boolean = false
     var montCargo: Double = 0.0
     var debtService: Boolean = false
+    var paymentType: String? = null
+    var statusPayment: Boolean = false
 
     constructor()
 }

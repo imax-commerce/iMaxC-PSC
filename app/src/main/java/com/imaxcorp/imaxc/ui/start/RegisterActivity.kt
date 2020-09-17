@@ -115,4 +115,9 @@ class RegisterActivity : AppCompatActivity() {
                 toastLong("Error en el registro de datos!. ${it.message}")
             }
     }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
+    }
 }

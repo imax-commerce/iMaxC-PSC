@@ -25,14 +25,22 @@
 
     <TextView
         android:id="@+id/txt_detail_coin"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="@+id/text_deuda"
         app:layout_constraintStart_toStartOf="@+id/text_deuda"
         app:layout_constraintTop_toBottomOf="@+id/text_deuda"
         android:textSize="@dimen/_12sdp"
-        android:gravity="center"
+        android:text="Cobrar"
+        android:visibility="gone"
+        app:layout_constraintHorizontal_bias="0.95"
+        android:paddingEnd="@dimen/_15sdp"
+        android:paddingStart="@dimen/_15sdp"
+        android:background="@drawable/button_round"
+        android:backgroundTint="@color/colorLightBlue"
         android:layout_marginTop="@dimen/_8sdp"
+        android:paddingBottom="@dimen/_2sdp"
+        android:paddingTop="@dimen/_1sdp"
         android:textStyle="normal"
         android:textColor="@color/colorTextPrimary" />
 

@@ -1,17 +1,22 @@
 package com.imaxcorp.imaxc
 
+import android.Manifest
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
 import android.net.Uri
+import android.os.Build
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.ColorInt
+import androidx.core.app.ActivityCompat
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.load.*
 
@@ -81,4 +86,28 @@ fun Context.oval(@ColorInt color: Int): ShapeDrawable {
         paint.color = color
     }
     return oval
+}
+
+fun Activity.openCall(phone: String) {
+    val call = Intent(Intent.ACTION_CALL)
+    call.data = Uri.parse("tel:$phone")
+
+    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CALL_PHONE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.CALL_PHONE)){
+
+                requestPermissions(arrayOf(Manifest.permission.CALL_PHONE),Constant.CALL_REQUEST_CODE)
+            }else{
+                requestPermissions(arrayOf(Manifest.permission.CALL_PHONE),Constant.CALL_REQUEST_CODE)
+            }
+        }else{
+            startActivity(call)
+        }
+    }else{
+        startActivity(call)
+    }
 }
