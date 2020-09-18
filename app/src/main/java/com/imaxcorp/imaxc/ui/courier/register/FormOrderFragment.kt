@@ -30,6 +30,7 @@ import com.imaxcorp.imaxc.providers.ClientProvider
 import kotlinx.android.synthetic.main.fragment_form_order.*
 import kotlinx.android.synthetic.main.fragment_form_order.view.*
 import kotlinx.android.synthetic.main.input_text.*
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -82,6 +83,10 @@ class FormOrderFragment : Fragment() {
                     }
 
                 })
+            //si no sirve arreglar aqui.
+            view.et_col_name.setOnClickListener {
+                (context as RegisterOrderActivity).openCall((context as RegisterOrderActivity).phoneAttention)
+            }
             initView(view)
         }
         else {
@@ -279,7 +284,7 @@ class FormOrderFragment : Fragment() {
         if (status=="accept"){
             view.btnAction.text = "Registrar envios"
         }else{
-            view.et_price_name.setText((context as RegisterOrderActivity).price.toString())
+            view.et_price_name.setText(DecimalFormat("0.00").format((context as RegisterOrderActivity).price))
             view.et_price_name.isEnabled = false
             view.btnAction.visibility = View.GONE
             view.fabPackAdd.visibility = View.GONE

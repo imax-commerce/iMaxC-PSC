@@ -39,8 +39,8 @@
         android:background="@drawable/button_round"
         android:backgroundTint="@color/colorLightBlue"
         android:layout_marginTop="@dimen/_8sdp"
-        android:paddingBottom="@dimen/_2sdp"
-        android:paddingTop="@dimen/_1sdp"
+        android:paddingBottom="@dimen/_4sdp"
+        android:paddingTop="@dimen/_4sdp"
         android:textStyle="normal"
         android:textColor="@color/colorTextPrimary" />
 

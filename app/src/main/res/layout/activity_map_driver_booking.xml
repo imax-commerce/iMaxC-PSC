@@ -51,11 +51,10 @@
                     android:id="@+id/textViewOriginClientBooking"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Dirección"
                     android:singleLine="true"
                     android:layout_gravity="center_vertical"
                     android:textColor="#FFF"
-                    android:textSize="16sp"/>
+                    android:textSize="@dimen/_14ssp"/>
 
                 <TextView
                     android:id="@+id/btnPayment"
@@ -68,10 +67,10 @@
                     android:background="@drawable/button_round"
                     android:backgroundTint="@color/colorLightBlue"
                     android:paddingEnd="@dimen/_15sdp"
-                    android:paddingTop="@dimen/_2sdp"
+                    android:paddingTop="@dimen/_4sdp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="@dimen/_10sdp"
-                    android:paddingBottom="@dimen/_2sdp"
+                    android:paddingBottom="@dimen/_4sdp"
                     android:paddingStart="@dimen/_15sdp" />
 
             </LinearLayout>
@@ -80,13 +79,12 @@
                 android:id="@+id/textViewClientBooking"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Contacto"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:maxLines="1"
                 android:textColor="@color/colorIcon"
                 android:layout_marginTop="5dp"
-                android:textSize="16sp"/>
+                android:textSize="@dimen/_15ssp"/>
 
             <Button
                 android:id="@+id/btnStartBooking"

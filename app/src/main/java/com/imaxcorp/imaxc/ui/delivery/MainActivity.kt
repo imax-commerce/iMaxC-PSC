@@ -99,7 +99,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         getPreference("CONNECT","CONNECT")?.let {
             isConnect = it
         }
-        toastLong(isConnect)
         mDialog = loading("loading...")
         mGeoFireProvider = GeoFireProvider("active_drivers")
         mGeoFireProviderWorking = GeoFireProvider("drivers_working")
@@ -137,7 +136,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun disconnect(){
-
         savePreferenceString("CONNECT","CONNECT","offline")
         isConnect = "offline"
         btmMapAction.text = "Conectarse"
@@ -163,8 +161,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
                 if (gpsActive()){
-                    savePreferenceString("CONNECT","CONNECT","free")
-                    isConnect = "free"
+                    if (isConnect!="working"){
+                        savePreferenceString("CONNECT","CONNECT","free")
+                        isConnect = "free"
+                    }
                     btmMapAction.text = "Desconectarse"
                     mIsConnect = true
                     mFusedLocation.requestLocationUpdates(mLocationRequest,mLocationCallback, Looper.myLooper())

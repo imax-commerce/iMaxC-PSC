@@ -79,11 +79,11 @@ class NotificationViewActivity : AppCompatActivity() {
                     et_driver_game.visibility = View.VISIBLE
                     et_driver_game.text = getString(R.string.ganancia_driver,DecimalFormat("0.0").format(price*0.75)+"0")
                 }else{
-                    toastLong("no hay Price")
+                    toastLong("Tu ganacia sera el 75% del costo del servico")
                 }
             }
-
         } )
+
         val win = window
         win.addFlags(
             WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
@@ -125,14 +125,9 @@ class NotificationViewActivity : AppCompatActivity() {
         if (mHandler != null) mHandler?.removeCallbacks(runnable)
         mClientBookingProvider = ClientBookingProvider()
         mClientBookingProvider.updateStatus(idDocument, mapOf("status" to "cancel"))
-
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.cancel(2)
-        Intent(this, MainActivity::class.java).also {
-            startActivity(it)
-            finish()
-        }
-
+        finish()
     }
 
     private fun acceptBooking(postRef: DatabaseReference) {
@@ -154,8 +149,7 @@ class NotificationViewActivity : AppCompatActivity() {
                     manager.cancel(2)
                     mGeoFireProvider = GeoFireProvider("active_drivers")
                     mGeoFireProvider.removeLocation(mAuthProvider.getId())
-                    mGeoFireProvider.removeLocation(mAuthProvider.getId())
-
+                    mGeoFireProvider.removeBookingActive(idDocument)
                     mClientBookingProvider.updateRoot(mapOf(
                         "/$idDocument/${mAuthProvider.getId()}" to true,
                         "/$idDocument/indexType/${mAuthProvider.getId()}/Domicilio" to "accept",

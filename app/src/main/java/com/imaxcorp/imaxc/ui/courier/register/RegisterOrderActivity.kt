@@ -22,6 +22,7 @@ class RegisterOrderActivity : AppCompatActivity() {
     lateinit var idClient: String
     lateinit var store: String
     var status: String = ""
+    var phoneAttention = ""
     var price: Double = 0.0
     var cargoMount = 0.0
 
@@ -40,6 +41,7 @@ class RegisterOrderActivity : AppCompatActivity() {
             paymentCargo = intent.getBooleanExtra("CARGO",false)
             debtDriver = intent.getBooleanExtra("DEBT",false)
             cargoMount = intent.getDoubleExtra("MOUNT_CARGO",0.0)
+            phoneAttention = intent.getStringExtra("PHONE")
         }
 
         mFormOrderFragment = FormOrderFragment()

@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.imaxcorp.imaxc.providers.ClientBookingProvider
+import com.imaxcorp.imaxc.ui.delivery.MainActivity
 
 class CancelReceiver : BroadcastReceiver() {
 
@@ -20,5 +21,6 @@ class CancelReceiver : BroadcastReceiver() {
 
         val manager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.cancel(2)
+
     }
 }

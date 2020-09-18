@@ -59,8 +59,7 @@ class NotificationHelper(base: Context) : ContextWrapper(base) {
         title: String,
         body: String,
         soundUri: Uri,
-        acceptAction: Notification.Action,
-        cancelAction: Notification.Action
+        acceptAction: Notification.Action
     ) : Notification.Builder {
         return Notification.Builder(applicationContext,Companion.CHANNEL_ID)
             .setContentTitle(title)
@@ -69,7 +68,6 @@ class NotificationHelper(base: Context) : ContextWrapper(base) {
             .setSound(soundUri)
             .setSmallIcon(R.drawable.ic_notification)
             .addAction(acceptAction)
-            .addAction(cancelAction)
             .setStyle(Notification.BigTextStyle().bigText(body).setBigContentTitle(title))
     }
 
@@ -89,8 +87,7 @@ class NotificationHelper(base: Context) : ContextWrapper(base) {
         title: String,
         body: String,
         soundUri: Uri,
-        acceptAction: NotificationCompat.Action,
-        cancelAction: NotificationCompat.Action
+        acceptAction: NotificationCompat.Action
     ) : NotificationCompat.Builder {
         return NotificationCompat.Builder(applicationContext,Companion.CHANNEL_ID)
             .setContentTitle(title)
@@ -99,7 +96,6 @@ class NotificationHelper(base: Context) : ContextWrapper(base) {
             .setSound(soundUri)
             .setSmallIcon(R.drawable.ic_notification)
             .addAction(acceptAction)
-            .addAction(cancelAction)
             .setStyle(NotificationCompat.BigTextStyle().bigText(body).setBigContentTitle(title))
     }
 }

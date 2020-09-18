@@ -5,15 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.google.firebase.database.*
+import com.imaxcorp.imaxc.*
 import com.imaxcorp.imaxc.R
 import com.imaxcorp.imaxc.data.ClientBooking
 import com.imaxcorp.imaxc.data.HomeQuery
 import com.imaxcorp.imaxc.providers.AuthProvider
 import com.imaxcorp.imaxc.providers.ClientBookingProvider
 import com.imaxcorp.imaxc.providers.GeoFireProvider
-import com.imaxcorp.imaxc.savePreferenceString
-import com.imaxcorp.imaxc.toastLong
-import com.imaxcorp.imaxc.toastShort
 import kotlinx.android.synthetic.main.notification_view.*
 import java.text.DecimalFormat
 import java.util.*
@@ -33,8 +31,18 @@ class AcceptActivity : AppCompatActivity() {
         idDocument = intent.getStringExtra("DOC")
         mClientOrder = ClientBookingProvider()
         mGeoFireProvider = GeoFireProvider("active_drivers")
+        btnCancelBooking.text = "Cerrar"
         getOrder()
-        btnAcceptBooking.setOnClickListener { acceptBooking(mClientOrder.getClientBooking(idDocument)) }
+        btnAcceptBooking.setOnClickListener {
+            getPreference("CONNECT","CONNECT")?.let {
+                if (it=="free"){
+                    acceptBooking(mClientOrder.getClientBooking(idDocument))
+                }else{
+                    toastLong("aun tienes atenciones sin concluir. Finalizelos para continuar")
+                }
+            }
+
+        }
         btnCancelBooking.setOnClickListener { cancelBooking() }
     }
 

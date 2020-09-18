@@ -112,7 +112,7 @@ class MyFirebaseMessagingClient : FirebaseMessagingService() {
             "Aceptar",
             acceptPendingIntent
         ).build()
-
+/*
         val cancelIntent =  Intent(this, CancelReceiver::class.java)
         cancelIntent.putExtra("idClient", idClient)
         val cancelPendingIntent = PendingIntent.getBroadcast(this, NOTIFICATION_CODE, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -122,10 +122,10 @@ class MyFirebaseMessagingClient : FirebaseMessagingService() {
             "Cancelar",
             cancelPendingIntent
         ).build()
-
+*/
         val sound =  RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationHelper = NotificationHelper(baseContext)
-        val builder = notificationHelper.getNotificationOldAPIActions(title, body, sound, acceptAction, cancelAction)
+        val builder = notificationHelper.getNotificationOldAPIActions(title, body, sound, acceptAction)
         notificationHelper.getManager()?.notify(2, builder.build())
     }
 
@@ -148,7 +148,7 @@ class MyFirebaseMessagingClient : FirebaseMessagingService() {
             "Aceptar",
             acceptPendingIntent
         ).build()
-
+/*
         val cancelIntent = Intent(this, CancelReceiver::class.java)
         cancelIntent.putExtra("idClient", idClient)
         val cancelPendingIntent = PendingIntent.getBroadcast(this, NOTIFICATION_CODE, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -158,10 +158,10 @@ class MyFirebaseMessagingClient : FirebaseMessagingService() {
             "cancelar",
             cancelPendingIntent
         ) .build()
-
+*/
         val sound =  RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationHelper = NotificationHelper(baseContext)
-        val builder = notificationHelper.getNotificationActions(title,body,sound,acceptAction,cancelAction)
+        val builder = notificationHelper.getNotificationActions(title,body,sound,acceptAction)
         notificationHelper.getManager()?.notify(2, builder.build())
     }
 

@@ -31,7 +31,7 @@ class OrderAdapter(var listOrder: ArrayList<PackBooking>, private val mContext: 
         val hash = listOrder[position].agency.hashCode()
         holder.itemView.txt_agencia.text = listOrder[position].agency
         holder.itemView.txt_destino.text = listOrder[position].destine
-        holder.itemView.txt_icon.text = listOrder[position].agency?.first().toString()
+        holder.itemView.txt_icon.text = listOrder[position].agency.first().toString()
         holder.itemView.txt_icon.background = mContext.oval(
             Color.rgb(
                 hash, hash/2, 0

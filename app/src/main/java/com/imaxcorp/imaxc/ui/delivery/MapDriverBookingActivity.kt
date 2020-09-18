@@ -205,19 +205,37 @@ class MapDriverBookingActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun startBooking() {
-        mClientBookingProvider.updateStatus(idDocument,mapOf("status" to "start"))
-        btnStartBooking.text = "Finalizar envio"
-        mMap.clear()
-        mMap.addMarker(MarkerOptions().position(mCurrentLatLng).title("My Position").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_motoricy)))
-        mMarker = mMap.addMarker(MarkerOptions().position(destine).title("Entregar Aqui").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_destiny)))
-        drawRoute(destine)
-        btnPayment.visibility = View.GONE
-        textViewClientBooking.text =
-            "Ir a: ${mOrderClient.destination!!.address}"
-        textViewOriginClientBooking.text =
-            "Nuemro del Contacto: ${mOrderClient.destination!!.phone}"
-        textViewOriginClientBooking.setOnClickListener { openCall(mOrderClient.destination?.phone!!) }
+        mDialogLoad.show()
+        val map = mapOf(
+            "/$idDocument/status" to "start",
+            "/$idDocument/indexType/Domicilio" to "start",
+            "/$idDocument/indexType/${mAuthProvider.getId()}/Domicilio" to "start",
+            "/$idDocument/detail/start" to Date()
+        )
+        mClientBookingProvider.updateRoot(map)
+            .addOnFailureListener {
+                toastLong("Error. ${it.message}")
+            }
+            .addOnCompleteListener {
+                if (it.isSuccessful && it.isComplete){
+                    btnStartBooking.text = "Finalizar envio"
+                    mMap.clear()
+                    mMap.addMarker(MarkerOptions().position(mCurrentLatLng).title("My Position").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_motoricy)))
+                    mMarker = mMap.addMarker(MarkerOptions().position(destine).title("Entregar Aqui").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_destiny)))
+                    drawRoute(destine)
+                    btnPayment.visibility = View.GONE
+                    textViewClientBooking.text =
+                        "Dir: ${mOrderClient.destination!!.address}"
+                    textViewOriginClientBooking.text =
+                        "Contacto: ${mOrderClient.destination!!.phone}"
+                    textViewOriginClientBooking.setOnClickListener { openCall(mOrderClient.destination?.phone!!) }
+                    mDialogLoad.dismiss()
+                }else{
+                    mDialogLoad.dismiss()
+                }
+            }
     }
 
 

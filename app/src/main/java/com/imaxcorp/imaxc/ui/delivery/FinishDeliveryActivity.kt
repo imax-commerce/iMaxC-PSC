@@ -3,18 +3,17 @@ package com.imaxcorp.imaxc.ui.delivery
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import com.imaxcorp.imaxc.R
-import com.imaxcorp.imaxc.loading
+import com.imaxcorp.imaxc.*
 import com.imaxcorp.imaxc.providers.AuthProvider
 import com.imaxcorp.imaxc.providers.ClientBookingProvider
 import com.imaxcorp.imaxc.providers.ImagesProvider
-import com.imaxcorp.imaxc.toastLong
-import com.imaxcorp.imaxc.toastShort
+import com.imaxcorp.imaxc.ui.start.LaunchActivity
 import kotlinx.android.synthetic.main.activity_finish_delivery.*
 import kotlinx.android.synthetic.main.item_payment.*
 import java.text.DecimalFormat
@@ -136,8 +135,6 @@ class FinishDeliveryActivity : AppCompatActivity() {
 
     private fun finishOrder() {
 
-
-
         dialog.show()
         draw_view.buildDrawingCache()
         bitmap = draw_view.drawingCache
@@ -147,16 +144,33 @@ class FinishDeliveryActivity : AppCompatActivity() {
                     Log.d("TAG-->", "Subio imahgen")
                     mImageProvider.getStorage()?.downloadUrl?.addOnCompleteListener {task ->
                         if (task.isComplete && task.isSuccessful){
-                            Log.d("TAG-->", "Url: ${task.result}")
                             val urlPhoto = task.result.toString()
                             val map =
                                 mapOf(
-                                    "urlFirm" to urlPhoto,
-                                    "finish" to Date()
+                                    "/${idDocument}/detail/urlFirm" to urlPhoto,
+                                    "/${idDocument}/detail/finish" to Date(),
+                                    "/${idDocument}/status" to "finish",
+                                    "/${idDocument}/${mAuthProvider.getId()}" to false,
+                                    "/${idDocument}/indexType/Domicilio" to "finish",
+                                    "/${idDocument}/indexType/${mAuthProvider.getId()}/Domicilio" to "finish",
+                                    "/${idDocument}/indexType/${mAuthProvider.getId()}/status" to false
                                 )
-                            mClientBookingProvider.updateStatus(idDocument,mapOf("status" to "finish", mAuthProvider.getId() to false))
-                            mClientBookingProvider.updateDetail(idDocument,map).addOnSuccessListener {
-                                finish()
+
+                            mClientBookingProvider.updateRoot(map).addOnFailureListener {error->
+                                toastLong("Ocurrio un error. ${error.message}")
+                            }.addOnCompleteListener {it2->
+                                if (it2.isComplete && it2.isSuccessful){
+                                    toastLong("Termino su atención. :) ")
+                                    savePreferenceString("CONNECT","CONNECT","free")
+                                    Intent(this,
+                                        LaunchActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                        .setAction(Intent.ACTION_RUN).also { act->
+                                            startActivity(act)
+                                        }
+                                    dialog.dismiss()
+                                }else{
+                                    dialog.dismiss()
+                                }
                             }
                         }else{
                             Log.d("TAG-->", "Url: no descargo")
