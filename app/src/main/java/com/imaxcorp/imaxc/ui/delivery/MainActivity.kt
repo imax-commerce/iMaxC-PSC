@@ -152,6 +152,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         mMap.isMyLocationEnabled = false
         mFusedLocation.removeLocationUpdates(mLocationCallback)
+        mGeoFireProvider.removeQuery()
+        mMap.clear()
         if (mAuthProvider.existSession())
             mGeoFireProvider.removeLocation(mAuthProvider.getId())
     }
@@ -167,6 +169,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                     btmMapAction.text = "Desconectarse"
                     mIsConnect = true
+                    mIsFirstTime = true
                     mFusedLocation.requestLocationUpdates(mLocationRequest,mLocationCallback, Looper.myLooper())
                     mMap.isMyLocationEnabled = true
                     if (mDialog.isShowing) mDialog.dismiss()

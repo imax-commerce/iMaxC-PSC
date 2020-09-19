@@ -11,6 +11,7 @@ class GeoFireProvider(reference: String) {
 
 
     private var mGeoFire: GeoFire
+    private lateinit var geoQuery: GeoQuery
 
     init {
         val dbReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child(reference)
@@ -26,7 +27,7 @@ class GeoFireProvider(reference: String) {
     }
 
     fun getActiveOrder(latLng: LatLng) : GeoQuery {
-        val geoQuery: GeoQuery = GeoFire(FirebaseDatabase.getInstance().reference.child("orders_actives")).queryAtLocation(GeoLocation(latLng.latitude,latLng.longitude),10.0)
+        geoQuery = GeoFire(FirebaseDatabase.getInstance().reference.child("orders_actives")).queryAtLocation(GeoLocation(latLng.latitude,latLng.longitude),10.0)
         geoQuery.removeAllListeners()
         return geoQuery
     }
@@ -34,5 +35,9 @@ class GeoFireProvider(reference: String) {
     fun removeBookingActive(idDocument: String) {
         val bookingActive = GeoFire(FirebaseDatabase.getInstance().reference.child("orders_actives"))
         bookingActive.removeLocation(idDocument)
+    }
+
+    fun removeQuery(){
+        geoQuery.removeAllListeners()
     }
 }

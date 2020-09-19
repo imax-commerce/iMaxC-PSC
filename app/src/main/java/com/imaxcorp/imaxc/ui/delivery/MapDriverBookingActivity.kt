@@ -106,6 +106,8 @@ class MapDriverBookingActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map_driver_booking)
 
+        mDialogLoad = loading("loading...")
+        mDialogLoad.show()
         idDocument = intent.getStringExtra("ID_DOC")!!
         mAuthProvider = AuthProvider()
         mGeoFireProvider = GeoFireProvider("drivers_working")
@@ -113,7 +115,6 @@ class MapDriverBookingActivity : AppCompatActivity(), OnMapReadyCallback {
         mClientBookingProvider = ClientBookingProvider()
         mNotificationProvider = NotificationProvider()
         mClientProvider = ClientProvider()
-        mDialogLoad = loading("loading...")
         mFusedLocation = LocationServices.getFusedLocationProviderClient(this)
         mMapFragment = supportFragmentManager.findFragmentById(R.id.mapDriver) as SupportMapFragment
         mMapFragment.getMapAsync(this)
@@ -238,7 +239,6 @@ class MapDriverBookingActivity : AppCompatActivity(), OnMapReadyCallback {
             }
     }
 
-
     private fun updateLocation(){
         if (mAuthProvider.existSession())
             mCurrentLatLng.let {
@@ -283,6 +283,7 @@ class MapDriverBookingActivity : AppCompatActivity(), OnMapReadyCallback {
                             textViewOriginClientBooking.setOnClickListener { openCall(mOrderClient.destination?.phone!!) }
                         }
                     }
+                    mDialogLoad.dismiss()
                 }
             }
 
