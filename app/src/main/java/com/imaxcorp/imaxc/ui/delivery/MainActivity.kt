@@ -30,13 +30,13 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.imaxcorp.imaxc.*
 import com.imaxcorp.imaxc.R
 import com.imaxcorp.imaxc.data.ClientBooking
 import com.imaxcorp.imaxc.include.MyToolBar
 import com.imaxcorp.imaxc.providers.AuthProvider
+import com.imaxcorp.imaxc.providers.DriverProvider
 import com.imaxcorp.imaxc.providers.GeoFireProvider
 import com.imaxcorp.imaxc.providers.TokenProvider
 import com.imaxcorp.imaxc.ui.start.LoginActivity
@@ -50,8 +50,9 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private var mAuthProvider = AuthProvider()
     private lateinit var mDialog: Dialog
 
+    private lateinit var mListener: ValueEventListener
     private var mMarker: Marker? = null
-    private var isConnect = "offline"
+    private var isConnect = "off"
     private var mIsConnect = false
     private var mListMarker: ArrayList<Marker> = ArrayList()
     private var mCurrentLatLng: LatLng? = null
@@ -59,12 +60,14 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mGeoFireProviderWorking: GeoFireProvider
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var mFusedLocation: FusedLocationProviderClient
+    private lateinit var mDriverProvider: DriverProvider
 
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var mAdapter: ItemAdapter
     private var mIsFirstTime = true
+    private lateinit var listenerOnline : DatabaseReference
 
-    private var mLocationCallback: LocationCallback? = object : LocationCallback() {
+    private var mLocationCallback: LocationCallback? = object : LocationCallback()  {
         override fun onLocationResult(locationResult: LocationResult?) {
             locationResult?.let {
                 for (location in it.locations){
@@ -96,9 +99,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         MyToolBar().show(this,"Conductor",false)
-        getPreference("CONNECT","CONNECT")?.let {
-            isConnect = it
-        }
+        mDriverProvider = DriverProvider()
+
         mDialog = loading("loading...")
         mGeoFireProvider = GeoFireProvider("active_drivers")
         mGeoFireProviderWorking = GeoFireProvider("drivers_working")
@@ -132,30 +134,40 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         if (isConnect=="free" || isConnect=="working"){
             startLocation()
         }
-
     }
 
     private fun disconnect(){
-        savePreferenceString("CONNECT","CONNECT","offline")
-        isConnect = "offline"
-        btmMapAction.text = "Conectarse"
-        mIsConnect = false
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            return
+        mDialog.show()
+        mDriverProvider.updateDriver(mapOf(
+            "/${mAuthProvider.getId()}/online" to "off"
+        ))?.addOnCompleteListener {
+
+            if (it.isSuccessful && it.isComplete){
+                btmMapAction.text = "Conectarse"
+                mIsConnect = false
+                if (ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    return@addOnCompleteListener
+                }
+                mMap.isMyLocationEnabled = false
+                mFusedLocation.removeLocationUpdates(mLocationCallback)
+                mGeoFireProvider.removeQuery()
+                mMap.clear()
+                if (mAuthProvider.existSession())
+                    mGeoFireProvider.removeLocation(mAuthProvider.getId())
+            }
+            mDialog.dismiss()
+        }?.addOnFailureListener {
+            toastLong("${it.message}")
+            mDialog.dismiss()
         }
-        mMap.isMyLocationEnabled = false
-        mFusedLocation.removeLocationUpdates(mLocationCallback)
-        mGeoFireProvider.removeQuery()
-        mMap.clear()
-        if (mAuthProvider.existSession())
-            mGeoFireProvider.removeLocation(mAuthProvider.getId())
+
     }
 
     private fun startLocation(){
@@ -163,16 +175,22 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
                 if (gpsActive()){
-                    if (isConnect!="working"){
-                        savePreferenceString("CONNECT","CONNECT","free")
-                        isConnect = "free"
+                    mDialog.show()
+                    mDriverProvider.updateDriver(mapOf(
+                        "/${mAuthProvider.getId()}/online" to if (isConnect == "off") "free" else isConnect
+                    ))?.addOnCompleteListener {
+                        if (it.isSuccessful && it.isComplete){
+                            btmMapAction.text = "Desconectarse"
+                            mIsConnect = true
+                            mIsFirstTime = true
+                            mFusedLocation.requestLocationUpdates(mLocationRequest,mLocationCallback, Looper.myLooper())
+                            mMap.isMyLocationEnabled = true
+                            if (mDialog.isShowing) mDialog.dismiss()
+                        }
+                    }?.addOnFailureListener {
+                        toastLong("${it.message}")
                     }
-                    btmMapAction.text = "Desconectarse"
-                    mIsConnect = true
-                    mIsFirstTime = true
-                    mFusedLocation.requestLocationUpdates(mLocationRequest,mLocationCallback, Looper.myLooper())
-                    mMap.isMyLocationEnabled = true
-                    if (mDialog.isShowing) mDialog.dismiss()
+
                 }else
                     showGPS()
             }else{
@@ -259,11 +277,30 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             }
     }
 
+
     override fun onStart() {
         super.onStart()
+        if (!::listenerOnline.isInitialized){
+            listenerOnline = mDriverProvider.getChildOnline(mAuthProvider.getId())!!
+            val postListener = object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    isConnect = dataSnapshot.value as String
+                    if (isConnect == "acopiando"){
+                        desvincular()
+                    }
+                    if(mIsFirstTime) statusConnect()
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    toastLong(databaseError.message)
+                }
+            }
+            mListener = listenerOnline.addValueEventListener(postListener)
+        }
         val query = FirebaseDatabase.getInstance().reference.child("ClientBooking")
             .orderByChild(mAuthProvider.getId())
             .equalTo(true)
+
         val options = FirebaseRecyclerOptions.Builder<ClientBooking>()
             .setQuery(query,ClientBooking::class.java)
             .build()
@@ -288,14 +325,25 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(-12.049545,-77.027862)))
 
         mMap.setOnMarkerClickListener {marker ->
-            Intent(this@MainActivity, AcceptActivity::class.java).putExtra("DOC",marker.tag.toString()).also {
+            Intent(this@MainActivity, AcceptActivity::class.java).putExtra("CONNECT",isConnect).putExtra("DOC",marker.tag.toString()).also {
                 startActivity(it)
             }
             false
         }
-        statusConnect()
+
     }
 
+    private fun desvincular(){
+        if (::listenerOnline.isInitialized && ::mListener.isInitialized)
+            listenerOnline.removeEventListener(mListener)
+        finish()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (::listenerOnline.isInitialized && ::mListener.isInitialized)
+            listenerOnline.removeEventListener(mListener)
+    }
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -399,7 +447,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         disconnect()
         mAuthProvider.logOut()
         deletePreference(getString(R.string.preference_user))
-        deletePreference("CONNECT")
         startActivity(Intent(this, LoginActivity::class.java))
         finish()
     }

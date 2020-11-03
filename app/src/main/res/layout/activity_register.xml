@@ -10,157 +10,197 @@
         layout="@layout/action_bar_toolbar" />
 
     <LinearLayout
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <LinearLayout
+        <ScrollView
+            android:layout_weight="1"
+            android:fillViewport="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_user"
-                android:layout_gravity="center" />
-
-            <com.google.android.material.textfield.TextInputLayout
+            android:layout_height="wrap_content">
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/txtUserRegister"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="10dp"
-                    android:hint="Usuario"
-                    android:imeOptions="actionNext"
-                    android:inputType="textAutoCorrect|textAutoComplete|textCapWords" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_user"
+                        android:layout_gravity="center" />
 
-        </LinearLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_mail"
-                android:layout_gravity="center" />
+                        <EditText
+                            android:id="@+id/txtUserRegister"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="10dp"
+                            android:hint="Nombres y Apellidos"
+                            android:imeOptions="actionNext"
+                            android:inputType="textAutoCorrect|textAutoComplete|textCapWords" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/txtEmailRegister"
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="10dp"
-                    android:hint="Correo"
-                    android:imeOptions="actionNext"
-                    android:inputType="textEmailAddress" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_smartphone"
+                        android:layout_gravity="center" />
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_password"
-                android:layout_gravity="center" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_height="wrap_content">
+                        <EditText
+                            android:id="@+id/txtPhoneRegister"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="10dp"
+                            android:hint="N° Celular"
+                            android:imeOptions="actionNext"
+                            android:inputType="phone" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/txtPasswordRegister"
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="10dp"
-                    android:hint="Contraseña"
-                    android:imeOptions="actionNext"
-                    android:inputType="textPassword" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_mail"
+                        android:layout_gravity="center" />
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_place"
-                android:tint="@color/colorBlue"
-                android:layout_gravity="center" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_height="wrap_content">
+                        <EditText
+                            android:id="@+id/txtEmailRegister"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="10dp"
+                            android:hint="Correo"
+                            android:imeOptions="actionNext"
+                            android:inputType="textEmailAddress" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/txtVehicleRegister"
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="10dp"
-                    android:hint="Marca del vehiculo"
-                    android:imeOptions="actionNext"
-                    android:inputType="textAutoCorrect|none|textAutoComplete|textCapWords" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_password"
+                        android:layout_gravity="center" />
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_place"
-                android:tint="@color/colorBlue"
-                android:layout_gravity="center" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_height="wrap_content">
+                        <EditText
+                            android:id="@+id/txtPasswordRegister"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="10dp"
+                            android:hint="Contraseña"
+                            android:imeOptions="actionNext"
+                            android:inputType="textPassword" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/txtVehicleBrandRegister"
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="10dp"
-                    android:hint="Placa del Vehiculo"
-                    android:imeOptions="actionDone"
-                    android:inputType="textCapCharacters" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_place"
+                        android:layout_gravity="center"
+                        app:tint="@color/colorBlue" />
 
-        </LinearLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/txtVehicleRegister"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="10dp"
+                            android:hint="Marca del vehiculo"
+                            android:imeOptions="actionNext"
+                            android:inputType="textAutoCorrect|none|textAutoComplete|textCapWords" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/ic_place"
+                        android:layout_gravity="center"
+                        app:tint="@color/colorBlue" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/txtVehicleBrandRegister"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="10dp"
+                            android:hint="Placa del Vehiculo"
+                            android:imeOptions="actionDone"
+                            android:inputType="textCapCharacters" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
         <LinearLayout
+            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="bottom"
             android:orientation="vertical">
             <Button
@@ -171,9 +211,12 @@
                 android:backgroundTint="#241447"
                 android:textColor="#FFF"
                 android:text="Registrar"
-                android:onClick="register"
-                android:layout_margin="20dp"/>
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:onClick="register"/>
         </LinearLayout>
-
     </LinearLayout>
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

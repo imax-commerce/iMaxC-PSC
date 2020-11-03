@@ -12,6 +12,7 @@ import android.view.View
 import com.imaxcorp.imaxc.*
 import com.imaxcorp.imaxc.providers.AuthProvider
 import com.imaxcorp.imaxc.providers.ClientBookingProvider
+import com.imaxcorp.imaxc.providers.DriverProvider
 import com.imaxcorp.imaxc.providers.ImagesProvider
 import com.imaxcorp.imaxc.ui.start.LaunchActivity
 import kotlinx.android.synthetic.main.activity_finish_delivery.*
@@ -27,12 +28,13 @@ class FinishDeliveryActivity : AppCompatActivity() {
     private lateinit var mClientBookingProvider: ClientBookingProvider
     private lateinit var idDocument: String
     private lateinit var mAuthProvider: AuthProvider
+    private lateinit var mDriverProvider: DriverProvider
     private var isPayment = false
     private var mPrice = 0.0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_finish_delivery)
-
+        mDriverProvider = DriverProvider()
         idDocument = intent.getStringExtra("ID_DOC")!!
         isPayment = intent.getBooleanExtra("PAYMENT",false)
         mPrice = intent.getDoubleExtra("PRICE",0.0)
@@ -150,10 +152,10 @@ class FinishDeliveryActivity : AppCompatActivity() {
                                     "/${idDocument}/detail/urlFirm" to urlPhoto,
                                     "/${idDocument}/detail/finish" to Date(),
                                     "/${idDocument}/status" to "finish",
-                                    "/${idDocument}/${mAuthProvider.getId()}" to false,
                                     "/${idDocument}/indexType/Domicilio" to "finish",
                                     "/${idDocument}/indexType/${mAuthProvider.getId()}/Domicilio" to "finish",
-                                    "/${idDocument}/indexType/${mAuthProvider.getId()}/status" to false
+                                    "/${idDocument}/indexType/${mAuthProvider.getId()}/status" to false,
+                                    "/$idDocument/${mAuthProvider.getId()}" to null
                                 )
 
                             mClientBookingProvider.updateRoot(map).addOnFailureListener {error->
@@ -161,13 +163,18 @@ class FinishDeliveryActivity : AppCompatActivity() {
                             }.addOnCompleteListener {it2->
                                 if (it2.isComplete && it2.isSuccessful){
                                     toastLong("Termino su atención. :) ")
-                                    savePreferenceString("CONNECT","CONNECT","free")
-                                    Intent(this,
-                                        LaunchActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                                        .setAction(Intent.ACTION_RUN).also { act->
-                                            startActivity(act)
-                                        }
-                                    dialog.dismiss()
+                                    mDriverProvider.updateDriver(mapOf(
+                                        "/${mAuthProvider.getId()}/online" to "free"
+                                    ))?.addOnCompleteListener {
+                                        Intent(this,
+                                            LaunchActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                            .setAction(Intent.ACTION_RUN).also { act->
+                                                startActivity(act)
+                                            }
+                                        dialog.dismiss()
+                                    }
+
+
                                 }else{
                                     dialog.dismiss()
                                 }

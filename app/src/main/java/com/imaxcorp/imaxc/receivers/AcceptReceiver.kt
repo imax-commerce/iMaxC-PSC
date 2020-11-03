@@ -8,6 +8,7 @@ import com.google.firebase.database.*
 import com.imaxcorp.imaxc.data.HomeQuery
 import com.imaxcorp.imaxc.providers.AuthProvider
 import com.imaxcorp.imaxc.providers.ClientBookingProvider
+import com.imaxcorp.imaxc.providers.DriverProvider
 import com.imaxcorp.imaxc.providers.GeoFireProvider
 import com.imaxcorp.imaxc.savePreferenceString
 import com.imaxcorp.imaxc.toastLong
@@ -20,8 +21,10 @@ class AcceptReceiver : BroadcastReceiver() {
     private lateinit var mClientBookingProvider: ClientBookingProvider
     private lateinit var mGeoFireProvider: GeoFireProvider
     private lateinit var mAuthProvider: AuthProvider
+    private lateinit var mDriverProvider: DriverProvider
     override fun onReceive(context: Context?, intent: Intent?) {
 
+        mDriverProvider = DriverProvider()
         mAuthProvider = AuthProvider()
         val idClient = intent?.getStringExtra("idClient")
 
@@ -52,11 +55,14 @@ class AcceptReceiver : BroadcastReceiver() {
                             "/$document/indexType/${mAuthProvider.getId()}/Domicilio" to "accept",
                             "/$document/indexType/${mAuthProvider.getId()}/status" to true
                         ))
-                        context.savePreferenceString("CONNECT","CONNECT","working")
-                        Intent(context, MapDriverBookingActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                            .setAction(Intent.ACTION_RUN).putExtra("ID_DOC",document).also {
-                                context.startActivity(it)
-                            }
+                        mDriverProvider.updateDriver(mapOf(
+                            "/${mAuthProvider.getId()}/online" to "working"
+                        ))?.addOnCompleteListener {
+                            Intent(context, MapDriverBookingActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                .setAction(Intent.ACTION_RUN).putExtra("ID_DOC",document).also {
+                                    context.startActivity(it)
+                                }
+                        }
                     }
                 }
 

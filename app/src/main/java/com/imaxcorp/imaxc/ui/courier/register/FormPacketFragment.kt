@@ -1,13 +1,18 @@
 package com.imaxcorp.imaxc.ui.courier.register
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.ArrayAdapter
 import com.imaxcorp.imaxc.R
 import com.imaxcorp.imaxc.data.PackBooking
+import com.imaxcorp.imaxc.toastShort
+import kotlinx.android.synthetic.main.fragment_form_packet.*
 import kotlinx.android.synthetic.main.fragment_form_packet.view.*
 
 class FormPacketFragment : Fragment() {
@@ -28,6 +33,38 @@ class FormPacketFragment : Fragment() {
         view.btnAddPacket.setOnClickListener {
             savePack(view)
         }
+
+        val mDestines = (context as RegisterOrderActivity).mMapDestine["mList"]
+        val mAdapterDate = mDestines?.let { ArrayAdapter(context as RegisterOrderActivity,R.layout.item_frase, it) }
+        view.et_destine_name.setAdapter(mAdapterDate)
+        initListener()
+    }
+
+    private fun initListener() {
+        et_destine_name.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                initPredictive(p0.toString())
+            }
+
+        })
+    }
+
+    private fun initPredictive(dat: String) {
+        if ((context as RegisterOrderActivity).mMapDestine.containsKey(dat)){
+            val mAgencies = (context as RegisterOrderActivity).mMapDestine[dat]
+            val mAdapterDate = mAgencies?.let { ArrayAdapter(context as RegisterOrderActivity,R.layout.item_frase, it) }
+            et_agency_name.setAdapter(mAdapterDate)
+            initListener()
+        }
+
     }
 
     private fun savePack(view: View) {

@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import com.imaxcorp.imaxc.*
 import com.imaxcorp.imaxc.data.Driver
 import com.imaxcorp.imaxc.include.MyToolBar
@@ -22,7 +23,9 @@ class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-
+        window.setSoftInputMode(
+            WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
+        )
         MyToolBar().show(this,"Registro de Conductor", true)
         mAuthProvider = AuthProvider()
         mDriverProvider = DriverProvider()
@@ -34,10 +37,17 @@ class RegisterActivity : AppCompatActivity() {
         val password = txtPasswordRegister.text.toString().trim()
         val vehicle: String = txtVehicleRegister.text.toString().trim()
         val plate: String = txtVehicleBrandRegister.text.toString().trim()
+        val phone: String = txtPhoneRegister.text.toString().trim()
 
         if (name.isEmpty()){
             txtUserRegister.error = "Ingrese su nombre y apellido"
             txtUserRegister.requestFocus()
+            return
+        }
+
+        if (phone.isEmpty()) {
+            txtPhoneRegister.error = "Ingrese su Numero de telefono"
+            txtPhoneRegister.requestFocus()
             return
         }
 
@@ -89,6 +99,7 @@ class RegisterActivity : AppCompatActivity() {
                         drive.id = it1
                         drive.vehicleBrand = vehicle
                         drive.vehiclePlate = plate
+                        drive.phone = phone
                         saveData(drive,loadProgress) }
                 }else{
                     loadProgress.dismiss()

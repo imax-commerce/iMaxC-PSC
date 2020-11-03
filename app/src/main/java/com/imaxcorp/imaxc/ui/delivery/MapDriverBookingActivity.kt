@@ -15,7 +15,10 @@ import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -35,8 +38,10 @@ import com.imaxcorp.imaxc.R
 import com.imaxcorp.imaxc.data.ClientBooking
 import com.imaxcorp.imaxc.providers.*
 import com.imaxcorp.imaxc.services.DecodePoints
+import com.imaxcorp.imaxc.ui.start.LaunchActivity
 import kotlinx.android.synthetic.main.activity_map_driver_booking.*
 import kotlinx.android.synthetic.main.item_payment.*
+import kotlinx.android.synthetic.main.toast_custom.view.*
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -55,7 +60,7 @@ class MapDriverBookingActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mTokenProvider: TokenProvider
     private lateinit var mNotificationProvider: NotificationProvider
     private lateinit var mClientProvider: ClientProvider
-
+    private lateinit var mDriverProvider: DriverProvider
 
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var mFusedLocation: FusedLocationProviderClient
@@ -74,6 +79,7 @@ class MapDriverBookingActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mOrderClient: ClientBooking
     private lateinit var mDialogLoad: Dialog
     private var isPayment = false
+    private lateinit var message: String
 
     private var mLocationCallback: LocationCallback? = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult?) {
@@ -109,6 +115,7 @@ class MapDriverBookingActivity : AppCompatActivity(), OnMapReadyCallback {
         mDialogLoad = loading("loading...")
         mDialogLoad.show()
         idDocument = intent.getStringExtra("ID_DOC")!!
+        mDriverProvider = DriverProvider()
         mAuthProvider = AuthProvider()
         mGeoFireProvider = GeoFireProvider("drivers_working")
         mTokenProvider = TokenProvider()
@@ -130,6 +137,17 @@ class MapDriverBookingActivity : AppCompatActivity(), OnMapReadyCallback {
                     finishBooking()
                 }
             }
+        }
+
+        textViewClientBooking.setOnClickListener {
+            val inflater = LayoutInflater.from(this)
+            val layout = inflater.inflate(R.layout.toast_custom, findViewById(R.id.layout_toast) ,false)
+            layout.toastText.text = message
+            val mToast = Toast(this)
+            mToast.setGravity(Gravity.START,0,200)
+            mToast.duration = Toast.LENGTH_LONG
+            mToast.view = layout
+            mToast.show()
         }
     }
 
@@ -227,11 +245,13 @@ class MapDriverBookingActivity : AppCompatActivity(), OnMapReadyCallback {
                     mMarker = mMap.addMarker(MarkerOptions().position(destine).title("Entregar Aqui").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_destiny)))
                     drawRoute(destine)
                     btnPayment.visibility = View.GONE
+                    btnCancelBooking.visibility = View.GONE
                     textViewClientBooking.text =
-                        "Dir: ${mOrderClient.destination!!.address}"
+                        "Dir: ${mOrderClient.destination!!.street} ${mOrderClient.destination!!.feature} - ${mOrderClient.destination!!.locality}"
                     textViewOriginClientBooking.text =
                         "Contacto: ${mOrderClient.destination!!.phone}"
                     textViewOriginClientBooking.setOnClickListener { openCall(mOrderClient.destination?.phone!!) }
+                    message = mOrderClient.destination!!.reference!!
                     mDialogLoad.dismiss()
                 }else{
                     mDialogLoad.dismiss()
@@ -262,11 +282,15 @@ class MapDriverBookingActivity : AppCompatActivity(), OnMapReadyCallback {
                         isPayment = it
                     }
                     if (mOrderClient.status == "accept") {
+
                         mMarker = mMap.addMarker(MarkerOptions().position(origin).title("Recoger Aqui").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_origin)))
-                        textViewClientBooking.text = "Dir: ${mOrderClient.origin!!.address}"
+                        textViewClientBooking.text = "Dir: ${mOrderClient.origin!!.street} ${mOrderClient.origin!!.feature} - ${mOrderClient.origin!!.locality}"
                         textViewOriginClientBooking.text = "Contacto: ${mOrderClient.origin!!.phone}"
+                        message = mOrderClient.origin!!.reference!!
                         drawRoute(origin)
                         textViewOriginClientBooking.setOnClickListener { openCall(mOrderClient.origin?.phone!!) }
+                        btnCancelBooking.visibility = View.VISIBLE
+                        btnCancelBooking.setOnClickListener { cancelBooking() }
                         btnPayment.visibility = View.VISIBLE
                         btnPayment.setOnClickListener {
                             payment()
@@ -276,10 +300,13 @@ class MapDriverBookingActivity : AppCompatActivity(), OnMapReadyCallback {
                             mMarker = mMap.addMarker(MarkerOptions().position(destine).title("Entregar Aqui").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_destiny)))
                             btnStartBooking.text = "Finalizar envio"
                             textViewClientBooking.text =
-                                "Dir: ${mOrderClient.destination!!.address}"
+                                "Dir: ${mOrderClient.destination!!.street} ${mOrderClient.destination!!.feature} - ${mOrderClient.destination!!.locality}"
                             textViewOriginClientBooking.text =
                                 "Contacto: ${mOrderClient.destination!!.phone}"
+                            message = mOrderClient.destination!!.reference!!
                             drawRoute(destine)
+                            btnCancelBooking.visibility = View.GONE
+                            btnPayment.visibility = View.GONE
                             textViewOriginClientBooking.setOnClickListener { openCall(mOrderClient.destination?.phone!!) }
                         }
                     }
@@ -407,6 +434,54 @@ class MapDriverBookingActivity : AppCompatActivity(), OnMapReadyCallback {
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_REQUEST_CODE);
             }
         }
+    }
+
+    private fun cancelBooking() {
+        val mAlertDialog = AlertDialog.Builder(this)
+        mAlertDialog.setMessage("Esta Seguro que desea Cancelar el servicio?")
+        mAlertDialog.setPositiveButton("SI",DialogInterface.OnClickListener { _, _ ->
+            mDialogLoad.show()
+            val map = mapOf(
+                "/$idDocument/status" to "cancel",
+                "/$idDocument/indexType/Domicilio" to "cancel",
+                "/$idDocument/indexType/${mAuthProvider.getId()}/Domicilio" to "cancel",
+                "/$idDocument/indexType/${mAuthProvider.getId()}/status" to false,
+                "/$idDocument/detail/cancel" to Date(),
+                "/$idDocument/${mAuthProvider.getId()}" to null,
+                "/$idDocument/detail/obs" to "Cancelado por | ${mAuthProvider.getId()}"
+            )
+
+            mClientBookingProvider.updateRoot(map)
+                .addOnFailureListener {
+                    toastLong("Error. ${it.message}")
+                }
+                .addOnCompleteListener {
+                    if (it.isComplete && it.isSuccessful){
+                        mDriverProvider.updateDriver(mapOf(
+                            "/${mAuthProvider.getId()}/online" to "free"
+                        ))?.addOnCompleteListener {task->
+                            if (task.isSuccessful && task.isComplete){
+                                Intent(this,
+                                    LaunchActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                    .setAction(Intent.ACTION_RUN).also { act->
+                                        startActivity(act)
+                                    }
+                            }else{
+                                mDialogLoad.dismiss()
+                            }
+                        }?.addOnFailureListener {exp->
+                            toastLong("Error. ${exp.message}")
+                        }
+                    } else {
+                        mDialogLoad.dismiss()
+                    }
+                }
+
+        })
+        mAlertDialog.setNegativeButton("NO",DialogInterface.OnClickListener { dialogInterface, _ ->
+            dialogInterface.dismiss()
+        })
+        mAlertDialog.show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

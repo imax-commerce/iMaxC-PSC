@@ -2,16 +2,19 @@
 <resources>
     <string-array name="commerces">
         <item>Bellota</item>
-        <item>Bellota 2</item>
+        <item>Bellota II</item>
         <item>Centro Ferretero</item>
         <item>Malvinas Plaza</item>
         <item>Malvitec</item>
         <item>Mesa Redonda</item>
         <item>Nicolini</item>
         <item>Nuevo Centro Paruro</item>
+        <item>Pacasmayo</item>
         <item>Progreso</item>
-        <item>Progreso 2</item>
+        <item>Progreso II</item>
+        <item>Polvos Azules</item>
         <item>Udampe</item>
+        <item>Unicentro</item>
         <item>Unión</item>
         <item>Via Mix</item>
     </string-array>

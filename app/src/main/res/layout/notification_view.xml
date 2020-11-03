@@ -162,7 +162,7 @@
                 android:id="@+id/textViewCounter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="45"
+                android:text=""
                 android:textAlignment="center"
                 android:textSize="40sp"
                 android:layout_marginTop="@dimen/_8sdp"/>

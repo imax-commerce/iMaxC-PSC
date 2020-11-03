@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,10 +32,11 @@ class OrderPendingAdapter (private val options: FirebaseRecyclerOptions<ClientBo
         }
     }
 
+
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int, model: ClientBooking) {
         val idDoc = getRef(position).key
-        val hash =  model.status!!.hashCode()
+        val hash = model.status!!.hashCode()
         val time = model.detail?.create
         time?.let {
             holder.itemView.txt_ccomer.text = SimpleDateFormat("dd-MM-yy", Locale.US).format(time)

@@ -1,5 +1,7 @@
 package com.imaxcorp.imaxc.ui.delivery
 
+import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,6 +13,7 @@ import com.imaxcorp.imaxc.data.ClientBooking
 import com.imaxcorp.imaxc.data.HomeQuery
 import com.imaxcorp.imaxc.providers.AuthProvider
 import com.imaxcorp.imaxc.providers.ClientBookingProvider
+import com.imaxcorp.imaxc.providers.DriverProvider
 import com.imaxcorp.imaxc.providers.GeoFireProvider
 import kotlinx.android.synthetic.main.notification_view.*
 import java.text.DecimalFormat
@@ -23,23 +26,27 @@ class AcceptActivity : AppCompatActivity() {
     private lateinit var mClientOrder: ClientBookingProvider
     private lateinit var mAuthProvider: AuthProvider
     private lateinit var mGeoFireProvider: GeoFireProvider
+    private lateinit var mDriverProvider: DriverProvider
+    private lateinit var mDialog: Dialog
+    private lateinit var connect: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.notification_view)
 
+        connect = intent.getStringExtra("CONNECT")
         idDocument = intent.getStringExtra("DOC")
+        mDriverProvider = DriverProvider()
         mClientOrder = ClientBookingProvider()
         mGeoFireProvider = GeoFireProvider("active_drivers")
+        mDialog = loading("loading")
         btnCancelBooking.text = "Cerrar"
         getOrder()
         btnAcceptBooking.setOnClickListener {
-            getPreference("CONNECT","CONNECT")?.let {
-                if (it=="free"){
-                    acceptBooking(mClientOrder.getClientBooking(idDocument))
-                }else{
-                    toastLong("aun tienes atenciones sin concluir. Finalizelos para continuar")
-                }
+            if (connect == "free"){
+                acceptBooking(mClientOrder.getClientBooking(idDocument))
+            } else {
+                toastLong("aun tienes atenciones sin concluir. Finalizelos para continuar")
             }
 
         }
@@ -47,6 +54,7 @@ class AcceptActivity : AppCompatActivity() {
     }
 
     private fun acceptBooking(postRef: DatabaseReference) {
+        mDialog.show()
         mAuthProvider = AuthProvider()
 
         postRef.runTransaction(object: Transaction.Handler {
@@ -66,12 +74,17 @@ class AcceptActivity : AppCompatActivity() {
                         "/$idDocument/indexType/${mAuthProvider.getId()}/Domicilio" to "accept",
                         "/$idDocument/indexType/${mAuthProvider.getId()}/status" to true
                     ))
-                    savePreferenceString("CONNECT","CONNECT","working")
-                    Intent(this@AcceptActivity,
-                        MapDriverBookingActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        .setAction(Intent.ACTION_RUN).putExtra("ID_DOC",idDocument).also { act->
-                            startActivity(act)
-                        }
+                    mDriverProvider.updateDriver(mapOf(
+                        "/${mAuthProvider.getId()}/online" to "working"
+                    ))?.addOnCompleteListener {
+                        mDialog.dismiss()
+                        Intent(this@AcceptActivity,
+                            MapDriverBookingActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            .setAction(Intent.ACTION_RUN).putExtra("ID_DOC",idDocument).also { act->
+                                startActivity(act)
+                            }
+
+                    }
                 }
             }
 
@@ -119,7 +132,7 @@ class AcceptActivity : AppCompatActivity() {
                     textViewDistance.text = mOrder.detail?.km
                     textViewCounter.visibility = View.GONE
                     et_driver_game.visibility = View.VISIBLE
-                    et_driver_game.text = getString(R.string.ganancia_driver,DecimalFormat("0.0").format(mOrder.detail?.price!!*0.75)+"0")
+                    et_driver_game.text = getString(R.string.ganancia_driver,DecimalFormat("0.0").format(mOrder.detail?.price!!*0.7)+"0")
                 }
             }
 

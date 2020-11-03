@@ -16,6 +16,7 @@ import com.imaxcorp.imaxc.R
 import com.imaxcorp.imaxc.data.HomeQuery
 import com.imaxcorp.imaxc.providers.AuthProvider
 import com.imaxcorp.imaxc.providers.ClientBookingProvider
+import com.imaxcorp.imaxc.providers.DriverProvider
 import com.imaxcorp.imaxc.providers.GeoFireProvider
 import com.imaxcorp.imaxc.savePreferenceString
 import com.imaxcorp.imaxc.toastLong
@@ -30,7 +31,8 @@ class NotificationViewActivity : AppCompatActivity() {
     private lateinit var mAuthProvider: AuthProvider
     private var mMediaPlayer: MediaPlayer? = null
     private lateinit var mClientBookingProvider: ClientBookingProvider
-    private var mCounter = 45
+    private lateinit var mDriverProvider: DriverProvider
+    private var mCounter = 10
     private lateinit var mTextViewCounter: TextView
     private var mHandler: Handler? = null
     private var mListener: ValueEventListener? = null
@@ -57,6 +59,7 @@ class NotificationViewActivity : AppCompatActivity() {
         setContentView(R.layout.notification_view)
 
         mClientBookingProvider = ClientBookingProvider()
+        mDriverProvider = DriverProvider()
         mTextViewCounter = findViewById(R.id.textViewCounter)
         mMediaPlayer = MediaPlayer.create(this,R.raw.ringtone)
         mMediaPlayer?.isLooping = true
@@ -77,9 +80,9 @@ class NotificationViewActivity : AppCompatActivity() {
                 if (snapshot.exists()){
                     val price = snapshot.value.toString().toDouble()
                     et_driver_game.visibility = View.VISIBLE
-                    et_driver_game.text = getString(R.string.ganancia_driver,DecimalFormat("0.0").format(price*0.75)+"0")
+                    et_driver_game.text = getString(R.string.ganancia_driver,DecimalFormat("0.0").format(price*0.70)+"0")
                 }else{
-                    toastLong("Tu ganacia sera el 75% del costo del servico")
+                    toastLong("Tu ganacia sera el 70% del costo del servico")
                 }
             }
         } )
@@ -107,14 +110,14 @@ class NotificationViewActivity : AppCompatActivity() {
             }
 
             override fun onDataChange(snapshot: DataSnapshot) {
-                if (!snapshot.exists()){
-                    toastLong("El cliente cancelo la Solicitud")
-                    if (mHandler!=null) mHandler?.removeCallbacks(runnable)
-
-                    Intent(this@NotificationViewActivity, MainActivity::class.java).also{
-                        startActivity(it)
+                if (snapshot.exists()){
+                    val status = snapshot.child("status").value as String
+                    if ( status == "cancel") {
+                        toastLong("El cliente cancelo la Solicitud.")
+                        if (mHandler!=null) mHandler?.removeCallbacks(runnable)
                         finish()
                     }
+
                 }
             }
 
@@ -124,7 +127,7 @@ class NotificationViewActivity : AppCompatActivity() {
     private fun cancelBooking(){
         if (mHandler != null) mHandler?.removeCallbacks(runnable)
         mClientBookingProvider = ClientBookingProvider()
-        mClientBookingProvider.updateStatus(idDocument, mapOf("status" to "cancel"))
+        mClientBookingProvider.updateStatus(idDocument, mapOf("status" to "refuse"))
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.cancel(2)
         finish()
@@ -155,11 +158,14 @@ class NotificationViewActivity : AppCompatActivity() {
                         "/$idDocument/indexType/${mAuthProvider.getId()}/Domicilio" to "accept",
                         "/$idDocument/indexType/${mAuthProvider.getId()}/status" to true
                     ))
-                    savePreferenceString("CONNECT","CONNECT","working")
-                    Intent(this@NotificationViewActivity, MapDriverBookingActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        .setAction(Intent.ACTION_RUN).putExtra("ID_DOC",idDocument).also{
-                            startActivity(it)
-                        }
+                    mDriverProvider.updateDriver(mapOf(
+                        "/${mAuthProvider.getId()}/online" to "working"
+                    ))?.addOnCompleteListener {
+                        Intent(this@NotificationViewActivity, MapDriverBookingActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            .setAction(Intent.ACTION_RUN).putExtra("ID_DOC",idDocument).also{
+                                startActivity(it)
+                            }
+                    }
                 }
             }
 

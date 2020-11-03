@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_person"
-            android:enabled="false"
+            android:editable="false"
             android:textColor="@color/colorTextPrimary"
             android:drawablePadding="@dimen/_4sdp"
             tools:ignore="RtlSymmetry"

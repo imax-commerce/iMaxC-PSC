@@ -6,7 +6,6 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +26,7 @@ import com.imaxcorp.imaxc.data.MyPackList
 import com.imaxcorp.imaxc.data.PackBooking
 import com.imaxcorp.imaxc.providers.ClientBookingProvider
 import com.imaxcorp.imaxc.providers.ClientProvider
+import com.imaxcorp.imaxc.ui.courier.register.adapter.OrderAdapter
 import kotlinx.android.synthetic.main.fragment_form_order.*
 import kotlinx.android.synthetic.main.fragment_form_order.view.*
 import kotlinx.android.synthetic.main.input_text.*
@@ -66,7 +66,6 @@ class FormOrderFragment : Fragment() {
         mClientProvider = ClientProvider()
         val stringData = context!!.getPreference(Constant.DATA_LOGIN,"USER")
         userData = Gson().fromJson(stringData, Driver::class.java)
-        view.et_col_name.setText(userData.name)
 
         dataExists = (context as RegisterOrderActivity).dataExists
         if (dataExists) {
@@ -85,11 +84,13 @@ class FormOrderFragment : Fragment() {
                 })
             //si no sirve arreglar aqui.
             view.et_col_name.setOnClickListener {
+                (context as RegisterOrderActivity).toastShort("Aqui")
                 (context as RegisterOrderActivity).openCall((context as RegisterOrderActivity).phoneAttention)
             }
             initView(view)
         }
         else {
+            view.et_col_name.setText(userData.name)
             mClientBooking = ClientBooking()
             val comers = resources.getStringArray(R.array.commerces)
             val adapter = ArrayAdapter(context!!,R.layout.item_frase,comers)
@@ -103,6 +104,7 @@ class FormOrderFragment : Fragment() {
                 view.et_comers_name.requestFocus()
                 return@setOnClickListener
             }
+
             if (view.et_stand_name.text.isEmpty()){
                 view.et_stand_name.error = "Complete el campo"
                 view.et_stand_name.requestFocus()
@@ -171,7 +173,7 @@ class FormOrderFragment : Fragment() {
             val updates = mapOf(
                 "/$idDoc/status" to "start-init",
                 "/$idDoc/detail/price" to et_price_name.text.toString().toDouble(),
-                "/$idDoc/detail/start-init" to Date(),
+                "/$idDoc/detail/start_init" to Date(), 
                 "/$idDoc/detail/numberShipping" to mPackBookingList.size,
                 "/$idDoc/detail/numberPacket" to numberPacket,
                 "/$idDoc/detail/montCargo" to  mount,
@@ -181,8 +183,8 @@ class FormOrderFragment : Fragment() {
                 "/$idDoc/indexType/${userData.id}/Agencia" to "start-init",
                 "/$idDoc/indexType/Agencia" to "start-init",
                 "/$idDoc/indexType/${userData.id}/debtService" to cb_debt_status.isChecked,
-                "/$idDoc/indexType/shipping-list" to true,
-                "/$idDoc/shipping-list/list" to mPackBookingList
+                "/$idDoc/indexType/shipping" to true,
+                "/$idDoc/shipping/list" to mPackBookingList
             )
             mClientBookingProvider.updateRoot(updates)
                 .addOnCompleteListener {
@@ -215,7 +217,7 @@ class FormOrderFragment : Fragment() {
                     "numberPacket" to numberPacket,
                     "numberShipping" to mPackBookingList.size,
                     "price" to et_price_name.text.toString().toDouble(),
-                    "start-init" to Date()
+                    "start_init" to Date()
                 ),
                 "origin" to mapOf(
                     "address" to et_comers_name.text.toString().trim()+" "+et_stand_name.text.toString().trim(),
@@ -229,14 +231,14 @@ class FormOrderFragment : Fragment() {
                 ),
                 "indexType" to mapOf(
                     "Agencia" to "start-init",
-                    "shipping-list" to true,
+                    "shipping" to true,
                     userData.id to mapOf(
                         "Agencia" to "start-init",
                         "debtService" to cb_debt_status.isChecked,
                         "status" to true
                     )
                 ),
-                "shipping-list" to mapOf("list" to mPackBookingList),
+                "shipping" to mapOf("list" to mPackBookingList),
                 "typeService" to "Agencia"
             )
 
@@ -308,7 +310,7 @@ class FormOrderFragment : Fragment() {
                 if (snapshot.exists()){
                     val mList = snapshot.getValue(MyPackList::class.java)
                     if (mList != null) {
-                        var mess = SimpleDateFormat("HH:mm dd-MM", Locale.US).format(mList.list?.get(0)?.create)
+                        var mess = SimpleDateFormat("HH:mm dd-MM", Locale.US).format(mList.list?.get(0)?.create!!)
                         if ((context as RegisterOrderActivity).paymentCargo) {
                             mess += " (S/ ${(context as RegisterOrderActivity).cargoMount}0 flete)"
                             tv_detail.textSize = 14F

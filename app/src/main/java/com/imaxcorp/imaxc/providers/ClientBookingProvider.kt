@@ -26,7 +26,7 @@ class ClientBookingProvider {
         return mDatabase.child(idOrderClient).updateChildren(map)
     }
 
-    fun updateRoot(map: Map<String,Any>): Task<Void> {
+    fun updateRoot(map: Map<String,Any?>): Task<Void> {
         return mDatabase.updateChildren(map)
     }
     fun updateDetail(idClientOrder: String, map: Map<String,Any>): Task<Void> {
@@ -63,7 +63,11 @@ class ClientBookingProvider {
     }
 
     fun getPacketBooking(idOrder: String) : DatabaseReference {
-        return mDatabase.child(idOrder).child("shipping-list")
+        return mDatabase.child(idOrder).child("shipping")
+    }
+
+    fun getReferenceOrders() : DatabaseReference{
+        return mDatabase
     }
 
 }

@@ -12,10 +12,11 @@ class Driver: Serializable {
     var typeUser: String? = null
     var vehicleBrand: String? = null
     var vehiclePlate: String? = null
-    var subsidiary: String? = null
+    var subsidiary: String = "Sin Asignar"
     var available: Boolean = false
     var employee: Boolean = false
     var phone: String = ""
+    var online: String = "off"
 
     constructor()
 }

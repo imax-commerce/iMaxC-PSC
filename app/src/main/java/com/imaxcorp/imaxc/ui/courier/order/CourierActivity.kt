@@ -3,15 +3,20 @@ package com.imaxcorp.imaxc.ui.courier.order
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.content.ContextCompat
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.imaxcorp.imaxc.R
 import com.imaxcorp.imaxc.data.ClientBooking
 import com.imaxcorp.imaxc.include.MyToolBar
+import com.imaxcorp.imaxc.notificacion
 import com.imaxcorp.imaxc.providers.AuthProvider
 import com.imaxcorp.imaxc.providers.ClientBookingProvider
 import com.imaxcorp.imaxc.ui.courier.register.RegisterOrderActivity
@@ -28,6 +33,8 @@ class CourierActivity : AppCompatActivity() {
     private lateinit var mAuthProvider: AuthProvider
     private lateinit var badgeFree: BadgeDrawable
     private lateinit var badgePending: BadgeDrawable
+    private lateinit var postListener: ChildEventListener
+    var isNotification = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +43,7 @@ class CourierActivity : AppCompatActivity() {
 
         mClientBookingProvider = ClientBookingProvider()
         mAuthProvider = AuthProvider()
-
+        isNotification = false
         pager.adapter = adapter
         val tabLayoutMediator = TabLayoutMediator(tab_layout,pager,
             TabLayoutMediator.TabConfigurationStrategy { tab, position ->
@@ -80,6 +87,38 @@ class CourierActivity : AppCompatActivity() {
             .setQuery(q,ClientBooking::class.java)
             .build()
 
+        if (!::postListener.isInitialized) {
+            postListener = object : ChildEventListener {
+                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                    if (isNotification){
+                        notificacion()
+                    }
+                }
+
+                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+
+                }
+
+                override fun onChildRemoved(snapshot: DataSnapshot) {
+
+                }
+
+                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+
+
+            }
+
+            mClientBookingProvider.getReferenceOrders().addChildEventListener(postListener)
+        }
+
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -116,6 +155,11 @@ class CourierActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        isNotification = true
     }
 
 }

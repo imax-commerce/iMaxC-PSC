@@ -22,6 +22,14 @@ class DriverProvider {
         return db?.child(id)
     }
 
+    fun updateDriver(map: Map<String,Any>): Task<Void>? {
+        return db?.updateChildren(map)
+    }
+
+    fun getChildOnline(id: String) : DatabaseReference? {
+        return db?.child(id)?.child("online")
+    }
+
     fun updateClient(data: Map<String,Any>, id: String): Task<Void>? {
         return db?.child(id)?.updateChildren(data)
     }
