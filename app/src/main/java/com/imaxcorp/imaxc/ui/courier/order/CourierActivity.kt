@@ -20,6 +20,7 @@ import com.imaxcorp.imaxc.notificacion
 import com.imaxcorp.imaxc.providers.AuthProvider
 import com.imaxcorp.imaxc.providers.ClientBookingProvider
 import com.imaxcorp.imaxc.ui.courier.register.RegisterOrderActivity
+import com.imaxcorp.imaxc.ui.setting.MainSettingsActivity
 import kotlinx.android.synthetic.main.activity_courier.*
 
 class CourierActivity : AppCompatActivity() {
@@ -131,6 +132,9 @@ class CourierActivity : AppCompatActivity() {
             R.id.menuProfile -> {
             }
             R.id.menuConfig -> {
+                Intent(applicationContext, MainSettingsActivity::class.java).also {
+                    startActivity(it)
+                }
             }
         }
         return super.onOptionsItemSelected(item)

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/itemAttend"
+    android:background="@drawable/cardview_background"
+    android:layout_margin="@dimen/_1sdp"
+    android:elevation="@dimen/_2sdp"
+    app:cardBackgroundColor="#FFF">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="12dp">
+        <TextView
+            android:id="@+id/textCC"
+            android:layout_width="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:layout_toStartOf="@+id/textCS"
+            android:text="Mesa redonda B45"/>
+        <TextView
+            android:textSize="@dimen/_12sdp"
+            android:gravity="center"
+            android:id="@+id/textCS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/textGS"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:text="C.S.: S/ 10" />
+
+        <TextView
+            android:textSize="@dimen/_12sdp"
+            android:gravity="center"
+            android:id="@+id/textGS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:text="G.S.: S/ 10" />
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

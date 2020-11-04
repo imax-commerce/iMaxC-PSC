@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.setting.AttentionsHistoryActivity">
+
+    <include layout="@layout/action_bar_toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:orientation="horizontal">
+            <CheckBox
+                android:textSize="@dimen/_11sdp"
+                android:id="@+id/checkDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:button="@drawable/circle_checkbox"
+                android:fontFamily="@font/googlesans_medium"
+                android:text="Por Fecha" />
+
+            <CheckBox
+                android:textSize="@dimen/_11sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:id="@+id/checkPeriod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/googlesans_medium"
+                android:button="@drawable/circle_checkbox"
+                android:text="Por Periodo" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <EditText
+                android:layout_weight="1"
+                android:id="@+id/dateStart"
+                android:layout_width="0dp"
+                android:textSize="@dimen/_10sdp"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:hint="Fecha"
+                android:gravity="center"
+                android:focusable="false"
+                android:background="@drawable/background_border"
+                android:clickable="true"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:maxLines="1" />
+
+            <EditText
+                android:textSize="@dimen/_10sdp"
+                android:layout_weight="1"
+                android:id="@+id/dateEnd"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:background="@drawable/background_border"
+                android:layout_height="wrap_content"
+                android:inputType="date"
+                android:hint="Fecha Fin"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:focusable="false"
+                android:visibility="invisible"
+                android:clickable="false"
+                android:maxLines="1" />
+            <Button
+                android:id="@+id/btnShear"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_26sdp"
+                android:textSize="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:background="@drawable/background_border"
+                android:backgroundTint="@color/colorFacebook"
+                android:textColor="@android:color/white"
+                android:text="buscar" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/_5sdp"
+            tools:listitem="@layout/item_attend"
+            tools:itemCount="10" />
+
+        <LinearLayout
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textTotalS"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:text="S.T.: S/ 120.00"
+                android:gravity="end"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/textTotalG"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_width="wrap_content"
+                android:text="G.T.: S/ 120.00"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
