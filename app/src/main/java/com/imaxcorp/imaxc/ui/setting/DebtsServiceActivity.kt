@@ -9,7 +9,7 @@ class DebtsServiceActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_debts_service)
-        MyToolBar().show(this,"Deudas",true)
+        MyToolBar().show(this,"Cobranza de Deuda",true)
 
     }
 

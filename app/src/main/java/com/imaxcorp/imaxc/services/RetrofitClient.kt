@@ -37,4 +37,11 @@ class RetrofitClient {
         }
         return retrofit
     }
+
+    fun getClientOrder(url: String) : Retrofit? {
+        return Retrofit.Builder()
+            .baseUrl(url)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
 }

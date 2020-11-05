@@ -12,42 +12,48 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="12dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="12/12/2020"
+            android:textSize="@dimen/_8sdp"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:fontFamily="@font/googlesans_italic"
+            android:layout_alignParentTop="true"
+            android:id="@+id/debtDate" />
+
         <LinearLayout
+            android:layout_below="@+id/debtDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:orientation="horizontal">
             <TextView
-                android:layout_weight="6"
-                android:id="@+id/textCC"
+                android:layout_weight="3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:layout_toStartOf="@+id/textCS"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:text="Mesa redonda B45"/>
             <TextView
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:textSize="@dimen/_12sdp"
-                android:gravity="center"
-                android:id="@+id/textCS"
                 android:layout_width="0dp"
+                android:gravity="center"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:text="S/ 10" />
+                android:text="Sservicio + flete" />
 
             <TextView
                 android:layout_weight="2"
                 android:textSize="@dimen/_12sdp"
                 android:gravity="center"
-                android:id="@+id/textGS"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
                 android:text="S/ 10" />
         </LinearLayout>
 

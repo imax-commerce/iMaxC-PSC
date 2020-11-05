@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.setting.AttentionsHistoryActivity">
+    android:layout_height="match_parent">
 
     <include layout="@layout/action_bar_toolbar" />
 
@@ -19,66 +18,73 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_5sdp"
             android:orientation="horizontal">
-            <CheckBox
-                android:textSize="@dimen/_11sdp"
-                android:id="@+id/checkDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:button="@drawable/circle_checkbox"
-                android:fontFamily="@font/googlesans_medium"
-                android:text="Por Fecha" />
 
-            <CheckBox
-                android:textSize="@dimen/_11sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:id="@+id/checkPeriod"
+            <RadioGroup
+                android:id="@+id/rgOptions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/googlesans_medium"
-                android:button="@drawable/circle_checkbox"
-                android:text="Por Periodo" />
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/checkDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:fontFamily="@font/googlesans_medium"
+                    android:text="Por Fecha"/>
+
+                <RadioButton
+                    android:id="@+id/checkPeriod"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/googlesans_medium"
+                    android:text="Por Periodo"/>
+
+            </RadioGroup>
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <EditText
-                android:layout_weight="1"
                 android:id="@+id/dateStart"
                 android:layout_width="0dp"
-                android:textSize="@dimen/_10sdp"
                 android:layout_height="wrap_content"
-                android:inputType="date"
+                android:layout_weight="2"
+                android:textSize="@dimen/_10sdp"
                 android:hint="Fecha"
                 android:gravity="center"
                 android:focusable="false"
+                android:cursorVisible="false"
                 android:background="@drawable/background_border"
-                android:clickable="true"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
-                android:maxLines="1" />
+                android:singleLine="true"/>
 
             <EditText
                 android:textSize="@dimen/_10sdp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:id="@+id/dateEnd"
                 android:layout_width="0dp"
                 android:gravity="center"
                 android:background="@drawable/background_border"
                 android:layout_height="wrap_content"
-                android:inputType="date"
                 android:hint="Fecha Fin"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
+                android:enabled="false"
                 android:focusable="false"
+                android:cursorVisible="false"
                 android:visibility="invisible"
-                android:clickable="false"
-                android:maxLines="1" />
+                android:singleLine="true"/>
+
             <Button
+                android:layout_weight="1.3"
                 android:id="@+id/btnShear"
-                android:layout_width="@dimen/_80sdp"
+                android:layout_width="0dp"
                 android:layout_height="@dimen/_26sdp"
                 android:textSize="@dimen/_10sdp"
                 android:layout_marginStart="@dimen/_5sdp"
@@ -87,40 +93,92 @@
                 android:backgroundTint="@color/colorFacebook"
                 android:textColor="@android:color/white"
                 android:text="buscar" />
+
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_weight="6"
+                android:fontFamily="@font/googlesans_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Centro comercial"/>
+            <TextView
+                android:fontFamily="@font/googlesans_bold"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Servicio"/>
+
+            <TextView
+                android:fontFamily="@font/googlesans_bold"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ganancia"/>
+
+        </LinearLayout>
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/itemOrderRV"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="@dimen/_5sdp"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
             tools:listitem="@layout/item_attend"
             tools:itemCount="10" />
 
-        <LinearLayout
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_8sdp"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            app:cardBackgroundColor="#2800A4"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5.8"
+                    android:text="Total"
+                    android:fontFamily="@font/googlesans_bold"
+                    android:gravity="center"
+                    android:textColor="@android:color/white" />
 
-            <TextView
-                android:id="@+id/textTotalS"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:text="S.T.: S/ 120.00"
-                android:gravity="end"
-                android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/textTotalG"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_width="wrap_content"
-                android:text="G.T.: S/ 120.00"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/textTotalS"
+                    android:layout_weight="2.2"
+                    android:layout_width="0dp"
+                    android:text="--"
+                    android:fontFamily="@font/googlesans_bold"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:layout_height="wrap_content" />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/textTotalG"
+                    android:layout_width="0dp"
+                    android:layout_weight="2.2"
+                    android:gravity="center"
+                    android:text="--"
+                    android:textColor="@android:color/white"
+                    android:fontFamily="@font/googlesans_bold"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
 
     </LinearLayout>
