@@ -130,7 +130,6 @@ class FormOrderFragment : Fragment() {
             et_price_name.requestFocus()
             return
         }
-
         if (numberCargo>0){
             val mDialog = Dialog(context!!)
             mDialog.setContentView(R.layout.input_text)
@@ -148,6 +147,7 @@ class FormOrderFragment : Fragment() {
                     mDialog.inputText.requestFocus()
                 }
             }
+
             mDialog.show()
         }
         else {
@@ -203,7 +203,7 @@ class FormOrderFragment : Fragment() {
             val map = mapOf(
                 "description" to et_comers_name.text.toString().trim()+"|"+et_stand_name.text.toString().trim(),
                 "status" to "start-init",
-                "payment" to "Pagar en efectivo",
+                "payment" to "cash",
                 "detail" to mapOf(
                     "accept" to Date(),
                     "create" to Date(),

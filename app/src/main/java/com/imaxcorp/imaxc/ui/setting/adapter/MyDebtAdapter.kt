@@ -58,7 +58,7 @@ class MyDebtAdapter(private val list: ArrayList<ItemDebt>, private val mContext:
         holder.bind(list[position])
         holder.itemView.btnDebtCharge.setOnClickListener(View.OnClickListener {
             if (listener != null){
-                listener!!.onClickEvent(list[position].id!!,position,"${list[position].cc} ${list[position].st}")
+                listener!!.onClickEvent(list[position].id!!,position,"${list[position].cc} ${list[position].st} ${DecimalFormat("S/ 0.00").format(list[position].cs)}")
             }
         })
 

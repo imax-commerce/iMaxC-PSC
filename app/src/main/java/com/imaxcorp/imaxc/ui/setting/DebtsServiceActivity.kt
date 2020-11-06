@@ -20,6 +20,7 @@ import com.imaxcorp.imaxc.services.OnClickListener
 import com.imaxcorp.imaxc.toastShort
 import com.imaxcorp.imaxc.ui.setting.adapter.MyDebtAdapter
 import kotlinx.android.synthetic.main.activity_debts_service.*
+import kotlinx.android.synthetic.main.item_payment.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,12 +39,17 @@ class DebtsServiceActivity : AppCompatActivity() {
     private val listener = object : OnClickListener {
         override fun onClickEvent(id: String, position: Int, title: String) {
 
-            val mDialogAlert = AlertDialog.Builder(this@DebtsServiceActivity)
-            mDialogAlert.setTitle(title)
-            mDialogAlert.setMessage("Esta Cobrando una deuda pendiemte. ¿Desea Continuar?")
-            mDialogAlert.setPositiveButton("Si", DialogInterface.OnClickListener { _, _ ->
+            val mDialogPayment = Dialog(this@DebtsServiceActivity)
+            mDialogPayment.setContentView(R.layout.item_payment)
+            mDialogPayment.title.text = title
+            mDialogPayment.btnCloseDialog.setOnClickListener {
+                mDialogPayment.dismiss()
+            }
+            mDialogPayment.btnCashDialog.setOnClickListener {
+                mDialogPayment.dismiss()
                 mDialog.show()
                 val updates = mapOf(
+                    "/$id/payment" to "cash",
                     "/$id/detail/debtService" to false,
                     "/$id/indexType/${mAuthProvider.getId()}/debtService" to false
                 )
@@ -61,14 +67,34 @@ class DebtsServiceActivity : AppCompatActivity() {
                     .addOnFailureListener {
                         toastShort("Error!! "+it.message)
                     }
-            })
-            mDialogAlert.setNegativeButton("No",DialogInterface.OnClickListener{dialog,_ ->
-                dialog.dismiss()
-            })
-            mDialogAlert.create().show()
+            }
 
+            mDialogPayment.btnTransferDialog.setOnClickListener {
+                mDialogPayment.dismiss()
+                mDialog.show()
+                val updates = mapOf(
+                    "/$id/payment" to "transfer",
+                    "/$id/detail/debtService" to false,
+                    "/$id/indexType/${mAuthProvider.getId()}/debtService" to false
+                )
+                mClientBookingProvider.updateRoot(updates)
+                    .addOnCompleteListener {
+                        if (it.isComplete && it.isSuccessful){
+                            toastShort("Operación Completada")
+                            montTotal -= itemList[position].cs!!
+                            itemList.removeAt(position)
+                            adapter.notifyDataSetChanged()
+                            textDebtTotal.text = DecimalFormat("S/ 0.00").format(montTotal)
+                        }
+                        mDialog.dismiss()
+                    }
+                    .addOnFailureListener {
+                        toastShort("Error!! "+it.message)
+                    }
+            }
+
+            mDialogPayment.show()
         }
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
