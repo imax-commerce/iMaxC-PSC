@@ -47,6 +47,7 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/itemDebtRV"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -75,13 +76,14 @@
                     android:fontFamily="@font/googlesans_bold"
                     android:text="Total" />
                 <TextView
+                    android:id="@+id/textDebtTotal"
                     android:layout_weight="1.4"
                     android:gravity="center"
                     android:layout_width="0dp"
                     android:textColor="@android:color/white"
                     android:fontFamily="@font/googlesans_bold"
                     android:layout_height="wrap_content"
-                    android:text="S/ 120.00" />
+                    android:text="--" />
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>

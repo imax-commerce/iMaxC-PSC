@@ -1,7 +1,9 @@
 package com.imaxcorp.imaxc.providers
 
 import android.content.Context
+import com.imaxcorp.imaxc.data.DataDebt
 import com.imaxcorp.imaxc.data.DataOrder
+import com.imaxcorp.imaxc.data.ResponseDebt
 import com.imaxcorp.imaxc.data.ResponseOrder
 import com.imaxcorp.imaxc.services.IMaxApi
 import com.imaxcorp.imaxc.services.RetrofitClient
@@ -18,5 +20,10 @@ class IMaxProvider(context: Context) {
     fun getHistoryOrder(body: DataOrder): Call<ResponseOrder>? {
         val retrofit = RetrofitClient().getClientOrder(baseUrl)
         return retrofit?.create(IMaxApi::class.java)?.getMyOrder(body)
+    }
+
+    fun getDebtPending(body: DataDebt) : Call<ResponseDebt>? {
+        val retrofit = RetrofitClient().getClientOrder(baseUrl)
+        return retrofit?.create(IMaxApi::class.java)?.getMyDebt(body)
     }
 }

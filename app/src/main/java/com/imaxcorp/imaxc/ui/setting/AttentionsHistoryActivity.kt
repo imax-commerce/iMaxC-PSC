@@ -201,7 +201,7 @@ class AttentionsHistoryActivity : AppCompatActivity(), View.OnClickListener {
             override fun onResponse(call: Call<ResponseOrder>, response: Response<ResponseOrder>) {
                 if (response.body() != null) {
                     if (response.body()?.success!!){
-                        Log.d("Data: --> ",response.body()?.data.toString())
+
                         val myData = response.body()?.data
                         myData?.let {
                             itemList.clear()

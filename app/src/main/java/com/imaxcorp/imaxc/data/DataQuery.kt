@@ -9,7 +9,7 @@ data class MyDestines(
     var destine: String,
     var listAgencies: ArrayList<String> = ArrayList()
 )
-
+// data consult My attentions Order
 data class DataOrder(
     var id: String? = "",
     var start: Long? = 0,
@@ -27,6 +27,25 @@ data class ItemOrder(
     var cc: String? = "",
     var st: String? = "",
     var cs: Double? = 0.0
+)
+
+// data consult My Debt Pending
+data class DataDebt(
+    var id: String? = ""
+)
+
+data class ResponseDebt(
+    var code: Int? = 0,
+    var success: Boolean? = false,
+    var data: ArrayList<ItemDebt>
+)
+
+data class ItemDebt(
+    var id: String? = "",
+    var cc: String? = "",
+    var st: String? = "",
+    var cs: Double? = 0.0,
+    var ds: String? = ""
 )
 
 

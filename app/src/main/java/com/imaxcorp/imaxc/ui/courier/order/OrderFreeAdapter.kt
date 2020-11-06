@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,11 +42,14 @@ class OrderFreeAdapter (private val options: FirebaseRecyclerOptions<ClientBooki
         }
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int, model: ClientBooking) {
         val idDoc = getRef(position).key
         val hash = model.description!!.hashCode()
         val time = model.detail?.create
+        if (!("dM2iQG2sdhV90RHaZAvtkg1qrJc2" == model.detail?.idClient!! || "RroQQikDWfUNZ6IPzHj9MBA5Pms1" == model.detail?.idClient!!) ) {
+            holder.itemView.txt_ccomer.setTextColor(mContext.resources.getColor(R.color.colorAgapo))
+            holder.itemView.txt_agencia.setTextColor(mContext.resources.getColor(R.color.colorAgapo))
+        }
         holder.itemView.txt_agencia.text = "Solicitud Disponible"
         time?.let {
             holder.itemView.txt_ccomer.text = SimpleDateFormat("dd-MM-yy", Locale.US).format(time)

@@ -12,51 +12,97 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginBottom="12dp">
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/llHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="12/12/2020"
-            android:textSize="@dimen/_8sdp"
-            android:textColor="@color/colorPrimary"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:fontFamily="@font/googlesans_italic"
             android:layout_alignParentTop="true"
-            android:id="@+id/debtDate" />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textDebtDate"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_gravity="center_vertical"
+                android:textSize="@dimen/_8sdp"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:fontFamily="@font/googlesans_italic" />
+
+            <TextView
+                android:id="@+id/btnDebtDetail"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/_1sdp"
+                android:textSize="@dimen/_8sdp"
+                android:paddingBottom="@dimen/_2sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:background="@drawable/button_round"
+                android:backgroundTint="@color/colorAccent"
+                android:text="detalle" />
+
+            <TextView
+                android:id="@+id/btnDebtCharge"
+                android:layout_width="@dimen/_45sdp"
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/_1sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:textSize="@dimen/_8sdp"
+                android:paddingBottom="@dimen/_2sdp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_round"
+                android:backgroundTint="@color/colorAccent"
+                android:text="cobrar" />
+
+        </LinearLayout>
+
+
 
         <LinearLayout
-            android:layout_below="@+id/debtDate"
+            android:layout_below="@+id/llHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:orientation="horizontal">
             <TextView
+                android:id="@+id/textDebtCC"
                 android:layout_weight="3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:text="Mesa redonda B45"/>
+                android:text=""/>
+
             <TextView
+                android:id="@+id/textDebtService"
                 android:layout_weight="3"
                 android:textSize="@dimen/_12sdp"
                 android:layout_width="0dp"
                 android:gravity="center"
                 android:layout_height="wrap_content"
-                android:text="Sservicio + flete" />
+                android:text="Servicio Agencia" />
 
             <TextView
+                android:id="@+id/textDebtMont"
                 android:layout_weight="2"
                 android:textSize="@dimen/_12sdp"
                 android:gravity="center"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="S/ 10" />
-        </LinearLayout>
+                android:text="" />
 
+        </LinearLayout>
 
     </RelativeLayout>
 

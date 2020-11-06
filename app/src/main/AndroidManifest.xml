@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.setting.DebtsServiceActivity"></activity>
+        <activity android:name=".ui.setting.DebtsDetailActivity" />
+        <activity android:name=".ui.setting.DebtsServiceActivity"/>
         <activity android:name=".ui.setting.AttentionsHistoryActivity" />
         <activity android:name=".ui.setting.MainSettingsActivity" />
         <activity android:name=".ui.courier.register.RegisterOrderActivity" />

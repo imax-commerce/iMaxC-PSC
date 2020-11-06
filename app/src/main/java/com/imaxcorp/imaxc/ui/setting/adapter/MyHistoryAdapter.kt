@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.imaxcorp.imaxc.R
 import com.imaxcorp.imaxc.data.ItemOrder
-import com.imaxcorp.imaxc.ui.setting.AttentionsHistoryActivity
 import java.text.DecimalFormat
 
 class MyHistoryAdapter(private val list: ArrayList<ItemOrder>, private val mContext: Context): RecyclerView.Adapter<MyHistoryAdapter.MyViewPagerViewHolder>() {
