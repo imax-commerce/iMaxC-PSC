@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@color/colorFacebook"
+    tools:context=".ui.delivery.MapDriverBookingActivity">
+
+    <fragment
+        android:id="@+id/mapDriver"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/_120sdp"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        />
+
+    <com.github.florent37.shapeofview.shapes.BubbleView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_135sdp"
+        app:shape_bubble_arrowHeight="15dp"
+        app:shape_bubble_arrowWidth="15dp"
+        app:shape_bubble_arrowPosition="top"
+        app:shape_bubble_borderRadius="20dp"
+        android:layout_gravity="bottom"
+        >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorFacebook" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                >
+                <TextView
+                    android:layout_weight="3"
+                    android:id="@+id/textViewOriginClientBooking"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="#FFF"
+                    android:textSize="@dimen/_14ssp"/>
+
+                <TextView
+                    android:id="@+id/btnPayment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cobrar"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/button_round"
+                    android:backgroundTint="@color/colorLightBlue"
+                    android:paddingEnd="@dimen/_15sdp"
+                    android:paddingTop="@dimen/_4sdp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_4sdp"
+                    android:paddingStart="@dimen/_15sdp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewClientBooking"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:maxLines="1"
+                android:textColor="@color/colorIcon"
+                android:layout_marginTop="5dp"
+                android:textSize="@dimen/_15ssp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:layout_gravity="bottom"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnCancelBooking"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Cancelar Envio"
+                    android:visibility="gone"
+                    android:layout_margin="@dimen/_5ssp"
+                    android:background="@drawable/button_round"
+                    android:backgroundTint="@color/colorAccent"
+                    android:textColor="@color/colorBlack" />
+
+                <Button
+                    android:id="@+id/btnStartBooking"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Iniciar envio"
+                    android:layout_margin="@dimen/_5ssp"
+                    android:background="@drawable/button_round"
+                    android:backgroundTint="@color/colorIcon"
+                    android:textColor="@color/colorTextPrimary" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.github.florent37.shapeofview.shapes.BubbleView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

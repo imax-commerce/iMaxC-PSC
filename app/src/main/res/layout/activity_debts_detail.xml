@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.setting.DebtsDetailActivity">
+
+    <include layout="@layout/action_bar_toolbar" />
+
+    <LinearLayout
+        android:background="@color/colorFacebook"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/_10sdp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <TextView
+            android:id="@+id/txtDebtDClient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_input_white"
+            android:padding="@dimen/_3sdp"
+            android:text="Name client"
+            android:drawablePadding="@dimen/_4sdp"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:textSize="@dimen/_12sdp"
+            android:textColor="@color/colorTextPrimary"
+            app:drawableStartCompat="@drawable/ic_person" />
+
+        <TextView
+            android:id="@+id/txtDebtDComer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_input_white"
+            android:padding="@dimen/_3sdp"
+            android:text="direccion "
+            android:layout_marginTop="@dimen/_4sdp"
+            android:drawablePadding="@dimen/_4sdp"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:textSize="@dimen/_12sdp"
+            android:textColor="@color/colorTextPrimary"
+            app:drawableStartCompat="@drawable/ic_store" />
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtDebtDStand"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_input_white"
+                android:padding="@dimen/_3sdp"
+                android:text="stnd referencia"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:drawablePadding="@dimen/_4sdp"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textSize="@dimen/_12sdp"
+                android:textColor="@color/colorTextPrimary"
+                app:drawableStartCompat="@drawable/ic_storefront" />
+            <TextView
+                android:id="@+id/txtDebtDMont"
+                android:layout_weight="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_input_white"
+                android:padding="@dimen/_3sdp"
+                android:text="@string/app_name"
+                android:drawablePadding="@dimen/_4sdp"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textSize="@dimen/_12sdp"
+                android:textColor="@color/colorTextPrimary"
+                app:drawableStartCompat="@drawable/ic_money" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtDebtDDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:text="Descripción de envio"
+            android:textStyle="bold"
+            android:textSize="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_8sdp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/txtDebtDRV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:layout_marginTop="@dimen/_2sdp" />
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

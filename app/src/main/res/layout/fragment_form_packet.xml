@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/_20sdp"
+    android:paddingEnd="@dimen/_20sdp"
+    android:background="@color/colorFacebook"
+    tools:context=".ui.courier.register.FormPacketFragment">
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/googlesans_medium"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:id="@+id/tv_destine"
+                android:layout_width="0dp"
+                android:textSize="@dimen/_14sdp"
+                android:layout_height="wrap_content"
+                android:text="Destino:"
+                android:textColor="@android:color/white" />
+
+            <AutoCompleteTextView
+                android:id="@+id/et_destine_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:background="@drawable/background_input_white"
+                android:completionThreshold="1"
+                android:imeOptions="actionNext"
+                android:inputType="textCapWords"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_4sdp"
+                android:singleLine="true"
+                android:textSize="@dimen/_12ssp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:id="@+id/tv_agency"
+                android:fontFamily="@font/googlesans_medium"
+                android:layout_width="0dp"
+                android:textSize="@dimen/_14sdp"
+                android:layout_height="wrap_content"
+                android:text="Agencia:"
+                android:layout_gravity="center_vertical"
+                android:textColor="@android:color/white" />
+
+            <AutoCompleteTextView
+                android:id="@+id/et_agency_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:background="@drawable/background_input_white"
+                android:completionThreshold="0"
+                android:imeOptions="actionNext"
+                android:inputType="textCapWords"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_4sdp"
+                android:singleLine="true"
+                android:textSize="@dimen/_12ssp" />
+        </LinearLayout>
+
+        <View
+            android:background="#707070"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/_8sdp" />
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:fontFamily="@font/googlesans_medium"
+                android:layout_weight="3"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_width="0dp"
+                android:textSize="@dimen/_14sdp"
+                android:layout_gravity="center_vertical"
+                android:layout_height="wrap_content"
+                android:text="Cantidad de paquetes:"
+                android:textColor="@android:color/white" />
+
+            <EditText
+                android:id="@+id/et_number_pack"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:background="@drawable/background_input_white"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:paddingBottom="@dimen/_4sdp"
+                android:singleLine="true"
+                android:textSize="@dimen/_12ssp" />
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/cb_gui"
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:text="Sin Guia"
+            android:fontFamily="@font/googlesans_medium"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:checked="false"
+            android:textSize="@dimen/_14sdp"
+            android:layout_height="wrap_content"
+            android:button="@drawable/circle_checkbox" />
+
+        <CheckBox
+            android:id="@+id/cb_cargo"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:text="Pagar Flete"
+            android:fontFamily="@font/googlesans_medium"
+            android:checked="false"
+            android:textSize="@dimen/_14sdp"
+            android:layout_height="wrap_content"
+            android:button="@drawable/circle_checkbox" />
+
+        <CheckBox
+            android:id="@+id/cb_home"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:textColor="@android:color/white"
+            android:fontFamily="@font/googlesans_medium"
+            android:layout_width="wrap_content"
+            android:text="A Domicilo"
+            android:checked="false"
+            android:textSize="@dimen/_14sdp"
+            android:layout_height="wrap_content"
+            android:button="@drawable/circle_checkbox" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnAddPacket"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Agregar Envio"
+        android:textColor="@android:color/white"
+        android:background="@drawable/button_round"
+        android:backgroundTint="@color/colorLightBlue" />
+</LinearLayout>

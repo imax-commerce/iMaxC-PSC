@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorFacebook"
+    android:id="@+id/ffoFragment"
+    tools:context=".ui.courier.register.FormOrderFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/et_col_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_person"
+            android:editable="false"
+            android:textColor="@color/colorTextPrimary"
+            android:drawablePadding="@dimen/_4sdp"
+            tools:ignore="RtlSymmetry"
+            android:singleLine="true"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:background="@drawable/background_input_white"
+            android:padding="@dimen/_3sdp"
+            android:textSize="@dimen/_12ssp" />
+
+        <AutoCompleteTextView
+            android:id="@+id/et_comers_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@drawable/background_input_white"
+            android:completionThreshold="1"
+            android:drawableStart="@drawable/ic_store"
+            android:drawablePadding="@dimen/_4sdp"
+            android:hint="Centro Comercial"
+            android:textColor="@color/colorBlack"
+            android:imeOptions="actionNext"
+            android:inputType="textCapWords"
+            android:padding="@dimen/_3sdp"
+            android:singleLine="true"
+            android:textSize="@dimen/_12ssp"
+            tools:ignore="RtlSymmetry" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_stand_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_weight="1"
+                android:textColor="@color/colorBlack"
+                android:background="@drawable/background_input_white"
+                android:drawableStart="@drawable/ic_storefront"
+                android:drawablePadding="@dimen/_4sdp"
+                android:hint="N° stand/puesto"
+                android:imeOptions="actionDone"
+                android:inputType="textCapWords"
+                android:padding="@dimen/_3sdp"
+                android:singleLine="true"
+                android:textSize="@dimen/_12ssp"
+                tools:ignore="RtlSymmetry" />
+
+            <EditText
+                android:id="@+id/et_price_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_weight="2"
+                android:background="@drawable/background_input_white"
+                android:drawableStart="@drawable/ic_money"
+                android:drawablePadding="@dimen/_4sdp"
+                android:imeOptions="actionDone"
+                android:textColor="@color/colorBlack"
+                android:inputType="numberDecimal"
+                android:padding="@dimen/_3sdp"
+                android:singleLine="true"
+                android:textSize="@dimen/_12ssp"
+                tools:ignore="RtlSymmetry" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Descripción de envíos"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="@dimen/_15ssp"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_15sdp" />
+
+            <CheckBox
+                android:id="@+id/cb_debt_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Debe"
+                android:textSize="@dimen/_14ssp"
+                android:textColor="@android:color/white"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:button="@drawable/circle_checkbox"
+                android:layout_gravity="center" />
+        </LinearLayout>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@android:color/white"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_15sdp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/rv_pack" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fabPackAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/_5sdp"
+                android:src="@drawable/ic_baseline_add_24" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <Button
+            android:id="@+id/btnAction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:background="@drawable/button_round"
+            android:backgroundTint="@color/colorLightBlue"
+            android:textColor="@android:color/white"
+            android:text="generar envio" />
+    </LinearLayout>
+
+</FrameLayout>

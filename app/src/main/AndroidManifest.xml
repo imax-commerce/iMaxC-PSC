@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.imaxcorp.imaxc">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".ui.setting.DebtsDetailActivity" />
+        <activity android:name=".ui.setting.DebtsServiceActivity"/>
+        <activity android:name=".ui.setting.AttentionsHistoryActivity" />
+        <activity android:name=".ui.setting.MainSettingsActivity" />
+        <activity android:name=".ui.courier.register.RegisterOrderActivity" />
+        <activity android:name=".ui.admin.AdminActivity" />
+        <activity android:name=".ui.MessageActivity" />
+        <activity
+            android:name=".ui.courier.order.CourierActivity"
+            android:theme="@style/TableTheme" />
+        <activity android:name=".ui.delivery.AcceptActivity" />
+        <activity android:name=".ui.delivery.FinishDeliveryActivity" />
+        <activity android:name=".ui.delivery.MapDriverBookingActivity" />
+        <activity android:name=".ui.delivery.NotificationViewActivity" />
+        <activity android:name=".ui.start.LoginActivity" />
+        <activity android:name=".ui.delivery.MainActivity" />
+        <activity android:name=".ui.start.RegisterActivity" />
+        <activity android:name=".ui.start.LaunchActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".receivers.AcceptReceiver"
+            android:enabled="true" />
+        <receiver
+            android:name=".receivers.CancelReceiver"
+            android:enabled="true" />
+
+        <service android:name=".services.MyFirebaseMessagingClient">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+    </application>
+
+</manifest>
