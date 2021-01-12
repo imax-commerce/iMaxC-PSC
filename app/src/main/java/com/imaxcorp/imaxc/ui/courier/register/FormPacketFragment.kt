@@ -35,7 +35,7 @@ class FormPacketFragment : Fragment() {
         }
 
         val mDestines = (context as RegisterOrderActivity).mMapDestine["mList"]
-        val mAdapterDate = mDestines?.let { ArrayAdapter(context as RegisterOrderActivity,R.layout.item_frase, it) }
+        val mAdapterDate = mDestines?.let { ArrayAdapter(context!!,R.layout.item_frase, it) }
         view.et_destine_name.setAdapter(mAdapterDate)
         initListener()
     }

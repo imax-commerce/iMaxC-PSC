@@ -50,7 +50,7 @@ class OrderPendingAdapter (private val options: FirebaseRecyclerOptions<ClientBo
             )
         )
         holder.itemView.txt_flete.text = SimpleDateFormat("HH:mm", Locale.US).format(model.detail?.accept)
-        holder.itemView.txt_guia.text = model.detail?.km
+        holder.itemView.txt_guia.text = if(model.express!!) "Servicio Express" else model.detail?.km
         holder.itemView.txt_destino.text = model.origin?.street+" "+model.origin?.feature
         holder.itemView.setOnClickListener {
             mContext.startActivity(
@@ -64,6 +64,8 @@ class OrderPendingAdapter (private val options: FirebaseRecyclerOptions<ClientBo
                     .putExtra("DEBT",model.detail?.debtService)
                     .putExtra("CLIENT",model.detail?.idClient)
                     .putExtra("PHONE",model.origin?.phone)
+                    .putExtra("EXPRESS",model.express!!)
+                    .putExtra("NAME_CONTACT",model.origin?.contact)
             )
         }
     }

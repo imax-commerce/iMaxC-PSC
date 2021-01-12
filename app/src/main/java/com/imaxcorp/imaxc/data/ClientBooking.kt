@@ -12,6 +12,7 @@ class ClientBooking: Serializable {
     var description: String? = null
     var indexType: Map<String,Any>? = null
     var typeService: String? = null
+    var express: Boolean? = false
 
     constructor()
 }

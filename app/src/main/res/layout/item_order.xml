@@ -39,7 +39,8 @@
             android:layout_marginStart="16dp"
             android:layout_toEndOf="@id/txt_icon"
             android:textColor="@color/colorBlack"
-            android:textSize="18sp"
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="bold"
             android:layout_toStartOf="@id/txt_ccomer"
             tools:text="Expreso Trujillo" />
 
@@ -105,7 +106,8 @@
             android:singleLine="true"
             android:maxWidth="@dimen/_100sdp"
             android:ellipsize="marquee"
-            android:textSize="18sp"
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"

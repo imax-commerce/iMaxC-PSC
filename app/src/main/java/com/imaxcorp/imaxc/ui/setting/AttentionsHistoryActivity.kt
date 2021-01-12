@@ -23,12 +23,13 @@ import kotlinx.android.synthetic.main.activity_attentions_history.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.DateFormat
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 class AttentionsHistoryActivity : AppCompatActivity(), View.OnClickListener {
-
 
     private lateinit var mDateSelectListener: DatePickerDialog.OnDateSetListener
     private var isForDate = true
@@ -81,11 +82,12 @@ class AttentionsHistoryActivity : AppCompatActivity(), View.OnClickListener {
         dateStart.setOnClickListener(this)
         dateEnd.setOnClickListener(this)
         val dateNow = Date()
-        val date = Date(dateNow.year,dateNow.month,dateNow.day+1)
+        val date = Date(dateNow.year,dateNow.month,dateNow.date)
         val mBody = DataOrder()
         mBody.start = date.time
-        //mBody.id = "OTwwSRUk3KWRc0eaNtA9OJVm0G23"
+        //mBody.id = "KOgGqOronGfqK4jd1SUAlNgoGDj1"
         mBody.id = mAuthProvider.getId()
+        dateStart.setText(SimpleDateFormat("dd/MM/yyyy", Locale.US).format(date.time))
         getRetrofit(mBody)
     }
 
@@ -105,7 +107,6 @@ class AttentionsHistoryActivity : AppCompatActivity(), View.OnClickListener {
                     dateEnd.setText("")
                     isForDate = true
                 }
-
             }
             checkPeriod -> {
                 if (checkPeriod.isChecked){
@@ -177,16 +178,19 @@ class AttentionsHistoryActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun getOrderAttention(initDate: String, endDate: String? = null) {
         val data = DataOrder()
-        //data.id = "OTwwSRUk3KWRc0eaNtA9OJVm0G23" //mAuthProvider.getId()
+        //data.id = "KOgGqOronGfqK4jd1SUAlNgoGDj1" //mAuthProvider.getId()
         data.id = mAuthProvider.getId()
         val auxStart = initDate.split("/")
         val myDateStart = Date("${auxStart[2]}/${auxStart[1]}/${auxStart[0]}")
         data.start = myDateStart.time
+        var time_string = "Total de " + SimpleDateFormat("dd", Locale.US).format(data.start)
         endDate?.let {
             val auxEnd = it.split("/")
             val myDateEnd = Date("${auxEnd[2]}/${auxEnd[1]}/${auxEnd[0]}")
             data.end = myDateEnd.time
+            time_string += " - " + SimpleDateFormat("dd", Locale.US).format(data.end)
         }
+        total_text.text =  time_string
         getRetrofit(data)
     }
 
@@ -201,7 +205,7 @@ class AttentionsHistoryActivity : AppCompatActivity(), View.OnClickListener {
             override fun onResponse(call: Call<ResponseOrder>, response: Response<ResponseOrder>) {
                 if (response.body() != null) {
                     if (response.body()?.success!!){
-
+                        val commers = resources.getStringArray(R.array.commerces)
                         val myData = response.body()?.data
                         myData?.let {
                             itemList.clear()
@@ -209,10 +213,54 @@ class AttentionsHistoryActivity : AppCompatActivity(), View.OnClickListener {
                             adapter.notifyDataSetChanged()
                             montTotal = 0.0
                             for (item in it){
-                                montTotal += item.cs!!
+                                when(item.cc!!.trim()){
+                                    //bellota bellota II, Udampe
+                                    commers[0],commers[1],commers[12] -> {
+                                        montTotal += if (item.cs!!>50)
+                                            7.5
+                                        else
+                                            (if (item.express) item.cs!!-item.packet*5 else item.cs!!)*0.19
+                                    }
+                                    //Malvinas plaza, Via mix
+                                    commers[3],commers[15] -> {
+                                        montTotal += if (item.cs!!>50)
+                                            7.5
+                                        else (if (item.express) item.cs!!-item.packet*5 else item.cs!!)*0.15
+                                    }
+                                    //malvitec
+                                    commers[4] -> {
+                                        montTotal += if (item.cs!!>50)
+                                            7.5
+                                        else (if (item.express) item.cs!!-item.packet*5 else item.cs!!)*0.105
+                                    }
+                                    //Mesa Redonda, Progreso, Progreso II
+                                    commers[5],commers[9],commers[10] -> {
+                                        montTotal += if (item.cs!!>50)
+                                            7.5
+                                        else  (if (item.express) item.cs!!-item.packet*5 else item.cs!!)*0.12
+                                    }
+                                    //Nuevo Centro Paruro, Polvos Azules
+                                    commers[7],commers[11] -> {
+                                        montTotal += if (item.cs!!>50)
+                                            7.5
+                                        else  (if (item.express) item.cs!!-item.packet*5 else item.cs!!)*0.18
+                                    }
+                                    //Nicolini
+                                    commers[6] -> {
+                                        montTotal += if (item.cs!!>50)
+                                            7.5
+                                        else  (if (item.express) item.cs!!-item.packet*5 else item.cs!!)*0.2
+                                    }
+                                    //Otros
+                                    else -> {
+                                        montTotal += if (item.cs!!>50)
+                                            7.5
+                                        else  (if (item.express) item.cs!!-item.packet*5 else item.cs!!)*0.17
+                                    }
+                                }
                             }
                             textTotalS.text = DecimalFormat("S/ 0.00").format(montTotal)
-                            textTotalG.text = DecimalFormat("S/ 0.00").format(montTotal*0.15)
+                            textTotalG.text = DecimalFormat("S/ 0.00").format(montTotal)
                         }
 
                         mDialog.dismiss()

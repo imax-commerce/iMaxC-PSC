@@ -27,45 +27,26 @@
             android:background="@drawable/background_input_white"
             android:padding="@dimen/_3sdp"
             android:textSize="@dimen/_12ssp" />
-
-        <AutoCompleteTextView
-            android:id="@+id/et_comers_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_4sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
-            android:background="@drawable/background_input_white"
-            android:completionThreshold="1"
-            android:drawableStart="@drawable/ic_store"
-            android:drawablePadding="@dimen/_4sdp"
-            android:hint="Centro Comercial"
-            android:textColor="@color/colorBlack"
-            android:imeOptions="actionNext"
-            android:inputType="textCapWords"
-            android:padding="@dimen/_3sdp"
-            android:singleLine="true"
-            android:textSize="@dimen/_12ssp"
-            tools:ignore="RtlSymmetry" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/et_stand_name"
-                android:layout_width="match_parent"
+            <AutoCompleteTextView
+                android:layout_weight="1"
+                android:id="@+id/et_comers_name"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:layout_marginEnd="@dimen/_15sdp"
-                android:layout_weight="1"
-                android:textColor="@color/colorBlack"
+                android:layout_marginEnd="@dimen/_5sdp"
                 android:background="@drawable/background_input_white"
-                android:drawableStart="@drawable/ic_storefront"
+                android:completionThreshold="1"
+                android:drawableStart="@drawable/ic_store"
                 android:drawablePadding="@dimen/_4sdp"
-                android:hint="N° stand/puesto"
-                android:imeOptions="actionDone"
+                android:hint="Centro Comercial"
+                android:textColor="@color/colorBlack"
+                android:imeOptions="actionNext"
                 android:inputType="textCapWords"
                 android:padding="@dimen/_3sdp"
                 android:singleLine="true"
@@ -73,12 +54,54 @@
                 tools:ignore="RtlSymmetry" />
 
             <EditText
-                android:id="@+id/et_price_name"
-                android:layout_width="match_parent"
+                android:id="@+id/et_stand_name"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
-                android:layout_weight="2"
+                android:layout_weight="0.8"
+                android:textColor="@color/colorBlack"
+                android:background="@drawable/background_input_white"
+                android:drawableStart="@drawable/ic_storefront"
+                android:drawablePadding="@dimen/_4sdp"
+                android:hint="stand/puesto"
+                android:imeOptions="actionDone"
+                android:inputType="textCapWords"
+                android:padding="@dimen/_3sdp"
+                android:singleLine="true"
+                android:textSize="@dimen/_12ssp"
+                tools:ignore="RtlSymmetry" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/sp_express"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/_24sdp"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:textColor="@color/colorBlack"
+                android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
+                android:background="@drawable/background_input_white"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                />
+
+            <EditText
+                android:id="@+id/et_price_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_20sdp"
+                android:layout_weight="0.8"
                 android:background="@drawable/background_input_white"
                 android:drawableStart="@drawable/ic_money"
                 android:drawablePadding="@dimen/_4sdp"

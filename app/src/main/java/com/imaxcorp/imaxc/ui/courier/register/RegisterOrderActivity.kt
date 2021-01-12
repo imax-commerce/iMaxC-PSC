@@ -20,11 +20,13 @@ class RegisterOrderActivity : AppCompatActivity() {
     var dataExists: Boolean = false
     var paymentCargo: Boolean = false
     var debtDriver: Boolean = false
+    var express: Boolean = false
     lateinit var idDoc: String
     lateinit var idClient: String
     lateinit var store: String
     var status: String = ""
     var phoneAttention = ""
+    var nameAttention = ""
     var price: Double = 0.0
     var cargoMount = 0.0
     lateinit var mMapDestine: MutableMap<String, ArrayList<String>>
@@ -46,6 +48,8 @@ class RegisterOrderActivity : AppCompatActivity() {
             debtDriver = intent.getBooleanExtra("DEBT",false)
             cargoMount = intent.getDoubleExtra("MOUNT_CARGO",0.0)
             phoneAttention = intent.getStringExtra("PHONE")!!
+            express = intent.getBooleanExtra("EXPRESS",false)
+            nameAttention = intent.getStringExtra("NAME_CONTACT")!!
         }
         initDestine()
         mFormOrderFragment = FormOrderFragment()

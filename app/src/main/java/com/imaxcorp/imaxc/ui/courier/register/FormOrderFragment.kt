@@ -2,6 +2,7 @@ package com.imaxcorp.imaxc.ui.courier.register
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
@@ -11,8 +12,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.DataSnapshot
@@ -35,7 +38,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class FormOrderFragment : Fragment() {
+class FormOrderFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private var dataExists = false
     private lateinit var idDoc: String
     private lateinit var status: String
@@ -67,6 +70,12 @@ class FormOrderFragment : Fragment() {
         val stringData = context!!.getPreference(Constant.DATA_LOGIN,"USER")
         userData = Gson().fromJson(stringData, Driver::class.java)
 
+        ArrayAdapter.createFromResource(context!!,R.array.type_service,android.R.layout.simple_spinner_item).also {
+            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            view.sp_express.adapter = it
+            view.sp_express.onItemSelectedListener = this
+        }
+
         dataExists = (context as RegisterOrderActivity).dataExists
         if (dataExists) {
             mClientProvider.getClient((context as RegisterOrderActivity).idClient)
@@ -74,22 +83,25 @@ class FormOrderFragment : Fragment() {
                     override fun onCancelled(error: DatabaseError) {
                     }
 
+                    @SuppressLint("SetTextI18n")
                     override fun onDataChange(snapshot: DataSnapshot) {
                         if (snapshot.exists()){
                             val name: String = snapshot.child("name").value.toString()
                             view.et_col_name.setText(name)
+                            view.et_col_name.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_person,0,R.drawable.ic_baseline_phone,0)
+                        }
+                        else {
+                            view.et_col_name.setText((context as RegisterOrderActivity).nameAttention)
                         }
                     }
 
                 })
             //si no sirve arreglar aqui.
             view.et_col_name.setOnClickListener {
-                (context as RegisterOrderActivity).toastShort("Aqui")
                 (context as RegisterOrderActivity).openCall((context as RegisterOrderActivity).phoneAttention)
             }
             initView(view)
-        }
-        else {
+        }else {
             view.et_col_name.setText(userData.name)
             mClientBooking = ClientBooking()
             val comers = resources.getStringArray(R.array.commerces)
@@ -98,6 +110,7 @@ class FormOrderFragment : Fragment() {
         }
 
         initPackAdapter(view)
+
         view.fabPackAdd.setOnClickListener {
             if (view.et_comers_name.text.isEmpty()){
                 view.et_comers_name.error = "Complete el campo"
@@ -239,7 +252,8 @@ class FormOrderFragment : Fragment() {
                     )
                 ),
                 "shipping" to mapOf("list" to mPackBookingList),
-                "typeService" to "Agencia"
+                "typeService" to "Agencia",
+                "express" to (context as RegisterOrderActivity).express
             )
 
             mClientBookingProvider.pushOrder(map)
@@ -277,9 +291,12 @@ class FormOrderFragment : Fragment() {
     private fun initView(view: View) {
         idDoc = (context as RegisterOrderActivity).idDoc
         status = (context as RegisterOrderActivity).status
+        val expr = if ((context as RegisterOrderActivity).express) 1 else 0
 
         view.et_comers_name.isEnabled = false
         view.et_stand_name.isEnabled = false
+        view.sp_express.setSelection(expr)
+        view.sp_express.isEnabled = false
         val store = (context as RegisterOrderActivity).store.split("|")
         view.et_comers_name.setText(store[0])
         view.et_stand_name.setText(store[1])
@@ -400,4 +417,18 @@ class FormOrderFragment : Fragment() {
             mPackAdapter.notifyItemRemoved(viewHolder.adapterPosition)
         }
     }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        //(context as RegisterOrderActivity).toastShort(sp_express.selectedItem.toString())
+        when(position){
+            0 -> {
+                (context as RegisterOrderActivity).express = false
+            }
+            1 -> {
+                (context as RegisterOrderActivity).express = true
+            }
+        }
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) { }
 }

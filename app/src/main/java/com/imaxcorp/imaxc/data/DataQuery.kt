@@ -26,7 +26,9 @@ data class ItemOrder(
     var id: String? = "",
     var cc: String? = "",
     var st: String? = "",
-    var cs: Double? = 0.0
+    var cs: Double? = 0.0,
+    var express: Boolean = false,
+    var packet: Int = 0
 )
 
 // data consult My Debt Pending

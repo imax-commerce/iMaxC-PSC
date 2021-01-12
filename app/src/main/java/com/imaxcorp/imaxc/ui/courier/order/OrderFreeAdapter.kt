@@ -55,7 +55,7 @@ class OrderFreeAdapter (private val options: FirebaseRecyclerOptions<ClientBooki
             holder.itemView.txt_ccomer.text = SimpleDateFormat("dd-MM-yy", Locale.US).format(time)
             holder.itemView.txt_guia.text = SimpleDateFormat("HH:mm", Locale.US).format(time)
         }
-        holder.itemView.txt_flete.text = model.detail?.km
+        holder.itemView.txt_flete.text = if(model.express!!) "Servicio Express" else model.detail?.km
         holder.itemView.txt_icon.text = model.description?.first().toString()
         holder.itemView.txt_icon.background =
             mContext.oval(
