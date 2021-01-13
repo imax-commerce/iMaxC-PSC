@@ -24,6 +24,7 @@ class MainSettingsActivity : AppCompatActivity(), View.OnClickListener {
     private fun initView() {
         cv_debts.setOnClickListener(this)
         cv_history.setOnClickListener(this)
+        cv_profit.setOnClickListener(this)
     }
 
     override fun onClick(view: View?) {
@@ -33,9 +34,13 @@ class MainSettingsActivity : AppCompatActivity(), View.OnClickListener {
                     startActivity(it)
                 }
             }
-
-            cv_history -> {
+            cv_profit -> {
                 Intent(applicationContext, AttentionsHistoryActivity::class.java).also {
+                    startActivity(it)
+                }
+            }
+            cv_history -> {
+                Intent(applicationContext, CareHistoryActivity::class.java).also {
                     startActivity(it)
                 }
             }

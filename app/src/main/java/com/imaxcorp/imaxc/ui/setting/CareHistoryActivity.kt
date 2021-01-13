@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.imaxcorp.imaxc.R
@@ -23,13 +22,12 @@ import kotlinx.android.synthetic.main.activity_attentions_history.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.DateFormat
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class AttentionsHistoryActivity : AppCompatActivity(), View.OnClickListener {
+class CareHistoryActivity : AppCompatActivity(), View.OnClickListener {
 
     private lateinit var mDateSelectListener: DatePickerDialog.OnDateSetListener
     private var isForDate = true
@@ -38,21 +36,25 @@ class AttentionsHistoryActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mAuthProvider: AuthProvider
     private lateinit var mIMaxProvider: IMaxProvider
     private lateinit var mDialog: Dialog
-    private var montTotal: Double = 0.0
     private lateinit var adapter: MyHistoryAdapter
     private var itemList: ArrayList<ItemOrder> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_attentions_history)
-        MyToolBar().show(this,"Mis Atenciones",true)
 
+        title_profit.visibility = View.GONE
+        title_service.visibility = View.VISIBLE
+        total_text.visibility = View.GONE
+        textTotalG.visibility = View.GONE
+
+        MyToolBar().show(this,"Mis Atenciones",true)
         mAuthProvider = AuthProvider()
         mIMaxProvider = IMaxProvider(this)
         mDialog = loading(null)
-        adapter = MyHistoryAdapter(itemList,this@AttentionsHistoryActivity,true)
+        adapter = MyHistoryAdapter(itemList,this@CareHistoryActivity)
         itemOrderRV.setHasFixedSize(true)
-        val ll = LinearLayoutManager(this@AttentionsHistoryActivity)
+        val ll = LinearLayoutManager(this@CareHistoryActivity)
         ll.orientation = LinearLayoutManager.VERTICAL
         itemOrderRV.layoutManager = ll
         itemOrderRV.adapter = adapter
@@ -60,7 +62,7 @@ class AttentionsHistoryActivity : AppCompatActivity(), View.OnClickListener {
         initView()
         mDateSelectListener = DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
             val monthCore = month+1
-            val date = DecimalFormat("00").format(day)+"/"+DecimalFormat("00").format(monthCore)+"/"+year.toString()
+            val date = DecimalFormat("00").format(day)+"/"+ DecimalFormat("00").format(monthCore)+"/"+year.toString()
             if (isStart) {
                 dateStart.setText(date)
                 val minCal = Calendar.getInstance()
@@ -212,12 +214,6 @@ class AttentionsHistoryActivity : AppCompatActivity(), View.OnClickListener {
                             itemList.clear()
                             itemList.addAll(it.filterNotNull())
                             adapter.notifyDataSetChanged()
-                            montTotal = 0.0
-                            for (item in it){
-                                montTotal += adapter.profit(item)
-                            }
-                            textTotalS.text = DecimalFormat("S/ 0.00").format(montTotal)
-                            textTotalG.text = DecimalFormat("S/ 0.00").format(montTotal)
                         }
 
                         mDialog.dismiss()
@@ -233,5 +229,7 @@ class AttentionsHistoryActivity : AppCompatActivity(), View.OnClickListener {
 
         })
     }
+
+
 
 }

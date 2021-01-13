@@ -12,6 +12,7 @@
     <string name="priceCobrar">Cobrar S/ %s</string>
 
     <string name="attentions">Mis Atenciones</string>
-    <string name="service_debts">Deudas</string>
+    <string name="service_debts">Deudas Pendientes</string>
+    <string name="profit">Mi Ganancia</string>
 
 </resources>

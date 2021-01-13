@@ -98,8 +98,8 @@ class DebtsDetailActivity : AppCompatActivity() {
     private fun initView(createClient: Boolean) {
         txtDebtDClient.text = if (createClient) nameClient else "iMax Courier"
         val aux = mOrder?.description!!.split("|")
-        txtDebtDComer.text = aux[0]
-        txtDebtDStand.text = aux[1]
+        txtDebtDComer.text = aux[0] +" - "+aux[1]
+        txtDebtDStand.text = if (mOrder?.express!!) "Servicio Express" else "Servicio Normal"
         txtDebtDMont.text = DecimalFormat("S/ 0.00").format(mOrder?.detail!!.price)
         if (mOrder?.detail!!.cargo) txtDebtDDescription.text = "Descripción de envio (Dio Para Flete ${DecimalFormat("S/ 0.00").format(mOrder?.detail!!.montCargo)})"
         adapter.notifyDataSetChanged()
