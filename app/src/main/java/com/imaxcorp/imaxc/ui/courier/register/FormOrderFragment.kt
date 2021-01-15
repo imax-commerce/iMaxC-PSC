@@ -106,7 +106,11 @@ class FormOrderFragment : Fragment(), AdapterView.OnItemSelectedListener {
             mClientBooking = ClientBooking()
             val comers = resources.getStringArray(R.array.commerces)
             val adapter = ArrayAdapter(context!!,R.layout.item_frase,comers)
+            et_comers_name.threshold = 0
             et_comers_name.setAdapter(adapter)
+            et_comers_name.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) et_comers_name.showDropDown()
+            }
         }
 
         initPackAdapter(view)
@@ -223,7 +227,7 @@ class FormOrderFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     "cargo" to cargo,
                     "debtService" to cb_debt_status.isChecked,
                     "envoy" to 0,
-                    "idClient" to userData.id,
+                    "idClient" to "dM2iQG2sdhV90RHaZAvtkg1qrJc2",
                     "idDriver" to userData.id,
                     "km" to "En Paso",
                     "montCargo" to  mount,

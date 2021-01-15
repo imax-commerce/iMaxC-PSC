@@ -437,7 +437,22 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.action_out -> {
-                out()
+                val mDialogAlert = AlertDialog.Builder(this)
+                mDialogAlert.setCancelable(false)
+                mDialogAlert.setTitle("Cerrar sesión")
+                mDialogAlert.setMessage("Confirme para continuar")
+                mDialogAlert.setPositiveButton("CERRAR", DialogInterface.OnClickListener { _, _ ->
+                    out()
+                })
+                mDialogAlert.setNegativeButton("CANCELAR",DialogInterface.OnClickListener { dialog, _ ->
+                    dialog.dismiss()
+                })
+                mDialogAlert.show()
+            }
+            R.id.action_express -> {
+                Intent(this,ExpressActivity::class.java).also {
+                    startActivity(it)
+                }
             }
         }
         return super.onOptionsItemSelected(item)
@@ -447,8 +462,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         disconnect()
         mAuthProvider.logOut()
         deletePreference(getString(R.string.preference_user))
-        startActivity(Intent(this, LoginActivity::class.java))
-        finish()
+        startActivity(Intent(this, LoginActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
     }
 
     private fun generateToken(){

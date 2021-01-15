@@ -95,7 +95,6 @@ class RegisterOrderActivity : AppCompatActivity() {
         return tContents
     }
 
-
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true

@@ -88,8 +88,8 @@ class CareHistoryActivity : AppCompatActivity(), View.OnClickListener {
         val date = Date(dateNow.year,dateNow.month,dateNow.date)
         val mBody = DataOrder()
         mBody.start = date.time
-        //mBody.id = "KOgGqOronGfqK4jd1SUAlNgoGDj1"
-        mBody.id = mAuthProvider.getId()
+        mBody.id = "KOgGqOronGfqK4jd1SUAlNgoGDj1"
+        //mBody.id = mAuthProvider.getId()
         dateStart.setText(SimpleDateFormat("dd/MM/yyyy", Locale.US).format(date.time))
         getRetrofit(mBody)
     }
@@ -181,8 +181,8 @@ class CareHistoryActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun getOrderAttention(initDate: String, endDate: String? = null) {
         val data = DataOrder()
-        //data.id = "KOgGqOronGfqK4jd1SUAlNgoGDj1" //mAuthProvider.getId()
-        data.id = mAuthProvider.getId()
+        data.id = "KOgGqOronGfqK4jd1SUAlNgoGDj1" //mAuthProvider.getId()
+        //data.id = mAuthProvider.getId()
         val auxStart = initDate.split("/")
         val myDateStart = Date("${auxStart[2]}/${auxStart[1]}/${auxStart[0]}")
         data.start = myDateStart.time

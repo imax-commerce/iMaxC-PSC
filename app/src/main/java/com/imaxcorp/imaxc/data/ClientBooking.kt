@@ -3,7 +3,7 @@ package com.imaxcorp.imaxc.data
 import com.google.firebase.database.IgnoreExtraProperties
 import java.io.Serializable
 @IgnoreExtraProperties
-class ClientBooking: Serializable {
+open class ClientBooking: Serializable {
     var origin: AddressPoint? = null
     var destination: AddressPoint? = null
     var detail: DetailOrder? = null

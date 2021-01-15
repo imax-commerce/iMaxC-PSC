@@ -60,15 +60,15 @@
                 android:layout_marginStart="@dimen/_5sdp"
                 android:layout_marginEnd="@dimen/_20sdp"
                 android:layout_weight="0.8"
-                android:textColor="@color/colorBlack"
                 android:background="@drawable/background_input_white"
                 android:drawableStart="@drawable/ic_storefront"
                 android:drawablePadding="@dimen/_4sdp"
                 android:hint="stand/puesto"
                 android:imeOptions="actionDone"
-                android:inputType="textCapWords"
+                android:inputType="textCapCharacters"
                 android:padding="@dimen/_3sdp"
                 android:singleLine="true"
+                android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_12ssp"
                 tools:ignore="RtlSymmetry" />
 

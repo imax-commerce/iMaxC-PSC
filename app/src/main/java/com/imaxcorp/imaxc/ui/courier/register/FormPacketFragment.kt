@@ -51,6 +51,7 @@ class FormPacketFragment : Fragment() {
             }
 
             override fun afterTextChanged(p0: Editable?) {
+                et_agency_name.setText("")
                 initPredictive(p0.toString())
             }
 
@@ -61,7 +62,11 @@ class FormPacketFragment : Fragment() {
         if ((context as RegisterOrderActivity).mMapDestine.containsKey(dat)){
             val mAgencies = (context as RegisterOrderActivity).mMapDestine[dat]
             val mAdapterDate = mAgencies?.let { ArrayAdapter(context as RegisterOrderActivity,R.layout.item_frase, it) }
+            et_agency_name.threshold = 0
             et_agency_name.setAdapter(mAdapterDate)
+            et_agency_name.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) et_agency_name.showDropDown()
+            }
             initListener()
         }
 

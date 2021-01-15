@@ -17,7 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.setting.CareHistoryActivity"></activity>
+        <activity android:name=".ui.delivery.DetailExpressActivity"></activity>
+        <activity android:name=".ui.delivery.ExpressActivity" />
+        <activity android:name=".ui.setting.CareHistoryActivity" />
         <activity android:name=".ui.setting.DebtsDetailActivity" />
         <activity android:name=".ui.setting.DebtsServiceActivity" />
         <activity android:name=".ui.setting.AttentionsHistoryActivity" />
