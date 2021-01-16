@@ -164,3 +164,9 @@ fun Activity.notificacion() {
     }
     notificationManager.notify(1234,builder.build())
 }
+
+fun Activity.openGallery() {
+    val mIntent = Intent(Intent.ACTION_GET_CONTENT)
+    mIntent.type = "image/*"
+    startActivityForResult(mIntent, Constant.GALLERY_RESULT)
+}

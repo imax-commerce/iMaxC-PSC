@@ -12,6 +12,9 @@ import com.imaxcorp.imaxc.R
 import com.imaxcorp.imaxc.data.ShippingData
 import com.imaxcorp.imaxc.oval
 import com.imaxcorp.imaxc.services.ClickListener
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ShippingAdapter(private var list: ArrayList<ShippingData> = ArrayList()) : RecyclerView.Adapter<ShippingAdapter.MyViewHolder>() {
 
@@ -39,8 +42,8 @@ class ShippingAdapter(private var list: ArrayList<ShippingData> = ArrayList()) :
             agency.text = item.agency
             destine.text = item.destine
             detailA.text = "${item.packages} Paquete(s)"
-            detailB.text = if(item.guia) "Tiene Guia" else "Sin Guia"
-            detailC.text = if (item.cargo) "Pagar Flete" else "Contraentrega"
+            detailB.text = SimpleDateFormat("dd/MM HH:mm", Locale.US).format(item.create?.time)
+            detailC.text = (if(item.guia) "C/G " else "S/G ") + (if(item.cargo) "Pagar Flete" else "Contraentrega")
             detailD.text = if (item.domicile) "Entrega a Domicilio" else "Entrega en Agencia"
 
         }

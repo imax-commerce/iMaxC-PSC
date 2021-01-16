@@ -16,6 +16,7 @@ interface Constant {
         const val DATA_LOGIN = "LOGIN"
         const val CALL_REQUEST_CODE = 4
         const val SHIPPING_RESULT = 404
+        const val GALLERY_RESULT = 406
     }
 }
 

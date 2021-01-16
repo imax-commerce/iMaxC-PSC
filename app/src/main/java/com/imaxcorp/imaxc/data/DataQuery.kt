@@ -49,6 +49,7 @@ data class MyDate(
     var year: Int? = 0
 )
 data class ShippingData(
+    var create: MyDate? = null,
     var assign: MyDate? = null,
     var packages: Int = 0,
     var status: String = "",
@@ -60,7 +61,8 @@ data class ShippingData(
     var destine: String = "",
     var domicile: Boolean = false,
     var cargo: Boolean = false,
-    var guia:Boolean = false
+    var guia:Boolean = false,
+    var shippingCost: Int = 0
 )
 
 data class ItemOrder(

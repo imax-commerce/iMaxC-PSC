@@ -14,5 +14,7 @@
     <string name="attentions">Mis Atenciones</string>
     <string name="service_debts">Deudas Pendientes</string>
     <string name="profit">Mi Ganancia</string>
+    <string name="btn_payment">PAGAR</string>
+    <string name="btn_cargo">NO PAGAR</string>
 
 </resources>

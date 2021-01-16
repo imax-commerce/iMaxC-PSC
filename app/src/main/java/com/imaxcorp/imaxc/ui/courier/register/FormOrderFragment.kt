@@ -198,7 +198,7 @@ class FormOrderFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 "/$idDoc/detail/envoy" to 0,
                 "/$idDoc/detail/debtService" to cb_debt_status.isChecked,
                 "/$idDoc/indexType/${userData.id}/Agencia" to "start-init",
-                "/$idDoc/indexType/Agencia" to "start-init",
+                "/$idDoc/indexType/Agencia" to "start_init",
                 "/$idDoc/indexType/${userData.id}/debtService" to cb_debt_status.isChecked,
                 "/$idDoc/indexType/shipping" to true,
                 "/$idDoc/shipping/list" to mPackBookingList

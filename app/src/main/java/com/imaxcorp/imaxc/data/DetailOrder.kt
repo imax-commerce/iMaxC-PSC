@@ -20,6 +20,9 @@ class DetailOrder: Serializable {
     var debtService: Boolean = false
     var paymentType: String? = null
     var statusPayment: Boolean = false
+    var envoy: Int? = 0
+    var numberShipping: Int? = 0
+
 
     constructor()
 }

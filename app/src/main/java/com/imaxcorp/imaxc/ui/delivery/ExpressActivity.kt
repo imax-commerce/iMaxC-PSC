@@ -34,7 +34,9 @@ class ExpressActivity : AppCompatActivity() {
     private val listener = object : ClickListener {
         override fun clickEvent(position: Int) {
             val data = adapter.getItem(position)
-            Intent(this@ExpressActivity,DetailExpressActivity::class.java).putExtra("DOCUMENT",data.idOrder).also {
+            Intent(this@ExpressActivity,DetailExpressActivity::class.java)
+                .putExtra("DOCUMENT",data.idOrder)
+                .putExtra("INDICE",data.shippingCost).also {
                 startActivityForResult(it,SHIPPING_RESULT)
             }
         }
