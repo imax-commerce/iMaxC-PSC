@@ -23,6 +23,7 @@ import com.imaxcorp.imaxc.include.MyToolBar
 import com.imaxcorp.imaxc.notificacion
 import com.imaxcorp.imaxc.providers.AuthProvider
 import com.imaxcorp.imaxc.providers.ClientBookingProvider
+import com.imaxcorp.imaxc.providers.TokenProvider
 import com.imaxcorp.imaxc.ui.MessageActivity
 import com.imaxcorp.imaxc.ui.courier.register.RegisterOrderActivity
 import com.imaxcorp.imaxc.ui.setting.MainSettingsActivity
@@ -41,6 +42,7 @@ class CourierActivity : AppCompatActivity() {
     private lateinit var badgeFree: BadgeDrawable
     private lateinit var badgePending: BadgeDrawable
     private lateinit var postListener: ChildEventListener
+    private lateinit var mTokenProvider: TokenProvider
     var isNotification = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +52,8 @@ class CourierActivity : AppCompatActivity() {
 
         mClientBookingProvider = ClientBookingProvider()
         mAuthProvider = AuthProvider()
+        mTokenProvider = TokenProvider()
+        generateToken()
         isNotification = false
         pager.adapter = adapter
         val tabLayoutMediator = TabLayoutMediator(tab_layout,pager,
@@ -82,6 +86,10 @@ class CourierActivity : AppCompatActivity() {
                 startActivity(it)
             }
         }
+    }
+    private fun generateToken(){
+        mTokenProvider.create(mAuthProvider.getId())
+
     }
 
     private fun getBooking() {

@@ -28,18 +28,21 @@ class MyFirebaseMessagingClient : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        Log.d("RECIVE","${remoteMessage.data}")
         remoteMessage.data.isNotEmpty().let {
             val title = remoteMessage.data["title"].toString()
-            val body = remoteMessage.data["body"].toString()
+            val text = remoteMessage.data["body"].toString()
             val idOrder = remoteMessage.data["idClient"].toString()
             val origin = remoteMessage.data["origin"].toString()
             val destine = remoteMessage.data["destination"].toString()
             val min = remoteMessage.data["min"].toString()
             val distance = remoteMessage.data["distance"].toString()
+            val body = if(text == "null")remoteMessage.data["text"].toString() else text
 
             if (it){
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
                     Log.d("NOTIFY--> ", "Build version codes 0 >")
+
                     if (title.contains("SOLICITUD DE SERVICIO")){
 
                         showNotificationApiOreoActions(title,body, idOrder)
@@ -50,6 +53,7 @@ class MyFirebaseMessagingClient : FirebaseMessagingService() {
                             manager.cancel(2)
                             showNotificationApiOreo(title,body)
                         }else{
+                            Log.d("DATA NOTIFY-->", "$title $body")
                             showNotificationApiOreo(title, body)
                         }
                     }
@@ -64,6 +68,7 @@ class MyFirebaseMessagingClient : FirebaseMessagingService() {
                             manager.cancel(2)
                             showNotification(title, body)
                         }else{
+                            Log.d("DATA NOTIFY-->", "$title $body")
                             showNotification(title, body)
                         }
                     }

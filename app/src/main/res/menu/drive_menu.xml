@@ -7,6 +7,14 @@
         android:icon="@drawable/ic_dashboard"
         app:showAsAction="ifRoom" />
 
+    <item android:id="@+id/action_send"
+        android:title="Envios"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_all"
+        android:title="Asignaciones"
+        app:showAsAction="never"/>
+
     <item android:id="@+id/action_out"
         android:icon="@drawable/ic_baseline_exit"
         android:title="Cerrar Sesion"

@@ -1,5 +1,6 @@
 package com.imaxcorp.imaxc.ui.delivery
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -87,6 +88,7 @@ class ExpressActivity : AppCompatActivity() {
 
         })
     }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.update_menu,menu)
 
@@ -103,6 +105,17 @@ class ExpressActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return super.onSupportNavigateUp()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode){
+            SHIPPING_RESULT->{
+                if (resultCode == Activity.RESULT_OK){
+                    getRetrofit()
+                }
+            }
+        }
     }
 
 }

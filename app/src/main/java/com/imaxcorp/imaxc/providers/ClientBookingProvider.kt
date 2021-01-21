@@ -8,6 +8,8 @@ import com.imaxcorp.imaxc.data.ClientBooking
 
 class ClientBookingProvider {
 
+    private var ref = FirebaseDatabase.getInstance().reference
+
     private var mDatabase: DatabaseReference = FirebaseDatabase.getInstance().reference.child("ClientBooking")
 
     fun create(clientOrder: ClientBooking) : Task<Void> {
@@ -68,6 +70,10 @@ class ClientBookingProvider {
 
     fun getReferenceOrders() : DatabaseReference{
         return mDatabase
+    }
+
+    fun getRootRef(map: Map<String,Any?>): Task<Void> {
+        return ref.updateChildren(map)
     }
 
 }

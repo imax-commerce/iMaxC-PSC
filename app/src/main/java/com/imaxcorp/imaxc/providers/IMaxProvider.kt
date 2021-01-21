@@ -29,4 +29,10 @@ class IMaxProvider(context: Context) {
         return retrofit?.create(IMaxApi::class.java)?.getExpressOrder(body)
 
     }
+
+    fun getShippingOrder(body: DataDebt) : Call<ResponseShipping>? {
+        val retrofit = RetrofitClient().getClientOrder(baseUrl)
+        return retrofit?.create(IMaxApi::class.java)?.getShippingOrder(body)
+
+    }
 }

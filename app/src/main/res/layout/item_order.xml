@@ -40,6 +40,7 @@
             android:layout_toEndOf="@id/txt_icon"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/_12sdp"
+            android:maxLines="2"
             android:textStyle="bold"
             android:layout_toStartOf="@id/txt_ccomer"
             tools:text="Expreso Trujillo" />
@@ -53,8 +54,9 @@
             android:layout_toStartOf="@id/txt_paquetes"
             android:ellipsize="marquee"
             android:singleLine="true"
+            android:textStyle="italic"
             android:textColor="@color/colorBlack"
-            android:textSize="16sp"
+            android:textSize="@dimen/_10sdp"
             tools:text="Arequipa " />
 
         <TextView
@@ -64,7 +66,7 @@
             android:maxWidth="@dimen/_120sdp"
             android:layout_height="wrap_content"
             android:textColor="@color/colorBlack"
-            android:textSize="16sp"
+            android:textSize="@dimen/_11sdp"
             android:singleLine="true"
             android:ellipsize="marquee"
             android:layout_below="@id/txt_agencia"
@@ -92,7 +94,7 @@
             android:maxWidth="@dimen/_120sdp"
             android:layout_height="wrap_content"
             android:textColor="@color/colorBlack"
-            android:textSize="16sp"
+            android:textSize="@dimen/_10sdp"
             android:singleLine="true"
             android:gravity="end"
             android:ellipsize="marquee"
@@ -106,7 +108,7 @@
             android:singleLine="true"
             android:maxWidth="@dimen/_100sdp"
             android:ellipsize="marquee"
-            android:textSize="@dimen/_12sdp"
+            android:textSize="@dimen/_11sdp"
             android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

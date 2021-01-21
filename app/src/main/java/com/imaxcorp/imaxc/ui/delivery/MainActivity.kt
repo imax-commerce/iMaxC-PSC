@@ -39,6 +39,8 @@ import com.imaxcorp.imaxc.providers.AuthProvider
 import com.imaxcorp.imaxc.providers.DriverProvider
 import com.imaxcorp.imaxc.providers.GeoFireProvider
 import com.imaxcorp.imaxc.providers.TokenProvider
+import com.imaxcorp.imaxc.ui.admin.ShippingActivity
+import com.imaxcorp.imaxc.ui.admin.ShippingSendActivity
 import com.imaxcorp.imaxc.ui.start.LoginActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -451,6 +453,16 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             }
             R.id.action_express -> {
                 Intent(this,ExpressActivity::class.java).also {
+                    startActivity(it)
+                }
+            }
+            R.id.action_all -> {
+                Intent(this,ShippingActivity::class.java).also {
+                    startActivity(it)
+                }
+            }
+            R.id.action_send -> {
+                Intent(this, ShippingSendActivity::class.java).also {
                     startActivity(it)
                 }
             }

@@ -1,12 +1,15 @@
-package com.imaxcorp.imaxc.ui.delivery.adapter
+package com.imaxcorp.imaxc.ui.admin
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
+import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.util.isNotEmpty
 import androidx.recyclerview.widget.RecyclerView
 import com.imaxcorp.imaxc.R
 import com.imaxcorp.imaxc.data.ShippingData
@@ -16,14 +19,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ShippingAdapter(private var list: ArrayList<ShippingData> = ArrayList()) : RecyclerView.Adapter<ShippingAdapter.MyViewHolder>() {
+class ShippingAssignAdapter(private var list: ArrayList<ShippingData> = ArrayList()) : RecyclerView.Adapter<ShippingAssignAdapter.MyViewHolder>() {
 
     private lateinit var mContext: Context
-    private var listener: ClickListener? = null
-
-    fun setListener(onclickListener: ClickListener){
-        this.listener = onclickListener
-    }
+    private var currentSelectedPos: Int = -1
+    val selectedItems = SparseBooleanArray()
+    var onItemClick: ((Int) -> Unit)? = null
+    var onItemLongClick: ((Int) -> Unit)? = null
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val icon = view.findViewById<TextView>(R.id.txt_icon)
@@ -36,6 +38,17 @@ class ShippingAdapter(private var list: ArrayList<ShippingData> = ArrayList()) :
 
         @SuppressLint("SetTextI18n")
         fun bind(item: ShippingData){
+            if (item.selected) {
+                itemView.background = android.graphics.drawable.GradientDrawable().apply {
+                    shape = android.graphics.drawable.GradientDrawable.RECTANGLE
+                    setColor(android.graphics.Color.rgb(232, 240, 253))
+                }
+            }else {
+                itemView.background = android.graphics.drawable.GradientDrawable().apply {
+                    shape = android.graphics.drawable.GradientDrawable.RECTANGLE
+                    setColor(android.graphics.Color.WHITE)
+                }
+            }
             val hash = item.agency.hashCode()
             icon.text = item.agency.first().toString()
             icon.background = mContext.oval(Color.rgb(hash,hash/2,0))
@@ -65,8 +78,25 @@ class ShippingAdapter(private var list: ArrayList<ShippingData> = ArrayList()) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(list[position])
         holder.itemView.setOnClickListener {
-            if (listener!=null) listener!!.clickEvent(position)
+            if (selectedItems.isNotEmpty()) onItemClick?.invoke(position)
         }
+        holder.itemView.setOnLongClickListener {
+            onItemLongClick?.invoke(position)
+            return@setOnLongClickListener true
+        }
+        if (currentSelectedPos == position)  currentSelectedPos = -1
+    }
+
+    fun toggleSelection(position: Int) {
+        currentSelectedPos = position
+        if (selectedItems[position, false]) {
+            selectedItems.delete(position)
+            list[position].selected = false
+        } else {
+            selectedItems.put(position, true)
+            list[position].selected = true
+        }
+        notifyItemChanged(position)
     }
 
     fun getItem(position: Int): ShippingData {

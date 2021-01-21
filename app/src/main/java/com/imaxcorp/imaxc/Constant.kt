@@ -17,6 +17,11 @@ interface Constant {
         const val CALL_REQUEST_CODE = 4
         const val SHIPPING_RESULT = 404
         const val GALLERY_RESULT = 406
+
+        const val CREDENTIAL_CA = "adm-ca1"         //asignar
+        const val CREDENTIAL_ATT = "adm-att-1"      //Asignar y tomar foto
+        const val CREDENTIAL_ATS = "adm-att-2"      //asignar
+        const val CREDENTIAL_ROOT = "adm-root"
     }
 }
 

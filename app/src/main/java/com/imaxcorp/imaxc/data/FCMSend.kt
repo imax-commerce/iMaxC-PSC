@@ -16,7 +16,7 @@ data class Data(
 )
 data class FCMSend(
     var to: String? = "",
-    var notification: NotificationContent? = null,
     var data: Data? = null,
+    var notification: NotificationContent? = null,
     var ttl: String? = "4500s"
 )

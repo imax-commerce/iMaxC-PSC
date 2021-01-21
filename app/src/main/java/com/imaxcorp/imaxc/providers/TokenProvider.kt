@@ -7,13 +7,18 @@ import com.imaxcorp.imaxc.data.Token
 
 class TokenProvider {
 
-    private var dbReference: DatabaseReference = FirebaseDatabase.getInstance().reference.child("tokens")
+    private var dbReference: DatabaseReference = FirebaseDatabase.getInstance().reference
 
     fun create(idUser: String?) {
         idUser?.let {
             FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener { result ->
                 val mToken = Token(result.token)
-                dbReference.child(it).setValue(mToken)
+                val save = mapOf(
+                    "tokens/$it" to mToken,
+                    "Users/Drivers/$it/token" to mToken.tokenMessaging
+                )
+                dbReference.updateChildren(save)
+
             }
         }
     }

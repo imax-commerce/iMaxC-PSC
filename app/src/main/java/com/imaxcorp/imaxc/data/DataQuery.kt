@@ -62,7 +62,9 @@ data class ShippingData(
     var domicile: Boolean = false,
     var cargo: Boolean = false,
     var guia:Boolean = false,
-    var shippingCost: Int = 0
+    var shippingCost: Int = 0,
+    var selected: Boolean = false,
+    var express: String = ""
 )
 
 data class ItemOrder(

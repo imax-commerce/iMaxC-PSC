@@ -92,7 +92,7 @@ class DetailExpressActivity : AppCompatActivity(),View.OnClickListener {
             text_deliver.text = if(myBooking.shipping?.list?.get(index)?.domicile!!) "Envío a domicilio" else "Envío a oficina"
             text_phone_contact.text  = myBooking.shipping?.list?.get(index)?.destine
             text_payment.text = if(myBooking.shipping?.list?.get(index)?.cargo!!) {
-                et_cost_payment.visibility = View.GONE
+                et_cost_payment.visibility = View.VISIBLE
                 btn_payment.text = getString(R.string.btn_cargo)
                 "Paga en origen"
             } else {
@@ -166,24 +166,23 @@ class DetailExpressActivity : AppCompatActivity(),View.OnClickListener {
     }
 
     private fun uploadData(path: String? = null){
-        val asignados: ArrayList<String> = myBooking.indexType?.get("asignados") as ArrayList<String>
-        asignados.remove(mAuthProvider.getId())
-        toastShort("AQUI ${asignados.size}")
-        val data = mapOf(
-            "/$docId/shipping/list/$index/status" to "finish",
-            "/$docId/shipping/list/$index/shippingCost" to paymetSend,
-            "/$docId/shipping/list/$index/shipping" to Date(),
-            "/$docId/shipping/list/$index/urlPhoto" to path,
-            "/$docId/status" to if(myBooking.detail?.envoy?.plus(1) == myBooking.detail?.numberShipping) myBooking.status else "finish",
-            "/$docId/indexType/send" to (asignados.size != 0),
-            "/$docId/indexType/asignados" to asignados,
-            "/$docId/detail/envoy" to (myBooking.detail?.envoy?.plus(1))
 
+        val data = mapOf(
+            "ClientBooking/$docId/shipping/list/$index/status" to "finish",
+            "ClientBooking/$docId/shipping/list/$index/shippingCost" to paymetSend,
+            "ClientBooking/$docId/shipping/list/$index/shipping" to Date(),
+            "ClientBooking/$docId/shipping/list/$index/idOrder" to docId,
+            "ClientBooking/$docId/shipping/list/$index/idPost" to mAuthProvider.getId(),
+            "ClientBooking/$docId/shipping/list/$index/urlPhoto" to path,
+            "ClientBooking/$docId/status" to if(myBooking.detail?.envoy?.plus(1)!! < myBooking.detail?.numberShipping!!) myBooking.status else "finish",
+            "ClientBooking/$docId/detail/envoy" to (myBooking.detail?.envoy?.plus(1)),
+            "Assigned/${mAuthProvider.getId()}/$docId/$index" to null
         )
 
-        mClientBookingProvider.updateRoot(data).addOnCompleteListener {
+        mClientBookingProvider.getRootRef(data).addOnCompleteListener {
             if (it.isSuccessful && it.isComplete){
                 toastShort("Success")
+                setResult(Activity.RESULT_OK)
                 finish()
             }else {
                 if (mDialog.isShowing) mDialog.dismiss()

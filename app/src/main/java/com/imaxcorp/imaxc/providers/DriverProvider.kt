@@ -34,4 +34,8 @@ class DriverProvider {
         return db?.child(id)?.updateChildren(data)
     }
 
+    fun getReference(): DatabaseReference? {
+        return db
+    }
+
 }

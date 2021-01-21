@@ -17,7 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.delivery.DetailExpressActivity"></activity>
+        <activity android:name=".ui.admin.ShippingSendActivity"/>
+        <activity android:name=".ui.admin.ShippingActivity"/>
+        <activity android:name=".ui.delivery.DetailExpressActivity" />
         <activity android:name=".ui.delivery.ExpressActivity" />
         <activity android:name=".ui.setting.CareHistoryActivity" />
         <activity android:name=".ui.setting.DebtsDetailActivity" />
