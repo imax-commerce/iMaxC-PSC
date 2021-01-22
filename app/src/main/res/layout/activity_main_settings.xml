@@ -115,7 +115,6 @@
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     app:cardCornerRadius="5dp"
-                    android:visibility="visible"
                     app:cardElevation="5dp">
 
                     <LinearLayout
@@ -145,8 +144,8 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_assigned"
                     android:layout_width="0dp"
-                    android:visibility="invisible"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
@@ -171,7 +170,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:padding="10dp"
-                            tools:text="otros"
+                            android:text="@string/assigned"
                             android:textAlignment="center" />
 
                     </LinearLayout>

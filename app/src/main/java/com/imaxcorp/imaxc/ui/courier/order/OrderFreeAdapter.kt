@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,6 +44,10 @@ class OrderFreeAdapter (private val options: FirebaseRecyclerOptions<ClientBooki
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int, model: ClientBooking) {
+        if (position == itemCount-1) {
+            sendNodtification()
+        }
+        Log.d("POSI-->", "$itemCount - $position")
         val idDoc = getRef(position).key
         val hash = model.description!!.hashCode()
         val time = model.detail?.create
@@ -139,5 +144,9 @@ class OrderFreeAdapter (private val options: FirebaseRecyclerOptions<ClientBooki
                 }
 
             })
+    }
+
+    private fun sendNodtification(){
+        (mContext as CourierActivity).notificacion()
     }
 }

@@ -31,9 +31,15 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.firebase.database.*
+import com.google.gson.Gson
 import com.imaxcorp.imaxc.*
+import com.imaxcorp.imaxc.Constant.Companion.CREDENTIAL_ATS
+import com.imaxcorp.imaxc.Constant.Companion.CREDENTIAL_ATT
+import com.imaxcorp.imaxc.Constant.Companion.CREDENTIAL_CA
+import com.imaxcorp.imaxc.Constant.Companion.CREDENTIAL_ROOT
 import com.imaxcorp.imaxc.R
 import com.imaxcorp.imaxc.data.ClientBooking
+import com.imaxcorp.imaxc.data.Driver
 import com.imaxcorp.imaxc.include.MyToolBar
 import com.imaxcorp.imaxc.providers.AuthProvider
 import com.imaxcorp.imaxc.providers.DriverProvider
@@ -63,7 +69,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mLocationRequest: LocationRequest
     private lateinit var mFusedLocation: FusedLocationProviderClient
     private lateinit var mDriverProvider: DriverProvider
-
+    private lateinit var userData: Driver
     private lateinit var mRecyclerView: RecyclerView
     private lateinit var mAdapter: ItemAdapter
     private var mIsFirstTime = true
@@ -102,6 +108,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_main)
         MyToolBar().show(this,"Conductor",false)
         mDriverProvider = DriverProvider()
+
+
+        val stringData = getPreference(Constant.DATA_LOGIN,"USER")
+        userData = Gson().fromJson(stringData, Driver::class.java)
 
         mDialog = loading("loading...")
         mGeoFireProvider = GeoFireProvider("active_drivers")
@@ -433,6 +443,20 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.drive_menu,menu)
 
+        when(userData.credential) {
+            CREDENTIAL_CA,CREDENTIAL_ATS -> {
+                menu?.findItem(R.id.action_send)?.isVisible = false
+                menu?.findItem(R.id.action_all)?.isVisible = true
+            }
+            CREDENTIAL_ATT,CREDENTIAL_ROOT -> {
+                menu?.findItem(R.id.action_send)?.isVisible = true
+                menu?.findItem(R.id.action_all)?.isVisible = true
+            }
+            else -> {
+                menu?.findItem(R.id.action_send)?.isVisible = true
+                menu?.findItem(R.id.action_all)?.isVisible = false
+            }
+        }
         return super.onCreateOptionsMenu(menu)
     }
 

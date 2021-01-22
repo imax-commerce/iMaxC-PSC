@@ -16,5 +16,6 @@
     <string name="profit">Mi Ganancia</string>
     <string name="btn_payment">PAGAR</string>
     <string name="btn_cargo">NO PAGAR</string>
+    <string name="assigned">Asignar Envíos</string>
 
 </resources>

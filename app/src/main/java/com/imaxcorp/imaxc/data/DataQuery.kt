@@ -1,5 +1,6 @@
 package com.imaxcorp.imaxc.data
 
+import java.io.Serializable
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -95,4 +96,21 @@ data class ItemDebt(
     var ds: String? = ""
 )
 
+data class Destine(
+    var distrito: String = "",
+    var provincia: String = "",
+    var departamento: String = ""
+)
+
+class AgencyData: Serializable {
+    var direccion: String? = null
+    var agencia: String? = null
+    var cierre: String? = null
+    var latLng: LatLng? = null
+    var telefonos: List<String>? = null
+    var terminal: String? = null
+    var destinos: List<Destine>? = null
+
+    constructor()
+}
 

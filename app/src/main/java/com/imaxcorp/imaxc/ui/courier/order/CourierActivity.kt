@@ -102,38 +102,6 @@ class CourierActivity : AppCompatActivity() {
             .setQuery(q,ClientBooking::class.java)
             .build()
 
-        if (!::postListener.isInitialized) {
-            postListener = object : ChildEventListener {
-                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                    if (isNotification){
-                        notificacion()
-                    }
-                }
-
-                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-
-                }
-
-                override fun onChildRemoved(snapshot: DataSnapshot) {
-
-                }
-
-                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-
-                }
-
-
-            }
-
-            mClientBookingProvider.getReferenceOrders().addChildEventListener(postListener)
-        }
-
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

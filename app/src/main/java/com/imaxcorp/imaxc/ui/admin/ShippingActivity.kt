@@ -1,9 +1,7 @@
 package com.imaxcorp.imaxc.ui.admin
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.DialogInterface
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -14,24 +12,15 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
 import com.imaxcorp.imaxc.*
-import com.imaxcorp.imaxc.Constant.Companion.CREDENTIAL_ATS
-import com.imaxcorp.imaxc.Constant.Companion.CREDENTIAL_ATT
-import com.imaxcorp.imaxc.Constant.Companion.CREDENTIAL_CA
-import com.imaxcorp.imaxc.Constant.Companion.CREDENTIAL_ROOT
-import com.imaxcorp.imaxc.Constant.Companion.SHIPPING_RESULT
 import com.imaxcorp.imaxc.data.*
 import com.imaxcorp.imaxc.include.MyToolBar
 import com.imaxcorp.imaxc.providers.*
-import com.imaxcorp.imaxc.services.ClickListener
-import com.imaxcorp.imaxc.ui.delivery.DetailExpressActivity
-import com.imaxcorp.imaxc.ui.delivery.adapter.ShippingAdapter
 import kotlinx.android.synthetic.main.action_bar_toolbar.*
 import kotlinx.android.synthetic.main.activity_shipping.*
 import retrofit2.Call
@@ -102,8 +91,10 @@ class ShippingActivity : AppCompatActivity() {
                 names.clear()
                 info.clear()
                 for (item in snapshot.children){
-                    names.add(item.child("name").value.toString())
-                    info.add(itemInfo(item.key,item.child("token").value.toString()))
+                    if (item.child("available").value as Boolean && item.child("employee").value as Boolean){
+                        names.add(item.child("name").value.toString())
+                        info.add(itemInfo(item.key,item.child("token").value.toString()))
+                    }
                 }
             }
 
@@ -204,7 +195,6 @@ class ShippingActivity : AppCompatActivity() {
             if (it.isComplete && it.isSuccessful){
                 sendNotify(info[index].token)
                 actionMode?.finish()
-                toastShort("success")
                 getRetrofit()
             }else{
                 toastShort("Error al actualizar datos...")
@@ -263,18 +253,6 @@ class ShippingActivity : AppCompatActivity() {
             }
 
         })
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        when(requestCode){
-            SHIPPING_RESULT -> {
-                if (resultCode == Activity.RESULT_OK) {
-                    getRetrofit()
-                }
-            }
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
