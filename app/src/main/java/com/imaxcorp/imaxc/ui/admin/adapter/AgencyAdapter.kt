@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.imaxcorp.imaxc.R
 import com.imaxcorp.imaxc.data.AgencyData
 import com.imaxcorp.imaxc.services.ClickListener
+import java.util.*
 import kotlin.collections.ArrayList
 
 class AgencyAdapter(private var list: ArrayList<AgencyData> = ArrayList()) : RecyclerView.Adapter<AgencyAdapter.MyViewHolder>() {
@@ -26,14 +27,14 @@ class AgencyAdapter(private var list: ArrayList<AgencyData> = ArrayList()) : Rec
         private val agency = view.findViewById<TextView>(R.id.text_agency)
         private val address = view.findViewById<TextView>(R.id.text_address)
         private val schedule = view.findViewById<TextView>(R.id.text_schedule)
-        private val btn_map = view.findViewById<ImageView>(R.id.btn_action_map)
-        private val btn_call = view.findViewById<ImageView>(R.id.btn_action_phone)
+        private val phone = view.findViewById<TextView>(R.id.text_phone)
 
         @SuppressLint("SetTextI18n")
         fun bind(item: AgencyData){
-            agency.text = item.agencia
-            address.text = item.direccion
-            schedule.text = item.cierre
+            agency.text = item.agencia?.toUpperCase(Locale.ROOT)
+            address.text = item.direccion?.toLowerCase(Locale.ROOT)
+            schedule.text = "Cierre: ${item.cierre}"
+            phone.text = if (item.telefonos != null)item.telefonos.toString()else "Sin Número"
         }
 
 

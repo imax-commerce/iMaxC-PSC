@@ -23,6 +23,7 @@ import android.widget.Toast
 import androidx.annotation.ColorInt
 import androidx.core.app.ActivityCompat
 import com.google.gson.Gson
+import com.imaxcorp.imaxc.data.LatLng
 import com.imaxcorp.imaxc.ui.courier.order.CourierActivity
 import kotlinx.android.synthetic.main.load.*
 import kotlinx.android.synthetic.main.toast_custom.view.*
@@ -169,4 +170,10 @@ fun Activity.openGallery() {
     val mIntent = Intent(Intent.ACTION_GET_CONTENT)
     mIntent.type = "image/*"
     startActivityForResult(mIntent, Constant.GALLERY_RESULT)
+}
+
+fun Activity.openGoogleMaps(latLng: LatLng) {
+    val mIntent = Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr="+latLng.latitude+","+latLng.longitude))
+    mIntent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity")
+    startActivity(mIntent)
 }

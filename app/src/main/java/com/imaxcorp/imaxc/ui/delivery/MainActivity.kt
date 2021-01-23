@@ -45,6 +45,7 @@ import com.imaxcorp.imaxc.providers.AuthProvider
 import com.imaxcorp.imaxc.providers.DriverProvider
 import com.imaxcorp.imaxc.providers.GeoFireProvider
 import com.imaxcorp.imaxc.providers.TokenProvider
+import com.imaxcorp.imaxc.ui.admin.AgenciasActivity
 import com.imaxcorp.imaxc.ui.admin.ShippingActivity
 import com.imaxcorp.imaxc.ui.admin.ShippingSendActivity
 import com.imaxcorp.imaxc.ui.start.LoginActivity
@@ -109,7 +110,6 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         MyToolBar().show(this,"Conductor",false)
         mDriverProvider = DriverProvider()
 
-
         val stringData = getPreference(Constant.DATA_LOGIN,"USER")
         userData = Gson().fromJson(stringData, Driver::class.java)
 
@@ -120,6 +120,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         mTokenProvider = TokenProvider()
         // con esta propiedad podemos detener o iniciar la ubicacion de forma comveniente
         mFusedLocation = LocationServices.getFusedLocationProviderClient(this)
+
         mMapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mMapFragment.getMapAsync(this)
         mRecyclerView = findViewById(R.id.contentPending)
@@ -289,7 +290,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             }
     }
 
-
+//Optimizar
     override fun onStart() {
         super.onStart()
         if (!::listenerOnline.isInitialized){
@@ -309,8 +310,8 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             }
             mListener = listenerOnline.addValueEventListener(postListener)
         }
-        val query = FirebaseDatabase.getInstance().reference.child("ClientBooking")
-            .orderByChild(mAuthProvider.getId())
+        val query = FirebaseDatabase.getInstance().reference.child("Driver_order").child(mAuthProvider.getId())
+            .orderByChild("active")
             .equalTo(true)
 
         val options = FirebaseRecyclerOptions.Builder<ClientBooking>()
@@ -487,6 +488,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             }
             R.id.action_send -> {
                 Intent(this, ShippingSendActivity::class.java).also {
+                    startActivity(it)
+                }
+            }
+            R.id.menu_agency -> {
+                Intent(this, AgenciasActivity::class.java).also {
                     startActivity(it)
                 }
             }

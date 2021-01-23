@@ -15,6 +15,10 @@
         android:title="Asignaciones"
         app:showAsAction="never"/>
 
+    <item android:id="@+id/menu_agency"
+        android:title="Agencias"
+        app:showAsAction="never"/>
+
     <item android:id="@+id/action_out"
         android:icon="@drawable/ic_baseline_exit"
         android:title="Cerrar Sesion"

@@ -11,6 +11,7 @@ import com.imaxcorp.imaxc.data.Driver
 import com.imaxcorp.imaxc.getPreference
 import com.imaxcorp.imaxc.include.MyToolBar
 import com.imaxcorp.imaxc.toastLong
+import com.imaxcorp.imaxc.ui.admin.AgenciasActivity
 import com.imaxcorp.imaxc.ui.admin.ShippingActivity
 import com.imaxcorp.imaxc.ui.courier.register.RegisterOrderActivity
 import kotlinx.android.synthetic.main.activity_main_settings.*
@@ -72,9 +73,12 @@ class MainSettingsActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
             cv_assigned -> {
-                Intent(applicationContext, ShippingActivity::class.java).also {
+                Intent(applicationContext, AgenciasActivity::class.java).also {
                     startActivity(it)
                 }
+                /*Intent(applicationContext, ShippingActivity::class.java).also {
+                    startActivity(it)
+                }*/
             }
         }
     }

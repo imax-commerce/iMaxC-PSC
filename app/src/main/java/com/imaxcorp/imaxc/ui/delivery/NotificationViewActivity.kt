@@ -153,14 +153,13 @@ class NotificationViewActivity : AppCompatActivity() {
                     mGeoFireProvider = GeoFireProvider("active_drivers")
                     mGeoFireProvider.removeLocation(mAuthProvider.getId())
                     mGeoFireProvider.removeBookingActive(idDocument)
-                    mClientBookingProvider.updateRoot(mapOf(
-                        "/$idDocument/${mAuthProvider.getId()}" to true,
-                        "/$idDocument/indexType/${mAuthProvider.getId()}/Domicilio" to "accept",
-                        "/$idDocument/indexType/${mAuthProvider.getId()}/status" to true
-                    ))
-                    mDriverProvider.updateDriver(mapOf(
-                        "/${mAuthProvider.getId()}/online" to "working"
-                    ))?.addOnCompleteListener {
+                    mClientBookingProvider.getRootRef(mapOf(
+                        "ClientBooking/$idDocument/${mAuthProvider.getId()}" to true,
+                        "ClientBooking/$idDocument/indexType/${mAuthProvider.getId()}/Domicilio" to "accept",
+                        "ClientBooking/$idDocument/indexType/${mAuthProvider.getId()}/status" to true,
+                        "Users/Drivers/${mAuthProvider.getId()}/online" to "working",
+                        "Driver_order/${mAuthProvider.getId()}/$idDocument/active" to true
+                    )).addOnCompleteListener {
                         Intent(this@NotificationViewActivity, MapDriverBookingActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                             .setAction(Intent.ACTION_RUN).putExtra("ID_DOC",idDocument).also{
                                 startActivity(it)

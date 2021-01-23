@@ -50,14 +50,14 @@ class AcceptReceiver : BroadcastReceiver() {
                         context.toastShort("Success :)")
                         mGeoFireProvider.removeLocation(mAuthProvider.getId())
                         mGeoFireProvider.removeBookingActive(document)
-                        mClientBookingProvider.updateRoot(mapOf(
-                            "/$document/${mAuthProvider.getId()}" to true,
-                            "/$document/indexType/${mAuthProvider.getId()}/Domicilio" to "accept",
-                            "/$document/indexType/${mAuthProvider.getId()}/status" to true
-                        ))
-                        mDriverProvider.updateDriver(mapOf(
-                            "/${mAuthProvider.getId()}/online" to "working"
-                        ))?.addOnCompleteListener {
+                        mClientBookingProvider.getRootRef(mapOf(
+                            "ClientBooking/$document/${mAuthProvider.getId()}" to true,
+                            "ClientBooking/$document/indexType/${mAuthProvider.getId()}/Domicilio" to "accept",
+                            "ClientBooking/$document/indexType/${mAuthProvider.getId()}/status" to true,
+                            "Users/Drivers/${mAuthProvider.getId()}/online" to "working",
+                            "Driver_order/${mAuthProvider.getId()}/$document/active" to true
+
+                        )).addOnCompleteListener {
                             Intent(context, MapDriverBookingActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                                 .setAction(Intent.ACTION_RUN).putExtra("ID_DOC",document).also {
                                     context.startActivity(it)

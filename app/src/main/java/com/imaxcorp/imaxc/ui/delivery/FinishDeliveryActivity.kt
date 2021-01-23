@@ -149,32 +149,28 @@ class FinishDeliveryActivity : AppCompatActivity() {
                             val urlPhoto = task.result.toString()
                             val map =
                                 mapOf(
-                                    "/${idDocument}/detail/urlFirm" to urlPhoto,
-                                    "/${idDocument}/detail/finish" to Date(),
-                                    "/${idDocument}/status" to "finish",
-                                    "/${idDocument}/indexType/Domicilio" to "finish",
-                                    "/${idDocument}/indexType/${mAuthProvider.getId()}/Domicilio" to "finish",
-                                    "/${idDocument}/indexType/${mAuthProvider.getId()}/status" to false,
-                                    "/$idDocument/${mAuthProvider.getId()}" to null
+                                    "ClientBooking/${idDocument}/detail/urlFirm" to urlPhoto,
+                                    "ClientBooking/${idDocument}/detail/finish" to Date(),
+                                    "ClientBooking/${idDocument}/status" to "finish",
+                                    "ClientBooking/${idDocument}/indexType/Domicilio" to "finish",
+                                    "ClientBooking/${idDocument}/indexType/${mAuthProvider.getId()}/Domicilio" to "finish",
+                                    "ClientBooking/${idDocument}/indexType/${mAuthProvider.getId()}/status" to false,
+                                    "ClientBooking/$idDocument/${mAuthProvider.getId()}" to null,
+                                    "Driver_order/${mAuthProvider.getId()}/$idDocument" to null,
+                                    "Users/Drivers/${mAuthProvider.getId()}/online" to "free"
                                 )
 
-                            mClientBookingProvider.updateRoot(map).addOnFailureListener {error->
+                            mClientBookingProvider.getRootRef(map).addOnFailureListener {error->
                                 toastLong("Ocurrio un error. ${error.message}")
                             }.addOnCompleteListener {it2->
                                 if (it2.isComplete && it2.isSuccessful){
                                     toastLong("Termino su atención. :) ")
-                                    mDriverProvider.updateDriver(mapOf(
-                                        "/${mAuthProvider.getId()}/online" to "free"
-                                    ))?.addOnCompleteListener {
-                                        Intent(this,
-                                            LaunchActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                                            .setAction(Intent.ACTION_RUN).also { act->
-                                                startActivity(act)
-                                            }
-                                        dialog.dismiss()
-                                    }
-
-
+                                    Intent(this,
+                                        LaunchActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                        .setAction(Intent.ACTION_RUN).also { act->
+                                            startActivity(act)
+                                        }
+                                    dialog.dismiss()
                                 }else{
                                     dialog.dismiss()
                                 }

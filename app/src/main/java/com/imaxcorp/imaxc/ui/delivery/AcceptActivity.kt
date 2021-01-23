@@ -34,8 +34,8 @@ class AcceptActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.notification_view)
 
-        connect = intent.getStringExtra("CONNECT")
-        idDocument = intent.getStringExtra("DOC")
+        connect = intent.getStringExtra("CONNECT")!!
+        idDocument = intent.getStringExtra("DOC")!!
         mDriverProvider = DriverProvider()
         mClientOrder = ClientBookingProvider()
         mGeoFireProvider = GeoFireProvider("active_drivers")
@@ -69,14 +69,13 @@ class AcceptActivity : AppCompatActivity() {
                     toastShort("Success :)")
                     mGeoFireProvider.removeBookingActive(idDocument)
                     mGeoFireProvider.removeLocation(mAuthProvider.getId())
-                    mClientOrder.updateRoot(mapOf(
-                        "/$idDocument/${mAuthProvider.getId()}" to true,
-                        "/$idDocument/indexType/${mAuthProvider.getId()}/Domicilio" to "accept",
-                        "/$idDocument/indexType/${mAuthProvider.getId()}/status" to true
-                    ))
-                    mDriverProvider.updateDriver(mapOf(
-                        "/${mAuthProvider.getId()}/online" to "working"
-                    ))?.addOnCompleteListener {
+                    mClientOrder.getRootRef(mapOf(
+                        "ClientBooking/$idDocument/${mAuthProvider.getId()}" to true,
+                        "ClientBooking/$idDocument/indexType/${mAuthProvider.getId()}/Domicilio" to "accept",
+                        "ClientBooking/$idDocument/indexType/${mAuthProvider.getId()}/status" to true,
+                        "Users/Drivers/${mAuthProvider.getId()}/online" to "working",
+                        "Driver_order/${mAuthProvider.getId()}/$idDocument/active" to true
+                    )).addOnCompleteListener {
                         mDialog.dismiss()
                         Intent(this@AcceptActivity,
                             MapDriverBookingActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
