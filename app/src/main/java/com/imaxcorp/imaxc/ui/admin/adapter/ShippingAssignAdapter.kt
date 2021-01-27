@@ -1,9 +1,8 @@
-package com.imaxcorp.imaxc.ui.admin
+package com.imaxcorp.imaxc.ui.admin.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
-import android.util.Log
 import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.imaxcorp.imaxc.R
 import com.imaxcorp.imaxc.data.ShippingData
 import com.imaxcorp.imaxc.oval
-import com.imaxcorp.imaxc.services.ClickListener
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList

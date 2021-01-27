@@ -28,19 +28,12 @@ class MyDebtAdapter(private val list: ArrayList<ItemDebt>, private val mContext:
         private val ds = view.findViewById<TextView>(R.id.textDebtDate)
         private val cc = view.findViewById<TextView>(R.id.textDebtCC)
         private val cs = view.findViewById<TextView>(R.id.textDebtMont)
-        private val bc = view.findViewById<TextView>(R.id.btnDebtCharge)
-        private val bd = view.findViewById<TextView>(R.id.btnDebtDetail)
 
         @SuppressLint("SetTextI18n")
         fun bind(item: ItemDebt) {
             ds.text = item.ds
             cc.text = item.cc+" "+item.st
             cs.text = DecimalFormat("S/ 0.00").format(item.cs)
-            bd.setOnClickListener {
-                mContext.startActivity(
-                    Intent(mContext,DebtsDetailActivity::class.java).putExtra("DOC",item.id)
-                )
-            }
         }
     }
 
@@ -56,11 +49,15 @@ class MyDebtAdapter(private val list: ArrayList<ItemDebt>, private val mContext:
 
     override fun onBindViewHolder(holder: MyViewPagerViewHolder, position: Int) {
         holder.bind(list[position])
-        holder.itemView.btnDebtCharge.setOnClickListener(View.OnClickListener {
+        holder.itemView.setOnClickListener(View.OnClickListener {
             if (listener != null){
-                listener!!.onClickEvent(list[position].id!!,position,"${list[position].cc} ${list[position].st} ${DecimalFormat("S/ 0.00").format(list[position].cs)}")
+                listener!!.onClickEvent(list[position].id,position,"${list[position].cc} ${list[position].st} ${DecimalFormat("S/ 0.00").format(list[position].cs)}")
             }
         })
-
+        holder.itemView.btnDebtDetail.setOnClickListener {
+            mContext.startActivity(
+                Intent(mContext,DebtsDetailActivity::class.java).putExtra("DOC",list[position].id)
+            )
+        }
     }
 }

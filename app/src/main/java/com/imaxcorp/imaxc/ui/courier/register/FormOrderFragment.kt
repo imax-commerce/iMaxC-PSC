@@ -202,7 +202,8 @@ class FormOrderFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 "/$idDoc/indexType/Agencia" to "start_init",
                 "/$idDoc/indexType/${userData.id}/debtService" to cb_debt_status.isChecked,
                 "/$idDoc/indexType/shipping" to true,
-                "/$idDoc/shipping/list" to mPackBookingList
+                "/$idDoc/shipping/list" to mPackBookingList,
+                "/$idDoc/detail/nameDriver" to userData.name
             )
             mClientBookingProvider.updateRoot(updates)
                 .addOnCompleteListener {
@@ -230,6 +231,7 @@ class FormOrderFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     "debtDriver" to true,
                     "envoy" to 0,
                     "idClient" to "dM2iQG2sdhV90RHaZAvtkg1qrJc2",
+                    "nameDriver" to userData.name,
                     "idDriver" to userData.id,
                     "km" to "En Paso",
                     "montCargo" to  mount,

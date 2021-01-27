@@ -90,13 +90,16 @@ data class ResponseDebt(
 )
 
 data class ItemDebt(
-    var id: String? = "",
-    var cc: String? = "",
-    var st: String? = "",
-    var cs: Double? = 0.0,
-    var ds: String? = "",
-    var cargo: Boolean? = false,
-    var cost: Double? = 0.0
+    var id: String = "",
+    var cc: String = "",
+    var st: String = "",
+    var cs: Double = 0.0,
+    var ds: String = "",
+    var cargo: Boolean = false,
+    var cost: Double = 0.0,
+    var idDriver: String = "",
+    var driver: String = "",
+    var selected: Boolean = false
 )
 
 data class Destine(

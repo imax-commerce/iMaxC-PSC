@@ -21,6 +21,7 @@ import com.imaxcorp.imaxc.*
 import com.imaxcorp.imaxc.data.*
 import com.imaxcorp.imaxc.include.MyToolBar
 import com.imaxcorp.imaxc.providers.*
+import com.imaxcorp.imaxc.ui.admin.adapter.ShippingAssignAdapter
 import kotlinx.android.synthetic.main.action_bar_toolbar.*
 import kotlinx.android.synthetic.main.activity_shipping.*
 import retrofit2.Call
@@ -169,12 +170,12 @@ class ShippingActivity : AppCompatActivity() {
                 }
 
             })
+
         adapter.toggleSelection(i)
         val size = adapter.selectedItems.size()
         if (size == 0) {
             actionMode?.finish()
-        }
-        else {
+        } else {
             actionMode?.title = "$size"
             actionMode?.invalidate()
         }
