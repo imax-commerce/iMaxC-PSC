@@ -17,5 +17,6 @@
     <string name="btn_payment">PAGAR</string>
     <string name="btn_cargo">NO PAGAR</string>
     <string name="assigned">Asignar Envíos</string>
+    <string name="debts_helper">Cobranza acopiadores</string>
 
 </resources>

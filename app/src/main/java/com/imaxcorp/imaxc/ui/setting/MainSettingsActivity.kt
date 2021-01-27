@@ -5,13 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.google.gson.Gson
-import com.imaxcorp.imaxc.Constant
-import com.imaxcorp.imaxc.R
+import com.imaxcorp.imaxc.*
 import com.imaxcorp.imaxc.data.Driver
-import com.imaxcorp.imaxc.getPreference
 import com.imaxcorp.imaxc.include.MyToolBar
-import com.imaxcorp.imaxc.toastLong
 import com.imaxcorp.imaxc.ui.admin.AgenciasActivity
+import com.imaxcorp.imaxc.ui.admin.CollectDebtActivity
 import com.imaxcorp.imaxc.ui.admin.ShippingActivity
 import com.imaxcorp.imaxc.ui.courier.register.RegisterOrderActivity
 import kotlinx.android.synthetic.main.activity_main_settings.*
@@ -29,8 +27,6 @@ class MainSettingsActivity : AppCompatActivity(), View.OnClickListener {
         userData = Gson().fromJson(stringData, Driver::class.java)
         initView()
 
-
-
     }
 
     private fun initView() {
@@ -38,6 +34,10 @@ class MainSettingsActivity : AppCompatActivity(), View.OnClickListener {
         cv_history.setOnClickListener(this)
         cv_profit.setOnClickListener(this)
         cv_assigned.setOnClickListener(this)
+        cv_debts_helper.setOnClickListener(this)
+
+        if (userData.credential == Constant.CREDENTIAL_CA || userData.credential == Constant.CREDENTIAL_ROOT)
+            cv_debts_helper.visibility = View.VISIBLE
 
         when(userData.credential) {
             Constant.CREDENTIAL_CA, Constant.CREDENTIAL_ATS -> {
@@ -73,12 +73,14 @@ class MainSettingsActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
             cv_assigned -> {
-                Intent(applicationContext, AgenciasActivity::class.java).also {
+                Intent(applicationContext, ShippingActivity::class.java).also {
                     startActivity(it)
                 }
-                /*Intent(applicationContext, ShippingActivity::class.java).also {
+            }
+            cv_debts_helper -> {
+                Intent(applicationContext, CollectDebtActivity::class.java).also {
                     startActivity(it)
-                }*/
+                }
             }
         }
     }

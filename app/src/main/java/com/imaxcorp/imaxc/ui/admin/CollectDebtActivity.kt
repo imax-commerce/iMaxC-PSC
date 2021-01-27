@@ -1,8 +1,8 @@
-package com.imaxcorp.imaxc.ui.setting
+package com.imaxcorp.imaxc.ui.admin
 
 import android.app.Dialog
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.imaxcorp.imaxc.R
 import com.imaxcorp.imaxc.data.DataDebt
@@ -23,8 +23,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.DecimalFormat
 
-class DebtsServiceActivity : AppCompatActivity() {
-
+class CollectDebtActivity: AppCompatActivity() {
     private lateinit var mIMaxProvider: IMaxProvider
     private lateinit var mAuthProvider: AuthProvider
     private lateinit var mClientBookingProvider: ClientBookingProvider
@@ -33,10 +32,11 @@ class DebtsServiceActivity : AppCompatActivity() {
     private lateinit var adapter: MyDebtAdapter
     private var itemList: ArrayList<ItemDebt> = ArrayList()
 
+
     private val listener = object : OnClickListener {
         override fun onClickEvent(id: String, position: Int, title: String) {
 
-            val mDialogPayment = Dialog(this@DebtsServiceActivity)
+            val mDialogPayment = Dialog(this@CollectDebtActivity)
             mDialogPayment.setContentView(R.layout.item_payment)
             mDialogPayment.title.text = title
             mDialogPayment.btnCloseDialog.setOnClickListener {
@@ -97,13 +97,14 @@ class DebtsServiceActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_debts_service)
-        MyToolBar().show(this,"Cobranza de Deuda",true)
+        MyToolBar().show(this,"Cobranza de acopiadores",true)
         mIMaxProvider = IMaxProvider(this)
         mAuthProvider = AuthProvider()
         mClientBookingProvider = ClientBookingProvider()
         mDialog = loading(null)
         adapter = MyDebtAdapter(itemList,this)
         adapter.setListener(listener)
+
         itemDebtRV.setHasFixedSize(true)
         val ll = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         itemDebtRV.layoutManager = ll
@@ -120,8 +121,8 @@ class DebtsServiceActivity : AppCompatActivity() {
 
     private fun getRetrofitDebt(){
         mDialog.show()
-
-        mIMaxProvider.getDebtPending(DataDebt(mAuthProvider.getId()))?.enqueue(object : Callback<ResponseDebt> {
+        mIMaxProvider.getDebtPending(DataDebt(mAuthProvider.getId(),false))?.enqueue(object :
+            Callback<ResponseDebt> {
             override fun onFailure(call: Call<ResponseDebt>, t: Throwable) {
                 mDialog.dismiss()
                 toastShort("error. no se pudo conectar con el servidor")

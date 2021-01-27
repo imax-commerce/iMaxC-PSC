@@ -79,7 +79,8 @@ data class ItemOrder(
 
 // data consult My Debt Pending
 data class DataDebt(
-    var id: String? = ""
+    var id: String? = "",
+    var service: Boolean = true
 )
 
 data class ResponseDebt(
@@ -93,7 +94,9 @@ data class ItemDebt(
     var cc: String? = "",
     var st: String? = "",
     var cs: Double? = 0.0,
-    var ds: String? = ""
+    var ds: String? = "",
+    var cargo: Boolean? = false,
+    var cost: Double? = 0.0
 )
 
 data class Destine(
