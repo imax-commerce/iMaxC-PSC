@@ -21,6 +21,7 @@ class RegisterOrderActivity : AppCompatActivity() {
     var paymentCargo: Boolean = false
     var debtDriver: Boolean = false
     var express: Boolean = false
+    var domicile: Boolean = false
     lateinit var idDoc: String
     lateinit var idClient: String
     lateinit var store: String
@@ -49,6 +50,7 @@ class RegisterOrderActivity : AppCompatActivity() {
             cargoMount = intent.getDoubleExtra("MOUNT_CARGO",0.0)
             phoneAttention = intent.getStringExtra("PHONE")!!
             express = intent.getBooleanExtra("EXPRESS",false)
+            domicile = intent.getBooleanExtra("DOMICILE", false)
             nameAttention = intent.getStringExtra("NAME_CONTACT")!!
         }
         initDestine()

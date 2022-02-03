@@ -13,6 +13,7 @@ open class ClientBooking: Serializable {
     var indexType: Map<String,Any>? = null
     var typeService: String? = null
     var express: Boolean? = false
+    var domicile: Boolean? = false
 
     constructor()
 }

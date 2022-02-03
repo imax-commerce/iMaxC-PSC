@@ -7,6 +7,7 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -261,7 +262,8 @@ class FormOrderFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 ),
                 "shipping" to mapOf("list" to mPackBookingList),
                 "typeService" to "Agencia",
-                "express" to (context as RegisterOrderActivity).express
+                "express" to (context as RegisterOrderActivity).express,
+                "domicile" to (context as RegisterOrderActivity).domicile
             )
 
             mClientBookingProvider.pushOrder(map)
@@ -299,8 +301,8 @@ class FormOrderFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private fun initView(view: View) {
         idDoc = (context as RegisterOrderActivity).idDoc
         status = (context as RegisterOrderActivity).status
-        val expr = if ((context as RegisterOrderActivity).express) 1 else 0
-
+        val expr = if ((context as RegisterOrderActivity).domicile) 2 else if ((context as RegisterOrderActivity).express) 1 else 0
+        Log.e("valor de opcion ->", expr.toString())
         view.et_comers_name.isEnabled = false
         view.et_stand_name.isEnabled = false
         view.sp_express.setSelection(expr)
@@ -431,9 +433,15 @@ class FormOrderFragment : Fragment(), AdapterView.OnItemSelectedListener {
         when(position){
             0 -> {
                 (context as RegisterOrderActivity).express = false
+                (context as RegisterOrderActivity).domicile = false
             }
             1 -> {
                 (context as RegisterOrderActivity).express = true
+                (context as RegisterOrderActivity).domicile = false
+            }
+            2 -> {
+                (context as RegisterOrderActivity).domicile = true
+                (context as RegisterOrderActivity).express = false
             }
         }
     }
