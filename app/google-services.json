@@ -1,66 +1,42 @@
 {
   "project_info": {
-    "project_number": "29978205115",
-    "firebase_url": "https://imax-dda3a.firebaseio.com",
-    "project_id": "imax-dda3a",
-    "storage_bucket": "imax-dda3a.appspot.com"
+    "project_number": "985389513787",
+    "firebase_url": "https://imax-e1fb9-default-rtdb.firebaseio.com",
+    "project_id": "imax-e1fb9",
+    "storage_bucket": "imax-e1fb9.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:29978205115:android:ffc9e7d033561c0d1e429e",
+        "mobilesdk_app_id": "1:985389513787:android:9eaca4abc345a67683b01e",
         "android_client_info": {
           "package_name": "com.imaxcorp.imax"
         }
       },
       "oauth_client": [
         {
-          "client_id": "29978205115-nprknk9k8bsk2af70henfo4rqfskakst.apps.googleusercontent.com",
+          "client_id": "985389513787-hg3ggot67hf8dil0h0vht0el3s49te83.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.imaxcorp.imax",
-            "certificate_hash": "d0350cd016991d88f78b6904edb4931431a48d1a"
+            "certificate_hash": "19ac06ec3b9c91a67102b25930798849c84860af"
           }
         },
         {
-          "client_id": "29978205115-rq0s54aug48hbl4kpa0mauno662jgn95.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.imaxcorp.imax",
-            "certificate_hash": "363ac31ddd32efc05e474503e180d73b7c09d238"
-          }
-        },
-        {
-          "client_id": "29978205115-01lc9tcg7slpsn8eubbrktld8f6ubdep.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.imaxcorp.imax",
-            "certificate_hash": "2caabc4e4ba70717a34681fffc8539e1ce17c27a"
-          }
-        },
-        {
-          "client_id": "29978205115-tqrea24n143nobun7b0bvmskano6qub8.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.imaxcorp.imax",
-            "certificate_hash": "3f7843a87ca6cd0d57541541ac7de418bb73151b"
-          }
-        },
-        {
-          "client_id": "29978205115-0qok43ougp5to5buhshmdvdfhb48a2fv.apps.googleusercontent.com",
+          "client_id": "985389513787-vu5c8ctt2dlbqah8qkimvvcvhs85mfim.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCYM23tkAGKK1MWL6BtAeRwmVwOGZlEVD4"
+          "current_key": "AIzaSyCnse4FFpoYWepUI3dMaDHIrG1INDbzJrs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "29978205115-0qok43ougp5to5buhshmdvdfhb48a2fv.apps.googleusercontent.com",
+              "client_id": "985389513787-vu5c8ctt2dlbqah8qkimvvcvhs85mfim.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -69,35 +45,35 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:29978205115:android:abed74148c9f627e1e429e",
+        "mobilesdk_app_id": "1:985389513787:android:1d70158ac732d26083b01e",
         "android_client_info": {
           "package_name": "com.imaxcorp.imaxc"
         }
       },
       "oauth_client": [
         {
-          "client_id": "29978205115-vddi9ide4gq0c829omn60c4hjvts7pod.apps.googleusercontent.com",
+          "client_id": "985389513787-tve53jkpmacq1g29nd3nt14bolev8vmo.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.imaxcorp.imaxc",
-            "certificate_hash": "2caabc4e4ba70717a34681fffc8539e1ce17c27a"
+            "certificate_hash": "19ac06ec3b9c91a67102b25930798849c84860af"
           }
         },
         {
-          "client_id": "29978205115-0qok43ougp5to5buhshmdvdfhb48a2fv.apps.googleusercontent.com",
+          "client_id": "985389513787-vu5c8ctt2dlbqah8qkimvvcvhs85mfim.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCYM23tkAGKK1MWL6BtAeRwmVwOGZlEVD4"
+          "current_key": "AIzaSyCnse4FFpoYWepUI3dMaDHIrG1INDbzJrs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "29978205115-0qok43ougp5to5buhshmdvdfhb48a2fv.apps.googleusercontent.com",
+              "client_id": "985389513787-vu5c8ctt2dlbqah8qkimvvcvhs85mfim.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -12,3 +12,8 @@
 /captures
 .externalNativeBuild
 .cxx
+# IntelliJ
+.idea/
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
